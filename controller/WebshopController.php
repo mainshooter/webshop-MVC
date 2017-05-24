@@ -18,11 +18,17 @@
       $op = ISSET($_REQUEST['op'])?$_REQUEST['op']:NULL;
 
       try {
-        if (!$op || $_REQUEST['op'] == 'home') {
+        if (!$op || $op == 'home') {
           $products = $this->product->getProducts('0');
           $productview = new Productview();
           $productview = $productview->createProductsView($products);
           include 'view/products.php';
+        }
+        else if ($op == 'details') {
+          $productDetails = $this->product->details($_REQUEST['productID']);
+          $productview = new Productview();
+          $productDetails = $productview->createProductDetails($productDetails);
+          include 'view/details.php';
         }
 
       } catch (Exception $e) {
