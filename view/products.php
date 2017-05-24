@@ -1,5 +1,6 @@
 <?php
   // Displays all products
-  echo $productview;
+  include 'header.php';
+    echo $productview;
 
 ?>
