@@ -1,5 +1,5 @@
 <?php
   include 'header.php';
-  echo $productDetails;
-
+    echo $productDetails;
+  include 'footer.php';
 ?>

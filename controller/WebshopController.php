@@ -30,6 +30,16 @@
           $productDetails = $productview->createProductDetails($productDetails);
           include 'view/details.php';
         }
+        else if ($op == 'shoppingcardAdd') {
+
+        }
+        else if ($op == 'shoppingcardShow') {
+
+        }
+        else if ($op == 'shoppingcardCounter') {
+          $shoppingcardTotal = $this->shoppingcard->count();
+          echo $shoppingcardTotal;
+        }
 
       } catch (Exception $e) {
         $this->showError("Application error", $e->getMessage());
