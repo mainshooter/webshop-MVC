@@ -1,7 +1,6 @@
 <?php
-require_once 'webshop.class.php';
 require_once 'security.class.php';
-  class Shoppingcard extends webshop {
+  class Shoppingcard {
     // Classe met hoofdletter
     // constructor public private or protected
     // Enters tussen method's

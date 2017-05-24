@@ -1,10 +1,9 @@
 <?php
-  require_once 'webshop.class.php';
+
   require_once 'databasehandler.class.php';
   require_once 'security.class.php';
-  require_once 'filehandler.class.php';
 
-  class Product extends webshop {
+  class Product {
     var $id;
     var $name;
     var $discription;
@@ -128,7 +127,7 @@
       return($db->countRows($sql, $input));
     }
 
-    public function display($page) {
+    public function getProducts($page) {
       // This function gets all products for a page
       // And returns it
       $s = new Security();
