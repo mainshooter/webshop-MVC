@@ -25,12 +25,14 @@
           $productview = $productview->createProductsView($products);
           include 'view/products.php';
         }
+
         else if ($op == 'details') {
           $productDetails = $this->product->details($_REQUEST['productID']);
           $productview = new Productview();
           $productDetails = $productview->createProductDetails($productDetails);
           include 'view/details.php';
         }
+
         else if ($op == 'shoppingcardAdd') {
           // Add product from shoppingcard
           if ($this->shoppingcard->checkIfIdExists($_REQUEST['productID']) == false) {
@@ -45,6 +47,7 @@
             $this->shoppingcard->add($_REQUEST['productID'], $amount);
           }
         }
+
         else if ($op == 'shoppingcardShow') {
           $shoppingcard = '';
           $view = new ShoppingcardView();
@@ -73,9 +76,13 @@
           else {
             $shoppingcard .= "<h2 class='col-12 center'>Uw winkelmandje is leeg!</h2>";
           }
-
           include 'view/shoppingcard.php';
         }
+
+        else if ($op == 'shoppingcardUpdate') {
+          $this->shoppingcard->update($_REQUEST['productID'], $_REQUEST['amount']);
+        }
+
         else if ($op == 'shoppingcardCounter') {
           $shoppingcardTotal = $this->shoppingcard->count();
           echo $shoppingcardTotal;

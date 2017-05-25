@@ -23,14 +23,14 @@ var product;
   },
   update: function(productID, amount) {
     // Update the amount of one product in the shoppingcard
-    shoppingcard.ajax("php/ctrl/shoppingcard.ctrl.php?shoppingcard=update&productID=" + productID + "&amount=" + amount + "");
+    shoppingcard.ajax("?op=shoppingcardUpdate&productID=" + productID + "&amount=" + amount + "");
     shoppingcard.display();
     shoppingcard.count();
   },
   display: function() {
     // Displays the shoppingcard after a update
-    var result = shoppingcard.ajax("php/ctrl/shoppingcard.ctrl.php?shoppingcard=display");
-    document.getElementById('content').innerHTML = result;
+    var result = shoppingcard.ajax("?op=shoppingcardShow");
+    document.body.innerHTML = result;
   },
   goTo: function() {
     window.location.replace('winkelmandje.php');
