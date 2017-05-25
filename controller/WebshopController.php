@@ -31,7 +31,18 @@
           include 'view/details.php';
         }
         else if ($op == 'shoppingcardAdd') {
-
+          // Add product from shoppingcard
+          if ($this->shoppingcard->checkIfIdExists($_REQUEST['productID']) == false) {
+            // It isn't existsing in the shoppingcard
+            $this->shoppingcard->add($_REQUEST['productID'], $_REQUEST['amount']);
+          }
+          else if ($this->shoppingcard->checkIfIdExists($_REQUEST['productID']) == true) {
+            // Exists in the shoppingcard
+            $amount = $this->shoppingcard->getProductAmount($_REQUEST['productID']);
+            // echo $amount;
+            $amount = $amount + 1;
+            $this->shoppingcard->add($_REQUEST['productID'], $amount);
+          }
         }
         else if ($op == 'shoppingcardShow') {
 
