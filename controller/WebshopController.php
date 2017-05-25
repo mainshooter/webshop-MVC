@@ -83,6 +83,10 @@
           $this->shoppingcard->update($_REQUEST['productID'], $_REQUEST['amount']);
         }
 
+        else if ($op == 'shoppingcardDelete') {
+          $this->shoppingcard->delete($_REQUEST['productID']);
+        }
+
         else if ($op == 'shoppingcardCounter') {
           $shoppingcardTotal = $this->shoppingcard->count();
           echo $shoppingcardTotal;

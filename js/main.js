@@ -17,7 +17,7 @@ var product;
   },
   remove: function(productID) {
     // Removes a item from the shoppingcard
-    shoppingcard.ajax("php/ctrl/shoppingcard.ctrl.php?shoppingcard=delete&productID=" + productID + "");
+    shoppingcard.ajax("?op=shoppingcardDelete&productID=" + productID + "");
     shoppingcard.display();
     shoppingcard.count();
   },
@@ -33,7 +33,7 @@ var product;
     document.body.innerHTML = result;
   },
   goTo: function() {
-    window.location.replace('winkelmandje.php');
+    window.location.replace('?op=shoppingcardShow');
   },
   ajax: function(url) {
     // AJAX SYNC GET REQUEST
