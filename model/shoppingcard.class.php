@@ -77,6 +77,7 @@ require_once 'security.class.php';
       }
     }
 
+
     public function calculateBTW() {
       // Calculates the BTW of the total shoppingcard
       // Returns it as a number

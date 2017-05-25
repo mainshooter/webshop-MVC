@@ -3,7 +3,9 @@ var product;
 (function() {
   shoppingcard = {
     add: function(productID) {
-      var result = shoppingcard.ajax("php/ctrl/shoppingcard.ctrl.php?shoppingcard=add&productID=" + productID + "&amount=1");
+      console.log("RUN");
+      var result = shoppingcard.ajax("?op=shoppingcardAdd&productID=" + productID + "&amount=1");
+      console.log(result);
       shoppingcard.count();
     },
   count: function() {

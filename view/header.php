@@ -23,11 +23,11 @@
         <div id="nav" class="col-10 col-m-12">
             <ul id="width-ul">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="?do">Producten</a></li>
+                <li><a href="?op">Producten</a></li>
                 <li><a href="contact.php">Contact</a></li>
             </ul>
         </div>
-        <a href="winkelmandje.php">
+        <a href="?op=shoppingcardShow">
           <i class="fa fa-shopping-basket col-1 col-m-1 shopping_card" aria-hidden="true"><span id="shoppingcardCount">0</span></i>
         </a>
     </nav>
