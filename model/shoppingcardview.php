@@ -8,7 +8,7 @@
           <div class="col-2">&nbsp;</div>
           <div class="col-8 product winkelmandje-height-center">
             <img class="col-1" src="' . $key['pad'] . $key['filenaam'] . '">
-            <h2 class="col-5 left-text">' . $key['naam'] . '</h2>
+            <h2 class="col-5 left-text"><a href="?op=details&productID=' . $key['idProduct'] . '">' . $key['naam'] . '</a></h2>
             <p class="col-2 left-text">&euro;' . $key['prijs'] . '</p>';
             $view .= $this->generateOptionNumbers($key['idProduct'], $amount);
             $view .= '<i class="fa fa-trash-o col-1" aria-hidden="true" style="margin-top: 0.5em;" onclick="shoppingcard.remove(' . $key['idProduct'] . ')"></i>
@@ -20,7 +20,7 @@
       }
       return($view);
     }
-    
+
     public function generateOptionNumbers($productID, $amount) {
       // Generates a select input field.
       // When the option is the same to the number we got for the option input
