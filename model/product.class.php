@@ -2,6 +2,7 @@
 
   require_once 'databasehandler.class.php';
   require_once 'security.class.php';
+  require_once 'productview.class.php';
 
   class Product {
     var $id;
