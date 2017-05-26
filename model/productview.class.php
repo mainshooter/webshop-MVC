@@ -19,6 +19,7 @@
       }
       return($products);
     }
+    
     public function createProductDetails($result) {
       $detail = '';
       foreach ($result as $key) {
@@ -34,6 +35,17 @@
         ';
     }
     return($detail);
+  }
+
+  public function createPagenering($pages) {
+    // Creates the pagenering
+    $list = '';
+    $list .= '<ul>';
+    for ($i=0; $i < $pages; $i++) {
+      $list .= '<li><a href="products.php?page=' . $i . '">' . $i . '</a></li>';
+    }
+    $list .= '</ul>';
+    return($list);
   }
 }
 
