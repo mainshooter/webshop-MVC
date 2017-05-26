@@ -89,7 +89,7 @@
       $page = $s->checkInput($id);
 
       $db = new db();
-      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles WHERE idProduct=:productID";
+      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles WHERE idProduct=:productID AND status=1";
       $input = array(
         "productID" => $s->checkInput($id)
       );
@@ -102,7 +102,7 @@
       $db = new db();
       $s = new Security();
 
-      $sql = "SELECT * FROM Specificatie WHERE Product_idProduct=:productID";
+      $sql = "SELECT * FROM Specificatie WHERE Product_idProduct=:productID AND status=1";
       $input = array(
         "productID" => $s->checkInput($productID)
       );
@@ -122,7 +122,7 @@
       // This function counts all products
       // And returns the number of products we have
       $db = new db();
-      $sql = "SELECT idProduct FROM Product";
+      $sql = "SELECT idProduct FROM Product WHERE status=1";
       $input = array();
 
       return($db->countRows($sql, $input));
@@ -135,7 +135,7 @@
       $page = $s->checkInput($page);
 
       $db = new db();
-      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles LIMIT :page, 10";
+      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles WHERE status=1 LIMIT :page, 10";
       $input = array(
         "page" => $s->checkInput(intval($page) * 10)
       );
