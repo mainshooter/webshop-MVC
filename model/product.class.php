@@ -161,6 +161,22 @@
       }
     }
 
+    public function getProductName($productID) {
+      // Get the product name by the productID
+      // Returns the product name as a string
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT naam FROM Product WHERE idProduct=:productID";
+      $input = array(
+        "productID" => $s->checkInput($productID)
+      );
+      $result = $db->readData($sql, $input);
+      foreach ($result as $key) {
+        return($key['naam']);
+      }
+    }
+
     public function checkForProductPhoto($productID) {
       // This function checks if the db contains a picture for a product
       // Returns 1 or higer if a product has a picture

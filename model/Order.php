@@ -49,6 +49,38 @@
       }
     }
 
+    public function getNameOfThePersonWhoOrder($orderID) {
+      // Gets the first and lastname of the person who ordered and returns it as a string
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT klant_voornaam, klant_achternaam FROM `Order` WHERE idOrder=:orderID";
+      $input = array(
+        "orderID" => $s->checkInput($orderID)
+      );
+      $result = $db->readData($sql, $input);
+
+      foreach ($result as $key) {
+        return($key['klant_voornaam'] . ' ' . $key['klant_achternaam']);
+      }
+    }
+
+    public function getEmailOfThePersonWhoOrder($orderID) {
+      // Gets the email adress from a order by orderID
+      // Returns it as a string
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT klant_email FROM `Order` WHERE idOrder=:orderID";
+      $input = array(
+        "orderID" => $orderID
+      );
+      $result = $db->readData($sql, $input);
+      foreach ($result as $key) {
+        return($key['klant_email']);
+      }
+    }
+
     public function getOrderItems($orderID) {
       $db = new db();
       $s = new Security();

@@ -7,6 +7,7 @@
   require_once 'model/Customer.class.php';
   require_once 'model/security.class.php';
   require_once 'model/Order.php';
+  require_once 'model/mail.class.php';
 
   class WebshopController {
     // Webshop controller
@@ -14,12 +15,14 @@
     private $shoppingcard;
     private $customer;
     private $order;
+    private $mail;
 
     function __construct() {
       $this->product = new Product();
       $this->shoppingcard = new Shoppingcard();
       $this->customer = new Customer();
       $this->order = new Order();
+      $this->mail = new Mail();
     }
 
     public function handleRequest() {
@@ -69,7 +72,9 @@
           // We save the shoppingcard to the database
           // And save the product price of every product
           // Than we redirect the client to the payment provider
-          // $this->prepareForPayment();
+
+          $orderID =  $this->createOrder();
+          $this->createConfirmationMailForOrder($orderID);
         }
 
         else if ($op = 'productAdminList') {
@@ -165,12 +170,13 @@
       }
     }
 
-    public function prepareForPayment() {
+    public function createOrder() {
+      // Creates the order
+      // And puts all order items in the database
       $s = new Security();
-      $order = new Order();
 
       $this->customer->firstname = $s->checkInput($_REQUEST['customer_firstname']);
-      $this->customer->tussenvoegsel = $s->checkInput($_REQUEST['customer_firstname']);
+      $this->customer->tussenvoegsel = $s->checkInput($_REQUEST['customer_tussenvoegsel']);
       $this->customer->lastname = $s->checkInput($_REQUEST['customer_lastname']);
       $this->customer->email = $s->checkInput($_REQUEST['customer_email']);
       $this->customer->street = $s->checkInput($_REQUEST['customer_street']);
@@ -181,9 +187,42 @@
 
       $orderID = $this->customer->saveCustomerToDB();
       $orderCreate = $this->order->createOrder($orderID);
-      if ($orderCreate == 1) {
-        $this->order->confirmOrder($orderID);
+      return($orderID);
+    }
+
+    public function createConfirmationMailForOrder($orderID) {
+      $this->mail->subject = "Bevestiging order: " . $orderID;
+      $mailContent = "
+        <h1>We hebben uw order in behandeling genomen.<h1>
+      ";
+
+      $orderList = $this->order->getOrderItems($orderID);
+      $mailContent .= '<table>';
+      $mailContent .= "
+        <tr>
+          <th>Product</th>
+          <th>Hoeveelheid</th>
+          <th>Prijs</th>
+          <th>Totaal</th>
+        </tr>
+      ";
+      foreach ($orderList as $key) {
+
+        $mailContent .= '
+        <tr>
+          <td>' . $productNaam = $this->product->getProductName($key['Product_idProduct']) . '</td>
+          <td>' . $key['aantal'] . '</td>
+          <td>' . $key['prijs'] . '</td>
+          <td>' . $key['aantal'] * $key['prijs'] . '</td>
+        </tr>
+        ';
       }
+      $mailContent .= '</table>';
+      $this->mail->messageInHTML = $mailContent;
+      $this->mail->adressName = $this->order->getNameOfThePersonWhoOrder($orderID);
+      $this->mail->adress = $this->order->getEmailOfThePersonWhoOrder($orderID);
+
+      echo $this->mail->sendMail();
     }
   }
 ?>

@@ -12,7 +12,7 @@
       <input type="text" name="customer_lastname">
 
       <h2>tussenvoegsel</h2>
-      <input type="text" name="customer_firstname">
+      <input type="text" name="customer_tussenvoegsel">
 
       <h2>Straat</h2>
       <input type="text" name="customer_street">

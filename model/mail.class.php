@@ -16,14 +16,14 @@
       // Set the default settings for phpmailer
       $this->mail = new PHPMailer;
 
-      $this->mail->SMTPDebug = 3;                               // Enable verbose debug output
+      // $this->mail->SMTPDebug = 3;                               // Enable verbose debug output
 
       $this->mail->isSMTP();                                      // Set mailer to use SMTP
       $this->mail->Host = 'smtp.transip.email';  // Specify main and backup SMTP servers
       $this->mail->SMTPAuth = true;                               // Enable SMTP authentication
       $this->mail->Username = 'webshop@samebestdevelopment.nl';                 // SMTP username
       $this->mail->Password = 'Webshop1234567890!';                           // SMTP password
-      $this->mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+      $this->mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
       $this->mail->Port = 465;                                    // TCP port to connect to
 
       $this->mail->setFrom('webshop@samebestdevelopment.nl', 'Multiversum');
