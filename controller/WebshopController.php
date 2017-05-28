@@ -4,15 +4,22 @@
   require_once 'model/shoppingcard.class.php';
   require_once 'model/productview.class.php';
   require_once 'model/Shoppingcardview.php';
+  require_once 'model/Customer.class.php';
+  require_once 'model/security.class.php';
+  require_once 'model/Order.php';
 
   class WebshopController {
     // Webshop controller
     private $product;
     private $shoppingcard;
+    private $customer;
+    private $order;
 
     function __construct() {
-      $this->product = new product();
-      $this->shoppingcard = new shoppingcard();
+      $this->product = new Product();
+      $this->shoppingcard = new Shoppingcard();
+      $this->customer = new Customer();
+      $this->order = new Order();
     }
 
     public function handleRequest() {
@@ -50,6 +57,22 @@
         else if ($op == 'shoppingcardCounter') {
           $shoppingcardTotal = $this->shoppingcard->count();
           echo $shoppingcardTotal;
+        }
+
+        else if ($op == 'createOrder') {
+          // Gets the form that the customer needs to fill in
+          include 'view/createCustomer.php';
+        }
+
+        else if ($op == 'betalen') {
+          // We save the shoppingcard to the database
+          // And save the product price of every product
+          // Than we redirect the client to the payment provider
+          $this->prepareForPayment();
+        }
+
+        else if ($op = 'productAdminList') {
+
         }
 
       } catch (Exception $e) {
@@ -114,6 +137,7 @@
         $shoppingcard .= "<h2 class='col-10 right-text'>Exclusief BTW: &euro;" . $priceWithoutBTW . "</h2>";
         $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
         $shoppingcard .= "<h2 class='col-10 right-text'>Totaal: &euro;" . $totalPrice . "</h2>";
+        $shoppingcard .= "<button type='button' class='col-2'><a href='?op=createOrder'>Bestellen!</button>";
       }
       else {
         $shoppingcard .= "<h2 class='col-12 center'>Uw winkelmandje is leeg!</h2>";
@@ -136,6 +160,27 @@
         // echo $amount;
         $amount = $amount + 1;
         $this->shoppingcard->add($productID, $amount);
+      }
+    }
+
+    public function prepareForPayment() {
+      $s = new Security();
+      $order = new Order();
+
+      $this->customer->firstname = $s->checkInput($_REQUEST['customer_firstname']);
+      $this->customer->tussenvoegsel = $s->checkInput($_REQUEST['customer_firstname']);
+      $this->customer->lastname = $s->checkInput($_REQUEST['customer_lastname']);
+      $this->customer->email = $s->checkInput($_REQUEST['customer_email']);
+      $this->customer->street = $s->checkInput($_REQUEST['customer_street']);
+      $this->customer->housenumber = $s->checkInput($_REQUEST['customer_houseNumber']);
+      $this->customer->addon = $s->checkInput($_REQUEST['customer_addon']);
+      $this->customer->zipcode = $s->checkInput($_REQUEST['customer_zipCode']);
+      $this->customer->country = $s->checkInput($_REQUEST['customer_country']);
+
+      $orderID = $this->customer->saveCustomerToDB();
+      $orderCreate = $this->order->createOrder($orderID);
+      if ($orderCreate == 1) {
+        $this->order->confirmOrder($orderID);
       }
     }
   }
