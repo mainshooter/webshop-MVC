@@ -28,6 +28,7 @@
       try {
         if (!$op || $op == 'home') {
           $this->displayProducts();
+          // echo "string";
         }
 
         else if ($op == 'page') {
@@ -68,7 +69,7 @@
           // We save the shoppingcard to the database
           // And save the product price of every product
           // Than we redirect the client to the payment provider
-          $this->prepareForPayment();
+          // $this->prepareForPayment();
         }
 
         else if ($op = 'productAdminList') {
@@ -82,6 +83,7 @@
 
     public function displayProducts() {
       $pageNumer = ISSET($_REQUEST['pageNumer'])? $_REQUEST['pageNumer']: 0;
+
       $products = $this->product->getProducts($pageNumer);
       $productview = new Productview();
       $productview = $productview->createProductsView($products);
