@@ -61,14 +61,6 @@
       return($db->readData($sql, $input));
     }
 
-    public function confirmOrder($orderID) {
-      // This function confirms a order by sending a confirmation mail
-      $orderItems = $this->getOrderItems($orderID);
-      echo "<pre>";
-      var_dump($orderItems);
-      echo "</pre>";
-    }
-
 
 
   }
