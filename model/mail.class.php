@@ -1,7 +1,8 @@
 <?php
-  require 'PHPMailer/PHPMailerAutoload.php';
+  require_once 'PHPMailer/PHPMailerAutoload.php';
 
   class Mail {
+    // To send email to clients
     var $adress;
 
     var $subject;
@@ -9,6 +10,7 @@
     var $message;
 
     function __construct() {
+      // Set the default settings for phpmailer
       $mail = new PHPMailer;
 
       $mail->SMTPDebug = 3;                               // Enable verbose debug output
@@ -26,9 +28,12 @@
     }
 
     public function sendMail() {
+      // Sends the mail
+
       $mail->Subject = $this->subject;
       $mail->Body    = $this->messageInHTML;
       $mail->AltBody = $this->message;
+      // Sets the mail content
 
       if(!$mail->send()) {
           return("Failed " . $mail->ErrorInfo);
