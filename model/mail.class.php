@@ -4,6 +4,7 @@
   class Mail {
     // To send email to clients
     var $adress;
+    var $adressName;
 
     var $subject;
     var $messageInHTML;
@@ -31,7 +32,7 @@
 
     public function sendMail() {
       // Sends the mail
-      $this->mail->addAddress('joe@example.net', 'Joe User');
+      $this->mail->addAddress($this->adress, $this->adressName);
 
       $this->mail->Subject = $this->subject;
       $this->mail->Body    = $this->messageInHTML;
