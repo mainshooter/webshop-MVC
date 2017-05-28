@@ -63,7 +63,7 @@ require_once 'security.class.php';
       return($counts);
     }
 
-    private function getProductIDs() {
+    public function getProductIDs() {
       // Get all product id's from the shoppingcard
       // And returns it
       $shoppingcard = $this->get();
