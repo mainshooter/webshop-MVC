@@ -18,9 +18,9 @@
        <div class="row">
         <nav>
       <a href="index.php">
-          <img class="col-1 col-m-3" src="file/site/logo_nt.png">
+          <img class="col-2 col-m-3" src="file/site/logo_nt.png">
       </a>
-        <div id="nav" class="col-10 col-m-12">
+        <div id="nav" class="col-9 col-m-12">
             <ul id="width-ul">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="?op">Producten</a></li>
