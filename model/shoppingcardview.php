@@ -13,7 +13,7 @@
             <p>Aantal: </p>';
             $view .= $this->generateOptionNumbers($key['idProduct'], $amount);
             $view .= '<i class="fa fa-trash-o" aria-hidden="true" style="margin-top: 0.5em;" onclick="shoppingcard.remove(' . $key['idProduct'] . ')"></i>
-            <p>Totaal: &euro;' .str_replace('.', ',', $productTotal) . '</p>
+            <p>Totaal: &euro;' . str_replace('.', ',', $productTotal) . '</p>
           </div>
           <div class="col-2">&nbsp;</div>
           <div class="col-12"></div>
