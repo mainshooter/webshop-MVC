@@ -78,7 +78,12 @@
         }
 
         else if ($op = 'productAdminList') {
+          // This op generates the crud list for a product
+          $this->productListForAdmin();
+        }
 
+        else if ($op == 'updateProduct') {
+          $this->updateFormProduct();
         }
 
       } catch (Exception $e) {
@@ -230,6 +235,43 @@
       $this->mail->adress = $this->order->getEmailOfThePersonWhoOrder($orderID);
 
       $this->mail->sendMail();
+    }
+
+    public function productListForAdmin() {
+      $products = $this->product->productIDs();
+      $productList = '
+        <table class="col-12">
+          <tr>
+            <th class="col-1">Product foto</th>
+            <th class="col-3">Product naam</th>
+            <th class="col-3">Product prijs</th>
+            <th class="col-3">EAN code</th>
+            <th class="col-2"></th>
+          </tr>
+      ';
+      foreach ($products as $result) {
+        $product = $this->product->details($result['idProduct']);
+        foreach ($product as $key) {
+          $productList .= '
+            <tr>
+              <td class="col-1"><img class="col-12" src="' . $key['pad'] . $key['filenaam'] .  '"></td>
+              <td class="col-3">' . $key['naam'] . '</td>
+              <td class="col-3">' . $key['prijs'] . '</td>
+              <td class="col-3">' . $key['EAN'] . '</td>
+              <td class="col-2">
+                <a href="?op=updateProduct&productID=' . $key['idProduct'] . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="?op=deleteProduct&productID=' . $key['idProduct'] . '"><i class="fa fa-trash-o" aria-hidden="true"></i>
+              </td>
+            </tr>
+          ';
+        }
+      }
+      $productList .= '</table>';
+      include 'view/adminProductList.php';
+    }
+
+    public function updateFormProduct() {
+      $productID = ISSET($_REQUEST['productID'])?$_REQUEST['productID']: NULL;
     }
   }
 ?>

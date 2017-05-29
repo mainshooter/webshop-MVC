@@ -112,7 +112,7 @@
     public function productIDs() {
       // Get all ID's from all products and returns it
       $db = new db();
-      $sql = "SELECT idProduct FROM Product";
+      $sql = "SELECT idProduct FROM Product WHERE status=1";
       $input = array();
 
       return($db->readData($sql, $input));
