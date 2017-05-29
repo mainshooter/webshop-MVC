@@ -18,6 +18,10 @@
     /**
      * Start a transaction
      * It gets the totalprice of a order by the OrderID
+     * Then it sets the payment
+     *
+     * When the payment is done we get the PaymentID
+     * We save the paymentID in the DB on a order
      * @param  INT $orderID The INT for the orderID
      * @return [int]          [PaymentID for mollie]
      */
@@ -34,12 +38,18 @@
           "redirectUrl"  => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/",
           "webhookUrl"   => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/",
         ));
+        $payment = $this->mollie->payments->get($payment->id);
+        $paymentID = $payment->id;
         if ($payment->isPaid()) {
-          $this->savePaymentID($orderID, $payment);
+          echo "REAL PAYMENT!";
         }
+        $this->savePaymentID($orderID, $paymentID);
+
+        return($paymentID);
         exit;
       }
       catch (Mollie_API_Exception $e) {
+          // Error handleling Mollie
           echo "API call failed: " . htmlspecialchars($e->getMessage());
           echo " on field " . htmlspecialchars($e->getField());
       }
@@ -56,7 +66,7 @@
       // We save it when there is needed to refund someone
       $db = new db();
 
-      $sql = "UPDATE Order SET paymentID=:paymentID WHERE idOrder=:orderID";
+      $sql = "UPDATE `Order` SET paymentID=:paymentID WHERE idOrder=:orderID";
       $input = array(
         "orderID" => $orderID,
         "paymentID" => $paymentID
