@@ -77,7 +77,7 @@
 
           $orderID = $this->createOrder();
           $this->createConfirmationMailForOrder($orderID);
-          // $this->shoppingcard->clearShoppingcard();
+          $this->shoppingcard->clearShoppingcard();
 
           $this->payment->startPayment($orderID);
         }
@@ -237,7 +237,7 @@
           <td>' . $productNaam = $this->product->getProductName($key['Product_idProduct']) . '</td>
           <td>' . $key['aantal'] . '</td>
           <td>' . str_replace('.', ',', $key['prijs']) . '</td>
-          <td>' . $key['aantal'] * $key['prijs'] . '</td>
+          <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
         </tr>
         ';
       }
