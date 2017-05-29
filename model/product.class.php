@@ -162,18 +162,13 @@
       return($db->countRows($sql, $input));
     }
 
-<<<<<<< HEAD
+
     public function getProducts($page, $limit) {
-=======
     /**
      * Get all the products with details for a page
      * @param  [number] $page [the page we want to see]
      * @return [array]       [result from the database with the products]
      */
-    public function getProducts($page) {
->>>>>>> origin/master
-      // This function gets all products for a page
-      // And returns it
       $s = new Security();
       $page = $s->checkInput($page);
       $limit = $s->checkInput($limit);
@@ -188,7 +183,6 @@
       return($db->readData($sql, $input));
     }
 
-<<<<<<< HEAD
     public function getNewestProducts() {
       // This function gets all products for a page
       // And returns it
@@ -200,13 +194,13 @@
       return($db->readData($sql, $input));
     }
 
-=======
+
     /**
      * Gets a product price for one product
      * @param  [INT] $productID [the product we need a price from]
      * @return [decimal]            [contains the price for one product]
      */
->>>>>>> origin/master
+
     public function productPrice($productID) {
       // Gets the price of one product
       // And returns it as a number or string
