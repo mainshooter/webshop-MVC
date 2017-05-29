@@ -19,7 +19,7 @@
       }
       return($products);
     }
-    
+
     public function createProductDetails($result) {
       $detail = '';
       foreach ($result as $key) {
@@ -30,7 +30,6 @@
             <div class="col-9">' . $key['beschrijving'] . '</div>
             <p class="col-1">&euro;' . $key['prijs'] . '</p>
             <i class="fa fa-cart-plus col-5" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ')"></i>
-            <p class="col-12">EAN code: ' . $key['EAN'] . '</p>
           </div>
         ';
     }
