@@ -107,7 +107,8 @@
       $list = '';
       $list .= '<ul class="col-12">';
       for ($i=0; $i < $pages; $i++) {
-        $list .= '<li><a href="?pageNumer=' . $i . '">' . $i . '</a></li>';
+        $list .= '<li><a href="?pageNumer=' . $i . '">' . $i=$i + 1 . '</a></li>';
+        $i = $i - 1;
       }
       $list .= '</ul>';
       return($list);
