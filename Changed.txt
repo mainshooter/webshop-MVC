@@ -1,0 +1,13 @@
+- Algemeen -
+Hero image, een ander plaatje.
+Logo, de naam naast het logo zetten.
+Komma bij de prijs.
+
+
+- Product display -
+Detail knop, een detail knop bij elk product op de home en producten pagina.
+Meer plaatje, meer plaatjes van producten toevoegen.
+
+
+- Winkelmandje -
+Styling, alles netjes op een lijn.
