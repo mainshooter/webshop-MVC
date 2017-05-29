@@ -9,7 +9,8 @@
           <div class="col-8 product winkelmandje-height-center">
             <img class="col-1" src="' . $key['pad'] . $key['filenaam'] . '">
             <h2 class="col-5 left-text"><a href="?op=details&productID=' . $key['idProduct'] . '">' . $key['naam'] . '</a></h2>
-            <p class="col-2 left-text">&euro;' . $key['prijs'] . '</p>';
+            <p class="col-1 left-text">&euro;' . $key['prijs'] . '</p>
+            <p class="col-1">Aantal: </p>';
             $view .= $this->generateOptionNumbers($key['idProduct'], $amount);
             $view .= '<i class="fa fa-trash-o col-1" aria-hidden="true" style="margin-top: 0.5em;" onclick="shoppingcard.remove(' . $key['idProduct'] . ')"></i>
             <p class="col-2">Totaal: &euro;' . $productTotal . '</p>
