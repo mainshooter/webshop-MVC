@@ -7,9 +7,6 @@
   class Payment {
     private $mollie;
 
-    private $price;
-    private $discription;
-
     function __construct() {
       $this->mollie = new Mollie_API_Client();
       $this->mollie->setApiKey('test_2aH3RczeMMTU776NWJjJzMrPEH57pG');
@@ -35,16 +32,16 @@
           "amount"       => $this->calculatePrice($orderID),
           "method"       => Mollie_API_Object_Method::IDEAL,
           "description"  => "Order: " . $orderID,
-          "redirectUrl"  => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/",
+          "redirectUrl"  => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/?op=displayOrder&orderID=" . $orderID . "",
           "webhookUrl"   => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/",
         ));
         $payment = $this->mollie->payments->get($payment->id);
         $paymentID = $payment->id;
         if ($payment->isPaid()) {
-          echo "REAL PAYMENT!";
+          // echo "REAL PAYMENT!";
         }
         $this->savePaymentID($orderID, $paymentID);
-
+        header("Location: " . $payment->getPaymentUrl());
         return($paymentID);
         exit;
       }
