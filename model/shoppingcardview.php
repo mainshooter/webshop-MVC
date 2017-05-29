@@ -5,19 +5,17 @@
       $view = '';
       foreach ($result as $key) {
         $view .= '
-          <div class="col-2">&nbsp;</div>
-          <table class="col-8">
-            <tr class="product winkelmandje-height-center">
-              <td class="col-1"><img class="col-12" src="' . $key['pad'] . $key['filenaam'] . '"></td>
-              <td class="col-5"><h2 class="left-text"><a href="?op=details&productID=' . $key['idProduct'] . '">' . $key['naam'] . '</a></h2></td>
-              <td class="col-1">&euro;' . str_replace('.', ',', $key['prijs']) . '</td>
-              <td class="col-1 right-text">Aantal: </td>
-              <td class="col-1">'; $view .= $this->generateOptionNumbers($key['idProduct'], $amount); $view .='</td>
-              <td class="col-1"><i class="fa fa-trash-o" aria-hidden="true" style="margin-top: 0.5em;" onclick="shoppingcard.remove(' . $key['idProduct'] . ')"></i></td>
-              <td class="col-2">Totaal: &euro;' . $productTotal . '</td>
-            </tr>
-          </table>
-          <div class="col-2">&nbsp;</div>
+          <div class="col-2 col-m-0">&nbsp;</div>
+          <div class="col-8 col-m-12 product winkelmandje-height-center">
+              <div class="col-1 col-m-1"><img class="col-12" src="' . $key['pad'] . $key['filenaam'] . '"></div>
+              <div class="col-5 col-m-5"><h2 class="left-text"><a href="?op=details&productID=' . $key['idProduct'] . '">' . $key['naam'] . '</a></h2></div>
+              <div class="col-1 col-m-1">&euro;' . str_replace('.', ',', $key['prijs']) . '</div>
+              <div class="col-1 col-m-1 right-text">Aantal: </div>
+              <div class="col-1 col-m-1">'; $view .= $this->generateOptionNumbers($key['idProduct'], $amount); $view .='</div>
+              <div class="col-1 col-m-1"><i class="fa fa-trash-o" aria-hidden="true" style="margin-top: 0.5em;" onclick="shoppingcard.remove(' . $key['idProduct'] . ')"></i></div>
+              <div class="col-2 col-m-2">Totaal: &euro;' . $productTotal . '</div>
+          </div>
+          <div class="col-2 col-m-0">&nbsp;</div>
           <div class="col-12"></div>
         ';
       }
