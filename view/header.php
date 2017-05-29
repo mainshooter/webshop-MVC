@@ -32,4 +32,4 @@
         </a>
     </nav>
 
-    <img class="col-12 image_header" src="file/site/header.jpg"/>
+    <img class="col-12 image_header" src="file/site/header.png"/>
