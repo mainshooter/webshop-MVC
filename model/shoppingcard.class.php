@@ -17,6 +17,10 @@ require_once 'security.class.php';
       unset($_SESSION['shoppingcard'][$s->checkInput($productID)]);
     }
 
+    public function clearShoppingcard() {
+      unset($_SESSION['shoppingcard']);
+    }
+
     public function update($productID, $amount) {
       $s = new Security();
       $_SESSION['shoppingcard'][$s->checkInput($productID)]['amount'] = $s->checkInput($amount);

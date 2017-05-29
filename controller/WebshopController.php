@@ -31,7 +31,6 @@
       try {
         if (!$op || $op == 'home') {
           $this->displayProducts();
-          // echo "string";
         }
 
         else if ($op == 'page') {
@@ -75,6 +74,7 @@
 
           $orderID =  $this->createOrder();
           $this->createConfirmationMailForOrder($orderID);
+          $this->shoppingcard->clear();
         }
 
         else if ($op = 'productAdminList') {
