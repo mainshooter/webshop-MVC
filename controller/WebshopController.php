@@ -193,7 +193,8 @@
     public function createConfirmationMailForOrder($orderID) {
       $this->mail->subject = "Bevestiging order: " . $orderID;
       $mailContent = "
-        <h1>We hebben uw order in behandeling genomen.<h1>
+        <div>Beste " . $this->order->getNameOfThePersonWhoOrder($orderID) . ",</div>
+        <div>We hebben uw order in behandeling genomen.</div>
       ";
 
       $orderList = $this->order->getOrderItems($orderID);
@@ -222,7 +223,7 @@
       $this->mail->adressName = $this->order->getNameOfThePersonWhoOrder($orderID);
       $this->mail->adress = $this->order->getEmailOfThePersonWhoOrder($orderID);
 
-      echo $this->mail->sendMail();
+      $this->mail->sendMail();
     }
   }
 ?>
