@@ -12,7 +12,7 @@
             </div>
             <h2>' . $key['naam'] . '</h2>
           </a>
-          <p>&euro;' . $key['prijs'] . '</p>
+          <p>&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
           <i class="fa fa-cart-arrow-down" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();"></i>
         </div>
         ';
@@ -28,7 +28,7 @@
             <h2 class="col-12">' . $key['naam'] . '</h2>
             <img class="col-3" src="' . $key['pad'] . $key['filenaam'] . '" />
             <div class="col-9">' . $key['beschrijving'] . '</div>
-            <p class="col-1">&euro;' . $key['prijs'] . '</p>
+            <p class="col-1">&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
             <i class="fa fa-cart-plus col-5" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ')"></i>
           </div>
         ';

@@ -129,7 +129,7 @@
           // Loops trough every item of the shoppingcard
           $product_details = $this->product->details($key['productID']);
           // Get the details of a product
-          $amount = $shoppingcardArray[$key['productID']]['amount'];
+          $amount = str_replace(',', '.', $shoppingcardArray[$key['productID']]['amount']);
           // Get how mutch we have of one product
           $productTotal = $this->shoppingcard->productTotalPriceInShoppingCard($key['productID']);
           // Total cost of one product with multiple items
@@ -139,10 +139,16 @@
           // Display
         }
         $BTWPrice = $this->shoppingcard->calculateBTW();
+        $BTWPrice = str_replace('.', ',', $BTWPrice);
+
         $shoppingcard .= "<h2 class='col-10 right-text'>BTW: &euro;" . $BTWPrice . "</h2>";
         $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
+        $priceWithoutBTW = str_replace('.', ',', $priceWithoutBTW);
+
         $shoppingcard .= "<h2 class='col-10 right-text'>Exclusief BTW: &euro;" . $priceWithoutBTW . "</h2>";
         $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
+        $totalPrice = str_replace('.', ',', $totalPrice);
+
         $shoppingcard .= "<h2 class='col-10 right-text'>Totaal: &euro;" . $totalPrice . "</h2>";
         $shoppingcard .= "<button type='button' class='col-2'><a href='?op=createOrder'>Bestellen!</button>";
       }
@@ -193,7 +199,7 @@
     public function createConfirmationMailForOrder($orderID) {
       $this->mail->subject = "Bevestiging order: " . $orderID;
       $mailContent = "
-        <div>Beste " . $this->order->getNameOfThePersonWhoOrder($orderID) . ",</div>
+        <div>Beste " . $this->order->getNameOfThePersonWhoOrder($orderID) . ",<br /></div>
         <div>We hebben uw order in behandeling genomen.</div>
       ";
 
@@ -213,7 +219,7 @@
         <tr>
           <td>' . $productNaam = $this->product->getProductName($key['Product_idProduct']) . '</td>
           <td>' . $key['aantal'] . '</td>
-          <td>' . $key['prijs'] . '</td>
+          <td>' . str_replace('.', ',', $key['prijs']) . '</td>
           <td>' . $key['aantal'] * $key['prijs'] . '</td>
         </tr>
         ';
