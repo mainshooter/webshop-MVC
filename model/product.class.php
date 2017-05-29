@@ -128,17 +128,29 @@
       return($db->countRows($sql, $input));
     }
 
-    public function getProducts($page) {
+    public function getProducts($page, $limit) {
       // This function gets all products for a page
       // And returns it
       $s = new Security();
       $page = $s->checkInput($page);
+      $limit = $s->checkInput($limit);
 
       $db = new db();
-      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles WHERE status=1 LIMIT :page, 10";
+      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles WHERE status=1 LIMIT :page," . $limit;
       $input = array(
-        "page" => $s->checkInput(intval($page) * 10)
+        "page" => $s->checkInput(intval($page) * $limit)
       );
+      // First number is how mutch we want to show
+      // Seconds is where we start
+      return($db->readData($sql, $input));
+    }
+
+    public function getNewestProducts() {
+      // This function gets all products for a page
+      // And returns it
+      $db = new db();
+      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles WHERE status=1 ORDER BY idProduct DESC LIMIT 2";
+      $input = array();
       // First number is how mutch we want to show
       // Seconds is where we start
       return($db->readData($sql, $input));

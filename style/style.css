@@ -194,6 +194,9 @@ textarea {
 .webshop-img {
   padding: 0px;
 }
+.color-red {
+  color: red;
+}
 .footer {
   font-size: 1.3em;
   background-color: #2c3e50;

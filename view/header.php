@@ -23,7 +23,7 @@
         <div id="nav" class="col-8 col-m-12">
             <ul id="width-ul">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="?op">Producten</a></li>
+                <li><a href="?op=page">Producten</a></li>
                 <li><a href="contact.php">Contact</a></li>
             </ul>
         </div>

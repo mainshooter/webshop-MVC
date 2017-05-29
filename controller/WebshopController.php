@@ -30,7 +30,7 @@
 
       try {
         if (!$op || $op == 'home') {
-          $this->displayProducts();
+          $this->displayNewestProducts();
         }
 
         else if ($op == 'page') {
@@ -92,9 +92,11 @@
     }
 
     public function displayProducts() {
+      // Displays all products
       $pageNumer = ISSET($_REQUEST['pageNumer'])? $_REQUEST['pageNumer']: 0;
+      $pageLimit = 10;
 
-      $products = $this->product->getProducts($pageNumer);
+      $products = $this->product->getProducts($pageNumer, $pageLimit);
       $productview = new Productview();
       $productview = $productview->createProductsView($products);
 
@@ -103,6 +105,14 @@
       include 'view/products.php';
     }
 
+    public function displayNewestProducts() {
+      // Displays the newest products
+      $newestProducts = $this->product->getNewestProducts();
+      $newestProductsView = new Productview();
+      $newestProductsView = $newestProductsView->createNewProductsView($newestProducts);
+
+      include 'view/newproducts.php';
+    }
     public function generatePagenering() {
       // Generates pagenering
       $productsTotal = $this->product->countAllProducts();
