@@ -1,5 +1,5 @@
 <?php
-  require_once 'Order.php';
+  require_once 'order.class.php';
   require_once 'Mollie//API/Autoloader.php';
   require_once 'security.class.php';
   require_once 'databasehandler.class.php';

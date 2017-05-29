@@ -6,7 +6,7 @@
   require_once 'model/Shoppingcardview.php';
   require_once 'model/Customer.class.php';
   require_once 'model/security.class.php';
-  require_once 'model/Order.php';
+  require_once 'model/order.class.php';
   require_once 'model/mail.class.php';
   require_once 'model/payment.class.php';
 
