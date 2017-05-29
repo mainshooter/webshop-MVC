@@ -8,6 +8,7 @@
   require_once 'model/security.class.php';
   require_once 'model/Order.php';
   require_once 'model/mail.class.php';
+  require_once 'model/payment.class.php';
 
   class WebshopController {
     // Webshop controller
@@ -16,6 +17,7 @@
     private $customer;
     private $order;
     private $mail;
+    private $payment;
 
     function __construct() {
       $this->product = new Product();
@@ -23,6 +25,7 @@
       $this->customer = new Customer();
       $this->order = new Order();
       $this->mail = new Mail();
+      $this->payment = new payment();
     }
 
     public function handleRequest() {
@@ -72,12 +75,14 @@
           // And save the product price of every product
           // Than we redirect the client to the payment provider
 
-          $orderID =  $this->createOrder();
+          $orderID = $this->createOrder();
           $this->createConfirmationMailForOrder($orderID);
-          $this->shoppingcard->clear();
+          $this->shoppingcard->clearShoppingcard();
+
+          $this->payment->startPayment($orderID);
         }
 
-        else if ($op = 'productAdminList') {
+        else if ($op == 'productAdminList') {
           // This op generates the crud list for a product
           $this->productListForAdmin();
         }
@@ -89,6 +94,13 @@
       } catch (Exception $e) {
         $this->showError("Application error", $e->getMessage());
       }
+    }
+
+    /**
+     * Displays the error
+     */
+    private function showError($message) {
+      // echo "<h1>" . $message . "</h1>";
     }
 
     public function displayProducts() {
@@ -235,7 +247,7 @@
           <td>' . $productNaam = $this->product->getProductName($key['Product_idProduct']) . '</td>
           <td>' . $key['aantal'] . '</td>
           <td>' . str_replace('.', ',', $key['prijs']) . '</td>
-          <td>' . $key['aantal'] * $key['prijs'] . '</td>
+          <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
         </tr>
         ';
       }
@@ -281,7 +293,37 @@
     }
 
     public function updateFormProduct() {
-      $productID = ISSET($_REQUEST['productID'])?$_REQUEST['productID']: NULL;
+      $productID = ISSET($_REQUEST['productID'])? $_REQUEST['productID']: NULL;
+
+      $product = $this->product->details($productID);
+
+      $form = '<form method="post">';
+
+      foreach ($product as $key) {
+        $form .= '
+        <div class="col-3"></div>
+        <form method="post" enctype="multipart/form-data" class="col-6">
+          <img class="col-3" src="/leerjaar2/webshop/' . $key['pad'] . $key['filenaam'] .  '">
+          <h2 class="col-3">Nieuwe foto</h2>
+          <input class="col-3" type="file" name="file_upload"/>
+          <div class="col-6"><a href="?product=deleteImage&fileID=' . $key['idfiles'] . '">Delete image</a></div>
+          <h2 class="col-12">Product naam</h2>
+          <input class="col-4" type="text" name="productName" value="' . $key['naam'] . '"/>
+          <h2 class="col-12">Product Prijs</h2>
+          <input class="col-4" type="number" step="0.01" name="productPrice" value="' . $key['prijs'] . '">
+          <h2 class="col-12">Beschrijving</h2>
+          <textarea class="col-8" name="discription">' . $key['beschrijving'] . '</textarea>
+          <h2 class="col-12">EAN-code</h2>
+          <input class="col-4" type="text" name="ean-code" value="' . $key['EAN'] . '"/>
+          <div class="col-12"></div>
+          <input class="col-2" type="submit" name="product" value="update">
+        </form>
+        <div class="col-3"></div>
+        ';
+      }
+      $form .= '</form>';
+
+      include 'view/updateProductForm.php';
     }
   }
 ?>
