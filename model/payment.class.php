@@ -12,7 +12,7 @@
 
     function __construct() {
       $this->mollie = new Mollie_API_Client();
-      $this->mollie->setApiKey('test_4pyszgm8SRFRunHcRsqnnsmkEMk54D');
+      $this->mollie->setApiKey('test_2aH3RczeMMTU776NWJjJzMrPEH57pG');
     }
 
     /**
@@ -24,18 +24,25 @@
     public function startPayment($orderID) {
       // This function creates the payment
       $s = new Security();
-      $orderID = $this->checkInput($orderID);
+      $orderID = $s->checkInput($orderID);
 
-      $payment = $this->mollie->payments->create(array(
-          "amount"      => $this->calculatePrice($orderID),
-          "description" => 'Ordernummer: ' . $orderID,
-          "redirectUrl" => "?op=paid&orderID=" . $orderID . "",
-          "webhookUrl"  => "https://webshop.example.org/mollie-webhook/",
-      ));
-      $payment = $this->mollie->payments->get($payment->id);
-      $this->savePaymentID($orderID, $payment);
-
-      return($payment);
+      try {
+        $payment = $this->mollie->payments->create(array(
+          "amount"       => $this->calculatePrice($orderID),
+          "method"       => Mollie_API_Object_Method::IDEAL,
+          "description"  => "Order: " . $orderID,
+          "redirectUrl"  => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/",
+          "webhookUrl"   => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/",
+        ));
+        if ($payment->isPaid()) {
+          $this->savePaymentID($orderID, $payment);
+        }
+        exit;
+      }
+      catch (Mollie_API_Exception $e) {
+          echo "API call failed: " . htmlspecialchars($e->getMessage());
+          echo " on field " . htmlspecialchars($e->getField());
+      }
     }
 
     /**
@@ -103,7 +110,7 @@
       // Returns the totalprice as a number
       $order = new order();
 
-      $orderItems = $order->getOrderItems();
+      $orderItems = $order->getOrderItems($orderID);
       $totalPrice = 0;
 
       foreach ($orderItems as $key) {

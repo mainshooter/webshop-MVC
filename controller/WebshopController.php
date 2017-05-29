@@ -8,6 +8,7 @@
   require_once 'model/security.class.php';
   require_once 'model/Order.php';
   require_once 'model/mail.class.php';
+  require_once 'model/payment.class.php';
 
   class WebshopController {
     // Webshop controller
@@ -16,6 +17,7 @@
     private $customer;
     private $order;
     private $mail;
+    private $payment;
 
     function __construct() {
       $this->product = new Product();
@@ -23,6 +25,7 @@
       $this->customer = new Customer();
       $this->order = new Order();
       $this->mail = new Mail();
+      $this->payment = new payment();
     }
 
     public function handleRequest() {
@@ -72,9 +75,11 @@
           // And save the product price of every product
           // Than we redirect the client to the payment provider
 
-          $orderID =  $this->createOrder();
+          $orderID = $this->createOrder();
           $this->createConfirmationMailForOrder($orderID);
-          $this->shoppingcard->clear();
+          // $this->shoppingcard->clearShoppingcard();
+
+          $this->payment->startPayment($orderID);
         }
 
         else if ($op == 'productAdminList') {
@@ -89,6 +94,13 @@
       } catch (Exception $e) {
         $this->showError("Application error", $e->getMessage());
       }
+    }
+
+    /**
+     * Displays the error
+     */
+    private function showError($message) {
+      // echo "<h1>" . $message . "</h1>";
     }
 
     public function displayProducts() {
