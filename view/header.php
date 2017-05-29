@@ -18,7 +18,7 @@
        <div class="row">
         <nav>
       <a href="index.php">
-          <img class="col-2 col-m-3" src="file/site/logo_nt.png">
+          <img class="col-3 col-m-3" src="file/site/logo_mt.png">
       </a>
         <div id="nav" class="col-9 col-m-12">
             <ul id="width-ul">
