@@ -191,7 +191,9 @@ textarea {
 .pagenering ul li {
   margin: 0 0.2em;
 }
-
+.webshop-img {
+  padding: 0px;
+}
 .footer {
   font-size: 1.3em;
   background-color: #2c3e50;

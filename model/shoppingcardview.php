@@ -7,7 +7,7 @@
         $view .= '
           <div class="col-2 col-m-0">&nbsp;</div>
           <div class="col-8 col-m-12 product winkelmandje-height-center">
-              <div class="col-1 col-m-1"><img class="col-12" src="' . $key['pad'] . $key['filenaam'] . '"></div>
+              <div class="col-1 col-m-1 webshop-img"><img class="col-12 webshop-img" src="' . $key['pad'] . $key['filenaam'] . '"></div>
               <div class="col-5 col-m-5"><h2 class="left-text"><a href="?op=details&productID=' . $key['idProduct'] . '">' . $key['naam'] . '</a></h2></div>
               <div class="col-1 col-m-1">&euro;' . str_replace('.', ',', $key['prijs']) . '</div>
               <div class="col-1 col-m-1 right-text">Aantal: </div>

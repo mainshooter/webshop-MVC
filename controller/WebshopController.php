@@ -155,7 +155,7 @@
         $totalPrice = str_replace('.', ',', $totalPrice);
 
         $shoppingcard .= "<h2 class='col-10 right-text'>Totaal: &euro;" . $totalPrice . "</h2>";
-        $shoppingcard .= "<button type='button' class='col-2'><a href='?op=createOrder'>Bestellen!</button>";
+        $shoppingcard .= "<div class='col-8'></div><button type='button' class='col-2'><a href='?op=createOrder'>Bestellen!</button>";
       }
       else {
         $shoppingcard .= "<h2 class='col-12 center'>Uw winkelmandje is leeg!</h2>";
