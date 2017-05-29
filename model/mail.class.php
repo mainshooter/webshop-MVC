@@ -30,6 +30,10 @@
       $this->mail->isHTML(true);                                  // Set email format to HTML
     }
 
+    /**
+     * Triggers the phpmailer classs to send the mail
+     * @return [string] [If it succeded or failed]
+     */
     public function sendMail() {
       // Sends the mail
       $this->mail->addAddress($this->adress, $this->adressName);

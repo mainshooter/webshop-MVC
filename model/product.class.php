@@ -11,6 +11,11 @@
     var $price;
     // Properties
 
+    /**
+     * [add description]
+     * @param [array] $newProductArray [contains the new values for a row in the product table]
+     * @return [type] $productID [Returns the productID of the creates row]
+     */
     public function add($newProductArray) {
       // Add a product to database
       // Parameter is send as a array
@@ -28,6 +33,11 @@
       return($db->CreateData($sql, $input));
     }
 
+    /**
+     * Delete a product by change there enable status to 0
+     * @param  [INT] $productID [The ID of the product]
+     * @return [string]            [The result from the db handler]
+     */
     public function delete($productID) {
       // Removes product
       $s = new Security();
@@ -67,6 +77,11 @@
       return($db->DeleteData($sql, $input));
     }
 
+    /**
+     * Updates a product
+     * @param  [array] $updateProductArray [The array that contains the new values for a product]
+     * @return [string]                     [The result from the db handler]
+     */
     public function update($updateProductArray) {
       // Update product
       // expexts an array with the values
@@ -83,6 +98,11 @@
       return($db->UpdateData($sql, $input));
     }
 
+    /**
+     * Get the details for a product by a orderID
+     * @param  [INT] $id [productID]
+     * @return [array]     [array with the result from the database]
+     */
     public function details($id) {
       // This function gets the detailed page
       $s = new Security();
@@ -95,6 +115,12 @@
       );
       return($db->readData($sql, $input));
     }
+
+    /**
+     * Get the productSpecifications for a product
+     * @param  [INT] $productID [The ID for the product to get all productSpecs]
+     * @return [array]            [DB result with the productSpecifications]
+     */
     public function productSpec($productID) {
       // This function get the products specs from a product
       // It expexts as a parameter a productID
@@ -109,6 +135,10 @@
       return($db->readData($sql, $input));
     }
 
+    /**
+     * Get all productIDs from the product table
+     * @return [array] [All productIDs]
+     */
     public function productIDs() {
       // Get all ID's from all products and returns it
       $db = new db();
@@ -118,6 +148,10 @@
       return($db->readData($sql, $input));
     }
 
+    /**
+     * Counts howmany products there are with a status 1 / enables
+     * @return [number] [how many rows there are]
+     */
     public function countAllProducts() {
       // This function counts all products
       // And returns the number of products we have
@@ -128,6 +162,11 @@
       return($db->countRows($sql, $input));
     }
 
+    /**
+     * Get all the products with details for a page
+     * @param  [number] $page [the page we want to see]
+     * @return [array]       [result from the database with the products]
+     */
     public function getProducts($page) {
       // This function gets all products for a page
       // And returns it
@@ -144,6 +183,11 @@
       return($db->readData($sql, $input));
     }
 
+    /**
+     * Gets a product price for one product
+     * @param  [INT] $productID [the product we need a price from]
+     * @return [decimal]            [contains the price for one product]
+     */
     public function productPrice($productID) {
       // Gets the price of one product
       // And returns it as a number or string
@@ -161,6 +205,11 @@
       }
     }
 
+    /**
+     * Gets the name for one product by the productID
+     * @param  [INT] $productID [the id for one product]
+     * @return [string]            [The name of a product]
+     */
     public function getProductName($productID) {
       // Get the product name by the productID
       // Returns the product name as a string
@@ -177,6 +226,11 @@
       }
     }
 
+    /**
+     * Checks if a product has a picture
+     * @param  [INT] $productID [The ID for the product]
+     * @return [number]            [Returns how many rows]
+     */
     public function checkForProductPhoto($productID) {
       // This function checks if the db contains a picture for a product
       // Returns 1 or higer if a product has a picture

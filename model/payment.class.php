@@ -15,6 +15,12 @@
       $this->mollie->setApiKey('test_4pyszgm8SRFRunHcRsqnnsmkEMk54D');
     }
 
+    /**
+     * Start a transaction
+     * It gets the totalprice of a order by the OrderID
+     * @param  INT $orderID The INT for the orderID
+     * @return [int]          [PaymentID for mollie]
+     */
     public function startPayment($orderID) {
       // This function creates the payment
       $s = new Security();
@@ -28,8 +34,16 @@
       ));
       $payment = $this->mollie->payments->get($payment->id);
       $this->savePaymentID($orderID, $payment);
+
+      return($payment);
     }
 
+    /**
+     * Saves the paymentID to the database on a order
+     * It can later be used to refund a payment
+     * @param  [INT] $orderID   [ID of the order]
+     * @param  [INT] $paymentID [The paymentID that has been returned by mollie]
+     */
     private function savePaymentID($orderID, $paymentID) {
       // PaymentID is the ID that has been given by the mollie API when there is paid
       // We save it when there is needed to refund someone
@@ -43,6 +57,11 @@
       $db->UpdateData($sql, $input);
     }
 
+    /**
+     * Starts a refund for a order
+     * @param  [INT] $orderID      [the orderID it is used to get the paymentID]
+     * @param  [number] $refundAmount [the amount that the person who gets for refund]
+     */
     public function refundPayment($orderID, $refundAmount) {
       // Refunds a payment by the orderID
       $s = new Security();
@@ -53,6 +72,11 @@
       $refund = $this->mollie->payments->refund($paymentID, $refundAmount);
     }
 
+    /**
+     * Gets the paymentID and returns it
+     * @param  [INT] $orderID [The ID for the order it will be used to find the paymentID]
+     * @return [INT] paymentID         [The ID for the payment that has been given by mollie]
+     */
     private function getPaymentID($orderID) {
       // Gets the PaymentID from the array and returns it
       $db = new db();
@@ -68,6 +92,12 @@
       }
     }
 
+    /**
+     * Calculates the totalPrice of a order
+     * Gets all order items and counts them together
+     * @param  [INT] $orderID [The ID of a order]
+     * @return [number] $totalPrice [The totalprice of a order]
+     */
     private function calculatePrice($orderID) {
       // This function Caluclates the price that is needed to be payed
       // Returns the totalprice as a number

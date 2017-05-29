@@ -12,6 +12,10 @@
     var $zipcode;
     var $country;
 
+    /**
+     * [Saves a customer to the database]
+     * @return [int] [Returns the orderID for the created customer]
+     */
     public function saveCustomerToDB() {
       $db = new db();
 

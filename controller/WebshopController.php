@@ -77,7 +77,7 @@
           $this->shoppingcard->clear();
         }
 
-        else if ($op = 'productAdminList') {
+        else if ($op == 'productAdminList') {
           // This op generates the crud list for a product
           $this->productListForAdmin();
         }
@@ -271,7 +271,37 @@
     }
 
     public function updateFormProduct() {
-      $productID = ISSET($_REQUEST['productID'])?$_REQUEST['productID']: NULL;
+      $productID = ISSET($_REQUEST['productID'])? $_REQUEST['productID']: NULL;
+
+      $product = $this->product->details($productID);
+
+      $form = '<form method="post">';
+
+      foreach ($product as $key) {
+        $form .= '
+        <div class="col-3"></div>
+        <form method="post" enctype="multipart/form-data" class="col-6">
+          <img class="col-3" src="/leerjaar2/webshop/' . $key['pad'] . $key['filenaam'] .  '">
+          <h2 class="col-3">Nieuwe foto</h2>
+          <input class="col-3" type="file" name="file_upload"/>
+          <div class="col-6"><a href="?product=deleteImage&fileID=' . $key['idfiles'] . '">Delete image</a></div>
+          <h2 class="col-12">Product naam</h2>
+          <input class="col-4" type="text" name="productName" value="' . $key['naam'] . '"/>
+          <h2 class="col-12">Product Prijs</h2>
+          <input class="col-4" type="number" step="0.01" name="productPrice" value="' . $key['prijs'] . '">
+          <h2 class="col-12">Beschrijving</h2>
+          <textarea class="col-8" name="discription">' . $key['beschrijving'] . '</textarea>
+          <h2 class="col-12">EAN-code</h2>
+          <input class="col-4" type="text" name="ean-code" value="' . $key['EAN'] . '"/>
+          <div class="col-12"></div>
+          <input class="col-2" type="submit" name="product" value="update">
+        </form>
+        <div class="col-3"></div>
+        ';
+      }
+      $form .= '</form>';
+
+      include 'view/updateProductForm.php';
     }
   }
 ?>
