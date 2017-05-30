@@ -33,19 +33,16 @@
           "method"       => Mollie_API_Object_Method::IDEAL,
           "description"  => "Order: " . $orderID,
           "redirectUrl"  => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/?op=displayOrder&orderID=" . $orderID . "",
-          "webhookUrl"   => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/",
+          "webhookUrl"   => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/?op=paymentResponse",
+          'metadata'    => array(
+            'order_id' => $orderID
+          )
         ));
         $payment = $this->mollie->payments->get($payment->id);
 
-        // echo "<pre>";
-        //   var_dump($payment);
-        // echo "</pre>";
-
         $paymentID = $payment->id;
-        if ($payment->isPaid()) {
-          // echo "REAL PAYMENT!";
-        }
         $this->savePaymentID($orderID, $paymentID);
+
         header("Location: " . $payment->getPaymentUrl());
         return($paymentID);
         exit;
@@ -58,11 +55,63 @@
     }
 
     /**
+     * This function handels the payment result from mollie
+     */
+    public function handelsPaymentResult($paymentID) {
+      $s = new Security();
+
+      $paymentID = $s->checkInput($paymentID);
+
+      $payment = $this->mollie->payments->get($paymentID);
+      $paymentStatus = $s->checkInput($payment->status);
+
+      $this->setPaymentStatus($paymentID, $paymentStatus);
+
+      // if ($payment->isPaid()) {
+      //   // Payment is done
+      //
+      // }
+      // else if (!$payment->isOpen()) {
+      //   // payment is closed and has'nt been completed
+      // }
+    }
+
+    /**
+     * Gets the orderID by using the paymentID given by mollie
+     * @param  [INT] $paymentID [The paymentID geven by mollie]
+     * @return [INT] $orderID   [The ID of the order]
+     */
+    private function getOrderID($paymentID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT idOrder FROM `Order` WHERE paymentID=:paymentID LIMIT 1";
+      $input = array(
+        "paymentID" => $paymentID
+      );
+
+      $result = $db->readData($sql, $input);
+
+      foreach ($result as $key) {
+        return($key['idOrder']);
+      }
+    }
+
+    /**
      * Sets in the database that someone has payed
      * @param  [INT] $paymentID [paymentID of a payment]
      */
-    private function paymantHasBeenDone($paymentID) {
+    private function setPaymentStatus($paymentID, $paymentStatus) {
+      $db = new db();
+      $s = new Security();
 
+      $sql = "UPDATE `Order` SET betaal_status=:betaal_status WHERE paymentID=:paymentID";
+      $input = array(
+        "betaal_status" => $s->checkInput($paymentStatus),
+        "paymentID" => $s->checkInput($paymentID)
+      );
+
+      echo $db->UpdateData($sql, $input);
     }
 
     /**
@@ -72,7 +121,7 @@
      * @param  [INT] $paymentID [The paymentID that has been returned by mollie]
      */
     private function savePaymentID($orderID, $paymentID) {
-      // PaymentID is the ID that has been given by the mollie API when there is paid
+      // PaymentID is the ID that has been given by the mollie API
       // We save it when there is needed to refund someone
       $db = new db();
 

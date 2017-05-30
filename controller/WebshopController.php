@@ -82,6 +82,10 @@
           $this->payment->startPayment($orderID);
         }
 
+        else if ($op == 'paymentResponse') {
+          $this->payment->handelsPaymentResult($_POST['id']);
+        }
+
         else if ($op == 'displayOrder') {
           $this->displayOrder();
         }
@@ -333,7 +337,10 @@
     public function displayOrder() {
       $orderID = ISSET($_REQUEST['orderID'])?$_REQUEST['orderID']: NULL;
 
+      $order = $this->order->getOrder($orderID);
+      $orderItems = $this->order->getOrderItems($orderID);
 
+      include 'view/display-a-order.php';
     }
   }
 ?>
