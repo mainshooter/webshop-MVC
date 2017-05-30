@@ -1,10 +1,10 @@
 <?php
   require_once 'order.class.php';
-  require_once 'Mollie//API/Autoloader.php';
+  require_once 'Mollie/API/Autoloader.php';
   require_once 'security.class.php';
   require_once 'databasehandler.class.php';
 
-  class Payment {
+  class Payment extends order {
     private $mollie;
 
     function __construct() {
@@ -128,9 +128,7 @@
     private function calculatePrice($orderID) {
       // This function Caluclates the price that is needed to be payed
       // Returns the totalprice as a number
-      $order = new order();
-
-      $orderItems = $order->getOrderItems($orderID);
+      $orderItems = $this->getOrderItems($orderID);
       $totalPrice = 0;
 
       foreach ($orderItems as $key) {
