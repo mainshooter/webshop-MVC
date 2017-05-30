@@ -259,6 +259,11 @@
       return($rowCount);
     }
 
+    /**
+     * get all picutres from a product by id and returns it
+     * @param  [INT] $productID [The ID of the product]
+     * @return [INT]            [the file of the ID]
+     */
     public function getProductPictureID($productID) {
       // This function get the id for the picture file
       // Returns the fileID as string or number
@@ -276,6 +281,11 @@
       }
     }
 
+    /**
+     * Gets the fileName by a productID
+     * @param  [INT] $fileID [The ID of the product]
+     * @return [string]         [filename]
+     */
     public function getProductPictureFileName($fileID) {
       // Gets the picture file name
       // And returns it as a string
@@ -292,6 +302,11 @@
       }
     }
 
+    /**
+     * Links a file with a product
+     * @param  [INT] $productID [The ID of the product we are need to link]
+     * @param  [INT] $fileID    [The ID of the file]
+     */
     public function linkProductToFile($productID, $fileID) {
       // This function links a product to a file
       $db = new db();

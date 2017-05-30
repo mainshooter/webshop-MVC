@@ -36,6 +36,11 @@
           "webhookUrl"   => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/",
         ));
         $payment = $this->mollie->payments->get($payment->id);
+
+        // echo "<pre>";
+        //   var_dump($payment);
+        // echo "</pre>";
+
         $paymentID = $payment->id;
         if ($payment->isPaid()) {
           // echo "REAL PAYMENT!";
@@ -50,6 +55,14 @@
           echo "API call failed: " . htmlspecialchars($e->getMessage());
           echo " on field " . htmlspecialchars($e->getField());
       }
+    }
+
+    /**
+     * Sets in the database that someone has payed
+     * @param  [INT] $paymentID [paymentID of a payment]
+     */
+    private function paymantHasBeenDone($paymentID) {
+
     }
 
     /**

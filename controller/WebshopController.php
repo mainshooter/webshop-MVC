@@ -82,6 +82,10 @@
           $this->payment->startPayment($orderID);
         }
 
+        else if ($op == 'displayOrder') {
+          $this->displayOrder();
+        }
+
         else if ($op == 'productAdminList') {
           // This op generates the crud list for a product
           $this->productListForAdmin();
@@ -324,6 +328,12 @@
       $form .= '</form>';
 
       include 'view/updateProductForm.php';
+    }
+
+    public function displayOrder() {
+      $orderID = ISSET($_REQUEST['orderID'])?$_REQUEST['orderID']: NULL;
+
+
     }
   }
 ?>
