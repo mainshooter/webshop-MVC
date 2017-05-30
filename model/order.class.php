@@ -92,7 +92,7 @@
 
       $sql = "SELECT * FROM `Order` WHERE idOrder=:orderID";
       $input = array(
-        "orderID" => $s->checkInput($orderID);
+        "orderID" => $s->checkInput($orderID)
       );
       $order = $db->readData($sql, $input);
       return($order);
