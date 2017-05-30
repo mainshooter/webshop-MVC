@@ -111,7 +111,7 @@
         "paymentID" => $s->checkInput($paymentID)
       );
 
-      echo $db->UpdateData($sql, $input);
+      $db->UpdateData($sql, $input);
     }
 
     /**
