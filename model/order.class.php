@@ -81,6 +81,23 @@
       }
     }
 
+    /**
+     * Gets the content of a order By orderID
+     * @param  [INT] $orderID [The ID of the order]
+     * @return [array]          [Containing the result from the db]
+     */
+    public function getOrder($orderID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT * FROM `Order` WHERE idOrder=:orderID";
+      $input = array(
+        "orderID" => $s->checkInput($orderID);
+      );
+      $order = $db->readData($sql, $input);
+      return($order);
+    }
+
     public function getOrderItems($orderID) {
       $db = new db();
       $s = new Security();
