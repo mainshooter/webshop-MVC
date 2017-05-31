@@ -67,13 +67,15 @@
 
       $this->setPaymentStatus($paymentID, $paymentStatus);
 
-      // if ($payment->isPaid()) {
-      //   // Payment is done
-      //
-      // }
-      // else if (!$payment->isOpen()) {
-      //   // payment is closed and has'nt been completed
-      // }
+      if ($payment->isPaid()) {
+        // Payment is done
+        
+      }
+      else if (!$payment->isOpen()) {
+        // payment is closed and has'nt been completed
+        // We remove it
+        $this->removeOrder($paymentID);
+      }
     }
 
     /**
