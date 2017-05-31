@@ -46,6 +46,11 @@
     return($selectBox);
   }
 
+  /**
+   * Generates the li items for a ul
+   * @param  [assoc array] $arr [The result from the DB with the keys and values]
+   * @return [string / html]      [generated <li>s]
+   */
   public function generateUnorderList($arr) {
     $unOrderList = '';
 

@@ -58,6 +58,7 @@
 
     /**
      * This function handels the payment result from mollie
+     * @param [INT] $paymentID [The PaymentID given by mollie API!]
      */
     public function handelsPaymentResult($paymentID) {
       $s = new Security();
