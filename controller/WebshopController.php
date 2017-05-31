@@ -9,6 +9,7 @@
   require_once 'model/order.class.php';
   require_once 'model/mail.class.php';
   require_once 'model/payment.class.php';
+  require_once 'model/user.class.php';
 
   class WebshopController {
     // Webshop controller
@@ -18,6 +19,7 @@
     private $order;
     private $mail;
     private $payment;
+    private $user;
 
     function __construct() {
       $this->product = new Product();
@@ -25,7 +27,8 @@
       $this->customer = new Customer();
       $this->order = new Order();
       $this->mail = new Mail();
-      $this->payment = new payment();
+      $this->payment = new Payment();
+      $this->user = new User();
     }
 
     public function handleRequest() {
@@ -99,6 +102,20 @@
           $this->updateFormProduct();
         }
 
+        else if ($op == 'loginForm') {
+          include 'view/admin/header.html';
+          include 'view/admin/loginForm.html';
+          include 'view/admin/footer.html';
+        }
+
+        else if ($op == 'login') {
+          $this->user->userLogin();
+        }
+
+        else if ($op == 'dashboard') {
+          $this->adminDashboard();
+        }
+
       } catch (Exception $e) {
         $this->showError("Application error", $e->getMessage());
       }
@@ -108,7 +125,7 @@
      * Displays the error
      */
     private function showError($message) {
-      // echo "<h1>" . $message . "</h1>";
+      echo "<h1>" . $message . "</h1>";
     }
 
     public function displayProducts() {
@@ -342,5 +359,9 @@
 
       include 'view/display-a-order.php';
     }
+
+    public function adminDashboard() {
+
   }
+}
 ?>
