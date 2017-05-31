@@ -3,18 +3,24 @@
   require_once 'model/product.class.php';
   require_once 'model/databasehandler.class.php';
   require_once 'model/mail.class.php';
+  require_once 'model/Customer.class.php';
+  require_once 'model/HtmlGenerator.class.php';
 
   class Order {
     var $shoppingcard;
     var $oderNumer;
 
+    private $Customer;
     private $Mail;
     private $Product;
+    private $HtmlGenerator;
 
     function __construct() {
       // Runs when class is created
       $this->Mail = new Mail();
       $this->Product = new Product();
+      $this->Customer = new Customer();
+      $this->HtmlGenerator = new HtmlGenerator();
     }
 
     public function createOrder($orderID) {
@@ -93,7 +99,10 @@
           // That it because other wise it will be saying NULL
           $key['klant_tussenvoegsel'] = '';
         }
-        return($key['klant_voornaam'] . $key['klant_tussenvoegsel'] . $key['klant_achternaam']);
+        else {
+          $key['klant_tussenvoegsel'] .= ' ';
+        }
+        return($key['klant_voornaam'] . ' ' . $key['klant_tussenvoegsel'] . $key['klant_achternaam']);
       }
     }
 
@@ -240,11 +249,11 @@
         ';
       }
       $mailContent .= '</table>';
-      $this->mail->messageInHTML = $mailContent;
-      $this->mail->adressName = $this->order->getNameOfThePersonWhoOrder($orderID);
-      $this->mail->adress = $this->order->getEmailOfThePersonWhoOrder($orderID);
+      $this->Mail->messageInHTML = $mailContent;
+      $this->Mail->adressName = $this->getNameOfThePersonWhoOrder($orderID);
+      $this->Mail->adress = $this->getEmailOfThePersonWhoOrder($orderID);
 
-      $this->mail->sendMail();
+      $this->Mail->sendMail();
     }
 
     /**
@@ -252,27 +261,31 @@
      * @param  [INT] $orderID [The orderID]
      */
     public function sendOwnerMailToReadAOrder($orderID) {
+      $Mail = new Mail();
+      $customer = new Customer();
+      $HtmlGenerator = new HtmlGenerator();
+
       $headers = $this->getHeadersForOrderItemsForHtmlGenerator($orderID);
       $orderItems = $this->getOrderItemsForHtmlGenerator($orderID);
-      $customerInfo = $Customer->getCustomerInfoByOrderID($orderID);
+      $customerInfo = $customer->getCustomerInfoByOrderID($orderID);
 
-      $mail->adress = "498883@edu.rocmn.nl";
-      $mail->adressName = "Multiversum Webshop";
-      $mail->subject = "Er is een nieuwe order: " . $orderID;
+      $Mail->adress = "498883@edu.rocmn.nl";
+      $Mail->adressName = "Multiversum Webshop";
+      $Mail->subject = "Er is een nieuwe order: " . $orderID;
 
-      $mail->messageInHTML = '<p>Er is een nieuwe order binnen voor:</p>';
+      $Mail->messageInHTML = '<p>Er is een nieuwe order binnen voor:</p>';
 
-      $mail->messageInHTML .= '<ul>';
+      $Mail->messageInHTML .= '<ul>';
       foreach ($customerInfo as $row) {
         foreach ($row as $key => $value) {
-          $mail->messageInHTML .= '<li>' . $row . ': ' . $value . '</li>';
+          $Mail->messageInHTML .= '<li>' . $key . ': ' . $value . '</li>';
         }
       }
-      $mail->messageInHTML .= '</ul>';
+      $Mail->messageInHTML .= '</ul>';
 
-      $mail->messageInHTML .= $HtmlGenerator->generateOrderTable($headers, $orderItems);
+      $Mail->messageInHTML .= $HtmlGenerator->generateOrderTable($headers, $orderItems);
 
-      $mail->sendMail();
+      $Mail->sendMail();
     }
 
 

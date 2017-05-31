@@ -62,9 +62,11 @@
     public function getCustomerInfoByOrderID($orderID) {
       $db = new db();
       $s = new Security();
-
-      $sql = "SELECT * FROM `Order` LIMIT 1";
-      $input = array();
+      // echo "string";
+      $sql = "SELECT idOrder, klant_voornaam, klant_achternaam, klant_tussenvoegsel, klant_straat, klant_huisnummer, klant_huisnummertoevoegingen, klant_postcode, klant_email FROM `Order` WHERE idOrder=:orderID LIMIT 1";
+      $input = array(
+        "orderID" => $s->checkInput($orderID)
+      );
 
       $result = $db->readData($sql, $input);
 
