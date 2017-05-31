@@ -2,13 +2,19 @@
   require_once 'model/shoppingcard.class.php';
   require_once 'model/product.class.php';
   require_once 'model/databasehandler.class.php';
+  require_once 'model/mail.class.php';
 
   class Order {
     var $shoppingcard;
     var $oderNumer;
 
+    private $Mail;
+    private $Product;
+
     function __construct() {
       // Runs when class is created
+      $this->Mail = new Mail();
+      $this->Product = new Product();
     }
 
     public function createOrder($orderID) {
@@ -169,6 +175,42 @@
       foreach ($result as $key) {
         return($key['idOrder']);
       }
+    }
+
+    public function generateMailToCustomerAboutOrderConfirmation($orderID) {
+      $this->Mail->subject = "Bevestiging order: " . $orderID;
+      $mailContent = "
+        <div>Beste " . $this->getNameOfThePersonWhoOrder($orderID) . ",<br /></div>
+        <div>We hebben uw order in behandeling genomen.</div>
+      ";
+
+      $orderList = $this->getOrderItems($orderID);
+      $mailContent .= '<table>';
+      $mailContent .= "
+        <tr>
+          <th>Product</th>
+          <th>Hoeveelheid</th>
+          <th>Prijs</th>
+          <th>Totaal</th>
+        </tr>
+      ";
+      foreach ($orderList as $key) {
+
+        $mailContent .= '
+        <tr>
+          <td>' . $productNaam = $this->Product->getProductName($key['Product_idProduct']) . '</td>
+          <td>' . $key['aantal'] . '</td>
+          <td>' . str_replace('.', ',', $key['prijs']) . '</td>
+          <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
+        </tr>
+        ';
+      }
+      $mailContent .= '</table>';
+      $this->mail->messageInHTML = $mailContent;
+      $this->mail->adressName = $this->order->getNameOfThePersonWhoOrder($orderID);
+      $this->mail->adress = $this->order->getEmailOfThePersonWhoOrder($orderID);
+
+      $this->mail->sendMail();
     }
 
     /**
