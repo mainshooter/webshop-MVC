@@ -49,6 +49,22 @@
       }
     }
 
+    /**
+     * Removes a order by the paymentID
+     * We do that when they order has not been paid
+     * @param  [INT] $paymentID [The ID from a payment]
+     */
+    public function removeOrder($paymentID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "DELETE FROM `Order` WHERE paymentID=:paymentID";
+      $input = array(
+        "paymentID" => $s->checkInput($paymentID)
+      );
+      $db->deleteData($sql, $input);
+    }
+
     public function getNameOfThePersonWhoOrder($orderID) {
       // Gets the first and lastname of the person who ordered and returns it as a string
       $db = new db();
@@ -108,6 +124,51 @@
       );
 
       return($db->readData($sql, $input));
+    }
+
+    public function getOrderItemsForHtmlGenerator($orderID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT naam, aantal, order_item.prijs FROM order_item JOIN Product ON idProduct=Product_idProduct WHERE Order_idOrder=:orderID";
+      $input = array(
+        "orderID" => $s->checkInput($orderID)
+      );
+
+      return($db->readData($sql, $input));
+    }
+
+    public function getHeadersForOrderItemsForHtmlGenerator($orderID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT naam, aantal, order_item.prijs FROM order_item JOIN Product ON idProduct=Product_idProduct WHERE Order_idOrder=:orderID LIMIT 1";
+      $input = array(
+        "orderID" => $s->checkInput($orderID)
+      );
+
+      return($db->readData($sql, $input));
+    }
+
+    /**
+     * Gets the orderID by using the paymentID given by mollie
+     * @param  [INT] $paymentID [The paymentID geven by mollie]
+     * @return [INT] $orderID   [The ID of the order]
+     */
+    protected function getOrderID($paymentID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT idOrder FROM `Order` WHERE paymentID=:paymentID LIMIT 1";
+      $input = array(
+        "paymentID" => $paymentID
+      );
+
+      $result = $db->readData($sql, $input);
+
+      foreach ($result as $key) {
+        return($key['idOrder']);
+      }
     }
 
 
