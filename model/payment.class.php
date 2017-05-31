@@ -74,20 +74,12 @@
 
       if ($payment->isPaid()) {
         // Payment is done
-        $headers = $this->getHeadersForOrderItemsForHtmlGenerator($orderID);
-        $orderItems = $this->getOrderItemsForHtmlGenerator($orderID);
-
-        $mail->adress = "498883@edu.rocmn.nl";
-        $mail->adressName = "Multiversum Webshop";
-        $mail->subject = "Er is een nieuwe order: " . $orderID;
-        $mail->messageInHTML = $HtmlGenerator->generateOrderTable($headers, $orderItems);
-
-        $mail->sendMail();
+        $this->sendOwnerMailToReadAOrder($orderID);
       }
       else if (!$payment->isOpen()) {
         // payment is closed and has'nt been completed
         // We remove it
-        $this->removeOrder($paymentID);
+
       }
     }
 
