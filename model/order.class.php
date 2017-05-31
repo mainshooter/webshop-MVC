@@ -71,6 +71,11 @@
       $db->deleteData($sql, $input);
     }
 
+    /**
+     * Gets the name of the customer who ordered by orderID
+     * @param  [INT] $orderID [ID of the order]
+     * @return [string]          [full name of the customer]
+     */
     public function getNameOfThePersonWhoOrder($orderID) {
       // Gets the first and lastname of the person who ordered and returns it as a string
       $db = new db();
@@ -83,10 +88,20 @@
       $result = $db->readData($sql, $input);
 
       foreach ($result as $key) {
-        return($key['klant_voornaam'] . ' ' . $key['klant_achternaam']);
+        if (!ISSET($key['klant_tussenvoegsel'])) {
+          // If the customer don't have a tussenvoegels we need to clear it
+          // That it because other wise it will be saying NULL
+          $key['klant_tussenvoegsel'] = '';
+        }
+        return($key['klant_voornaam'] . $key['klant_tussenvoegsel'] . $key['klant_achternaam']);
       }
     }
 
+    /**
+     * Get the email of a customer by the orderID
+     * @param  [INT] $orderID [The ID of the order]
+     * @return [string]          [customer email adress]
+     */
     public function getEmailOfThePersonWhoOrder($orderID) {
       // Gets the email adress from a order by orderID
       // Returns it as a string
@@ -120,6 +135,11 @@
       return($order);
     }
 
+    /**
+     * Gets all items that a customer has orderd
+     * @param  [INT] $orderID [The ID of the order]
+     * @return [assoc array] [With the result from the db]
+     */
     public function getOrderItems($orderID) {
       $db = new db();
       $s = new Security();
@@ -132,6 +152,11 @@
       return($db->readData($sql, $input));
     }
 
+    /**
+     * Gets the orderItems with the name of the product, amount and the price of the order
+     * @param  [INT] $orderID [The ID of the Order]
+     * @return [assoc array] [The result from the DB]
+     */
     public function getOrderItemsForHtmlGenerator($orderID) {
       $db = new db();
       $s = new Security();
@@ -144,6 +169,11 @@
       return($db->readData($sql, $input));
     }
 
+    /**
+     * Gets the headers for the product naam, aantal and price
+     * @param  [INT] $orderID [The ID of the order]
+     * @return [assoc array] [Result from the db]
+     */
     public function getHeadersForOrderItemsForHtmlGenerator($orderID) {
       $db = new db();
       $s = new Security();
@@ -177,6 +207,10 @@
       }
     }
 
+    /**
+     * Generates a mail for the customer that we have is order in our system
+     * @param  [INT] $orderID [The ID of the Order]
+     */
     public function generateMailToCustomerAboutOrderConfirmation($orderID) {
       $this->Mail->subject = "Bevestiging order: " . $orderID;
       $mailContent = "
