@@ -3,6 +3,8 @@
   require_once 'Mollie/API/Autoloader.php';
   require_once 'security.class.php';
   require_once 'databasehandler.class.php';
+  require_once 'mail.class.php';
+  require_once 'HtmlGenerator.class.php';
 
   class Payment extends order {
     private $mollie;
@@ -59,8 +61,11 @@
      */
     public function handelsPaymentResult($paymentID) {
       $s = new Security();
+      $mail = new Mail();
+      $HtmlGenerator = new HtmlGenerator();
 
       $paymentID = $s->checkInput($paymentID);
+      $orderID = $this->getOrderID($s->checkInput($paymentID));
 
       $payment = $this->mollie->payments->get($paymentID);
       $paymentStatus = $s->checkInput($payment->status);
@@ -69,33 +74,20 @@
 
       if ($payment->isPaid()) {
         // Payment is done
-        
+        $headers = $this->getHeadersForOrderItemsForHtmlGenerator($orderID);
+        $orderItems = $this->getOrderItemsForHtmlGenerator($orderID);
+
+        $mail->adress = "498883@edu.rocmn.nl";
+        $mail->adressName = "Multiversum Webshop";
+        $mail->subject = "Er is een nieuwe order: " . $orderID;
+        $mail->messageInHTML = $HtmlGenerator->generateOrderTable($headers, $orderItems);
+
+        $mail->sendMail();
       }
       else if (!$payment->isOpen()) {
         // payment is closed and has'nt been completed
         // We remove it
         $this->removeOrder($paymentID);
-      }
-    }
-
-    /**
-     * Gets the orderID by using the paymentID given by mollie
-     * @param  [INT] $paymentID [The paymentID geven by mollie]
-     * @return [INT] $orderID   [The ID of the order]
-     */
-    private function getOrderID($paymentID) {
-      $db = new db();
-      $s = new Security();
-
-      $sql = "SELECT idOrder FROM `Order` WHERE paymentID=:paymentID LIMIT 1";
-      $input = array(
-        "paymentID" => $paymentID
-      );
-
-      $result = $db->readData($sql, $input);
-
-      foreach ($result as $key) {
-        return($key['idOrder']);
       }
     }
 
