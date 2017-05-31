@@ -171,6 +171,34 @@
       }
     }
 
+    /**
+     * Sends a mail to the owner to start makeing a product ready
+     * @param  [INT] $orderID [The orderID]
+     */
+    public function sendOwnerMailToReadAOrder($orderID) {
+      $headers = $this->getHeadersForOrderItemsForHtmlGenerator($orderID);
+      $orderItems = $this->getOrderItemsForHtmlGenerator($orderID);
+      $customerInfo = $Customer->getCustomerInfoByOrderID($orderID);
+
+      $mail->adress = "498883@edu.rocmn.nl";
+      $mail->adressName = "Multiversum Webshop";
+      $mail->subject = "Er is een nieuwe order: " . $orderID;
+
+      $mail->messageInHTML = '<p>Er is een nieuwe order binnen voor:</p>';
+
+      $mail->messageInHTML .= '<ul>';
+      foreach ($customerInfo as $row) {
+        foreach ($row as $key => $value) {
+          $mail->messageInHTML .= '<li>' . $row . ': ' . $value . '</li>';
+        }
+      }
+      $mail->messageInHTML .= '</ul>';
+
+      $mail->messageInHTML .= $HtmlGenerator->generateOrderTable($headers, $orderItems);
+
+      $mail->sendMail();
+    }
+
 
 
   }
