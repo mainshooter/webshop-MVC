@@ -79,7 +79,7 @@
           // Than we redirect the client to the payment provider
 
           $orderID = $this->createOrder();
-          $this->createConfirmationMailForOrder($orderID);
+          $this->order->generateMailToCustomerAboutOrderConfirmation($orderID);
           $this->shoppingcard->clearShoppingcard();
 
           $this->payment->startPayment($orderID);
@@ -246,42 +246,6 @@
       $orderID = $this->customer->saveCustomerToDB();
       $orderCreate = $this->order->createOrder($orderID);
       return($orderID);
-    }
-
-    public function createConfirmationMailForOrder($orderID) {
-      $this->mail->subject = "Bevestiging order: " . $orderID;
-      $mailContent = "
-        <div>Beste " . $this->order->getNameOfThePersonWhoOrder($orderID) . ",<br /></div>
-        <div>We hebben uw order in behandeling genomen.</div>
-      ";
-
-      $orderList = $this->order->getOrderItems($orderID);
-      $mailContent .= '<table>';
-      $mailContent .= "
-        <tr>
-          <th>Product</th>
-          <th>Hoeveelheid</th>
-          <th>Prijs</th>
-          <th>Totaal</th>
-        </tr>
-      ";
-      foreach ($orderList as $key) {
-
-        $mailContent .= '
-        <tr>
-          <td>' . $productNaam = $this->product->getProductName($key['Product_idProduct']) . '</td>
-          <td>' . $key['aantal'] . '</td>
-          <td>' . str_replace('.', ',', $key['prijs']) . '</td>
-          <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
-        </tr>
-        ';
-      }
-      $mailContent .= '</table>';
-      $this->mail->messageInHTML = $mailContent;
-      $this->mail->adressName = $this->order->getNameOfThePersonWhoOrder($orderID);
-      $this->mail->adress = $this->order->getEmailOfThePersonWhoOrder($orderID);
-
-      $this->mail->sendMail();
     }
 
     public function productListForAdmin() {
