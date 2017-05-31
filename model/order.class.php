@@ -276,11 +276,9 @@
       $Mail->messageInHTML = '<p>Er is een nieuwe order binnen voor:</p>';
 
       $Mail->messageInHTML .= '<ul>';
-      foreach ($customerInfo as $row) {
-        foreach ($row as $key => $value) {
-          $Mail->messageInHTML .= '<li>' . $key . ': ' . $value . '</li>';
-        }
-      }
+
+        $Mail->messageInHTML .= $HtmlGenerator->generateUnorderList($customerInfo);
+
       $Mail->messageInHTML .= '</ul>';
 
       $Mail->messageInHTML .= $HtmlGenerator->generateOrderTable($headers, $orderItems);

@@ -46,6 +46,18 @@
     return($selectBox);
   }
 
+  public function generateUnorderList($arr) {
+    $unOrderList = '';
+
+    foreach ($arr as $row) {
+      foreach ($row as $key => $value) {
+        $unOrderList .= '<li>' . $key . ': ' . $value . '</li>';
+      }
+    }
+
+    return($unOrderList);
+  }
+
   /**
    * This function generates The HTML output for a order
    * @param  [assoc array] $headers [The name of all rows]
