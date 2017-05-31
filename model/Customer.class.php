@@ -1,5 +1,6 @@
 <?php
   require_once 'databasehandler.class.php';
+  require_once 'security.class.php';
 
   class Customer {
     var $firstname;
@@ -51,6 +52,24 @@
       );
 
       return($db->CreateData($sql, $input));
+    }
+
+    /**
+     * Gets all info from a customer with the orderID
+     * @param  [INT] $orderID [The ID from the order]
+     * @return [assoc array] [The result from the db]
+     */
+    public function getCustomerInfoByOrderID($orderID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT * FROM `Order` LIMIT 1";
+      $input = array();
+
+      $result = $db->readData($sql, $input);
+
+      return($result);
+
     }
 
   }
