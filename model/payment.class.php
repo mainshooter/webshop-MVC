@@ -145,13 +145,34 @@
       $db = new db();
       $s = new security();
 
-      $sql = "SELECT paymentID FROM Order WHERE idOrder=:orderID LIMIT 1";
+      $sql = "SELECT paymentID FROM `Order` WHERE idOrder=:orderID LIMIT 1";
       $input = array(
         "orderID" => $s->checkInput($orderID)
       );
       $result = $db->readData($sql, $input);
       foreach ($result as $key) {
         return($key['paymentID']);
+      }
+    }
+
+    /**
+     * gets the payment status by orderID
+     * @param  [INT] $orderID [The ID of a order]
+     * @return [string] [With the payment status]
+     */
+    public function getPaymentStatus($orderID) {
+      $Db = new db();
+      $S = new Security();
+
+      $sql = "SELECT betaal_status FROM `Order` WHERE idOrder=:orderID";
+      $input = array(
+        "orderID" => $S->checkInput($orderID);
+      );
+
+      $result = $Db->readData($sql, $input);
+
+      foreach ($result as $key) {
+        return($key['betaal_status']);
       }
     }
 
