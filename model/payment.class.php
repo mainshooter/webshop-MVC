@@ -166,7 +166,7 @@
 
       $sql = "SELECT betaal_status FROM `Order` WHERE idOrder=:orderID";
       $input = array(
-        "orderID" => $S->checkInput($orderID);
+        "orderID" => $S->checkInput($orderID)
       );
 
       $result = $Db->readData($sql, $input);
