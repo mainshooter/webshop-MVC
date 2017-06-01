@@ -1,5 +1,5 @@
 <?php
-
+  require_once '../config-webshop.php';
   class db {
     // To use our database
 
@@ -15,11 +15,11 @@
 
 
     private $conn;
-    private $serverIP = 'samebestserver.nl';
-    private $port = "100";
-    private $databaseName = 'multiversum';
-    private $username = 'multi';
-    private $password = '1234567890';
+    private $serverIP = databaseLocation;
+    private $port = databasePort;
+    private $databaseName = databaseName;
+    private $username = databaseUsername;
+    private $password = databasePassword;
     // Properties for the database
 
     function __construct() {
