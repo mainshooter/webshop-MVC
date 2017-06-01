@@ -1,5 +1,5 @@
 <?php
-  require_once '../config-webshop.php';
+  require_once 'config-webshop.php';
   class db {
     // To use our database
 

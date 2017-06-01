@@ -10,7 +10,7 @@
   require_once 'model/mail.class.php';
   require_once 'model/payment.class.php';
   require_once 'model/user.class.php';
-  require_once '../config-webshop.php';
+  require_once 'config-webshop.php';
 
   class WebshopController {
     // Webshop controller
