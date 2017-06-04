@@ -6,6 +6,7 @@ require_once 'security.class.php';
    private $mail;
    private $password;
    private $loginToken;
+   private $pageAcces;
 
    function __construct() {
      $this->loginToken = 'h79vr29hu3pqhf-249pgae';
@@ -15,15 +16,145 @@ require_once 'security.class.php';
     * User login handler
     * @param  [string] $userInputMail     [The mail adress that the user filled in]
     * @param  [string] $userInputPassword [The password the user filled in]
+    * @param [string] $redirectLocation The location that we need the user to redirect to
     */
-   public function userLogin($userInputMail, $userInputPassword) {
+   public function userLogin($userInputMail, $userInputPassword, $redirectLocation) {
      if ($this->checkIfEmailExists($userInputMail)) {
 
        $orginalHashedPassword = $this->getOrginalPassword($userInputMail);
 
        if ($this->validatePassword($userInputPassword, $orginalHashedPassword)) {
+         $this->saveUserCredentials($userInputMail);
          $this->setLoginToken();
+         $this->setUserGroup($userInputMail);
+         header("Refresh:0; " . $redirectLocation);
        }
+       else {
+          return("Wrong password");
+       }
+     }
+
+     else {
+       return("Don't know that user");
+     }
+   }
+
+   /**
+    * Logs a user out
+    */
+   public function userLogout($redirectLocation) {
+     unset($_SESSION['loginToken']);
+     unset($_SESSION['userMail']);
+     unset($_SESSION['userGroup']);
+
+     header("Refresh:0; " . $redirectLocation);
+   }
+
+   /**
+    * Registers a new user
+    * If the mail adress isn't in our db
+    * @param  [string] $newEmail    [The mail adress from the user]
+    * @param  [string] $newPassword [The password that the user wants]
+    * @return [string]              [A message if a user has been registerd]
+    */
+   public function registerNewUser($newEmail, $newPassword) {
+     $db = new db();
+     $s = new Security();
+
+     $password = $this->generateHashPassword($s->checkInput($newPassword));
+
+     if (!$this->checkIfEmailExists($newEmail)) {
+       $sql = "INSERT INTO `user`(`email`, `wachtwoord`) VALUES (:mail, :password)";
+       $input = array(
+         "mail" => $s->checkInput($newEmail),
+         "password" => $s->checkInput($password)
+       );
+
+       $db->createData($sql, $input);
+
+       return('succes');
+     }
+     else {
+       return('Email exists');
+     }
+   }
+
+   /**
+    * This function checks if a client has acces
+    * It checks if we have a login token
+    * And if we can acces it with our group
+    * @return [boolean] [If we have acces or not]
+    */
+   public function checkIfUserHasAcces() {
+     if ($this->checkLoginToken() == true) {
+       if ($this->checkUserGroup() == true) {
+         return(true);
+       }
+
+       else {
+         // false
+         return(false);
+       }
+
+     }
+
+     else {
+       return(false);
+     }
+   }
+
+   /**
+    * Sets the acces for a page
+    * @param [array] $groups [The groups]
+    */
+   public function setPageAcces($groups) {
+     $this->pageAcces = $groups;
+   }
+
+   /**
+    * This function saves the mail from a logged in user in a session
+    * @param  [string] $mail [The mail of the user]
+    */
+   private function saveUserCredentials($mail) {
+     $S = new Security();
+
+     $_SESSION['userMail'] = $S->checkInput($mail);
+   }
+
+   /**
+    * Checks if a user has acces to a page
+    * @return [boolean] [description]
+    */
+   private function checkUserGroup() {
+     foreach ($this->pageAcces as $key) {
+       if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
+         $result = true;
+         break;
+       }
+       else {
+         $result = false;
+       }
+     }
+     return($result);
+
+   }
+
+   /**
+    * This function sets the group of a user in the session
+    * @param [string] $mail [The mail account of the loged in user]
+    */
+   private function setUserGroup($mail) {
+     $Db = new db();
+     $S = new Security();
+
+     $sql = "SELECT `groep` FROM user WHERE `email`=:mail";
+     $input = array(
+       "mail" => $S->checkInput($mail)
+     );
+     $result = $Db->readData($sql, $input);
+
+     foreach ($result as $key) {
+       $_SESSION['userGroup'] = $key['groep'];
      }
    }
 
@@ -43,7 +174,7 @@ require_once 'security.class.php';
      $db = new db();
      $s = new Security();
 
-     $sql = "SELECT email FROM user WHERE email=:mail";
+     $sql = "SELECT `email` FROM user WHERE `email`=:mail";
      $input = array(
        "mail" => $s->checkInput($userMailInput)
      );
@@ -64,14 +195,17 @@ require_once 'security.class.php';
     * @return [boolean]      [If the passwords are the same]
     */
    private function validatePassword($userInputPassword, $hashedPassword) {
-     $s = new Security();
 
      if (password_verify($userInputPassword, $hashedPassword)) {
-       return(true);
+       $result = true;
+
      }
-     else {
-       return(false);
+     else if (!password_verify($userInputPassword, $hashedPassword)) {
+       $result = false;
+
      }
+
+     return($result);
    }
 
    /**
@@ -83,7 +217,7 @@ require_once 'security.class.php';
      $db = new db();
      $s = new Security();
 
-     $sql = "SELECT wachtwoord FROM user WHERE email=:mail";
+     $sql = "SELECT wachtwoord FROM user WHERE `email`=:mail";
      $input = array(
        "mail" => $s->checkInput($userMail)
      );
@@ -94,21 +228,6 @@ require_once 'security.class.php';
      }
    }
 
-   public function registerNewUser($newEmail, $newPassword) {
-     $db = new db();
-     $s = new Security();
-
-     $password = $this->generateHashPassword($s->checkInput($newPassword));
-
-     $sql = "INSERT INTO `user`(email`, `wachtwoord`) VALUES (:mail, :password)";
-     $input = array(
-       "mail" => $s->checkInput($newEmail),
-       "password" => $s->checkInput($password)
-     );
-
-     $db->createData($sql, $input);
-   }
-
    /**
     * Generates a hashed password
     * @param  [string] $password [The incomeping unhashed password]
@@ -116,7 +235,7 @@ require_once 'security.class.php';
     */
    private function generateHashPassword($password) {
      $s = new Security();
-     $password = $this->checkInput($password);
+     $password = $s->checkInput($password);
 
      $password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -131,8 +250,8 @@ require_once 'security.class.php';
    private function checkLoginToken() {
      // Checks if the user has the same login token
      // Returns true or false
-     if (ISSET($_SESSION['logintoken'])) {
-       if ($_SESSION['logintoken'] === $this->loginToken) {
+     if (ISSET($_SESSION['loginToken'])) {
+       if ($_SESSION['loginToken'] === $this->loginToken) {
          return(true);
        }
        else {
@@ -148,6 +267,16 @@ require_once 'security.class.php';
      return($this->checkLoginToken());
    }
  }
+
+// $user = new User();
+// $user->registerNewUser("admin", '1234');
+//
+// $user->registerNewUser("account@cooban", '1234');
+//
+// $user->registerNewUser("manager@cooban", '1234');
+//
+// $user->registerNewUser("systeembeheer@cooban", '1234');
+
 
 
 ?>
