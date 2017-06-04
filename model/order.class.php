@@ -250,6 +250,13 @@
         ';
       }
       $mailContent .= '</table>';
+      $mailContent .= '
+        <p>
+          Met vriendelijke groet,
+          <br/>
+          Multiversum 
+        </p>
+      ';
       $this->Mail->messageInHTML = $mailContent;
       $this->Mail->adressName = $this->getNameOfThePersonWhoOrder($orderID);
       $this->Mail->adress = $this->getEmailOfThePersonWhoOrder($orderID);
