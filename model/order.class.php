@@ -254,7 +254,7 @@
         <p>
           Met vriendelijke groet,
           <br/>
-          Multiversum 
+          Multiversum
         </p>
       ';
       $this->Mail->messageInHTML = $mailContent;
@@ -264,6 +264,10 @@
       $this->Mail->sendMail();
     }
 
+    /**
+     * Sents a mail to the customer when the order is paid
+     * @param  [INT] $orderID [The ID of the order]
+     */
     public function sendMailToCustomerAboutPayment($orderID) {
       $Mail = new Mail();
       $Customer = new Customer();
@@ -279,7 +283,7 @@
           We maken uw bestelling zo snel mogelijk gereed en versturen deze naar u.
         </p>
         <p>
-          Voor meer informatie over uw order klik <a href="' . siteLocation . '?op=displayOrder&orderID=' . $orderID . '">Hier</a>
+          Voor meer informatie over uw order klik <a href="' . siteLocation . '?op=displayOrder&orderID=' . $orderID . '">hier</a>.
         </p>
         <p>
           Met vriendelijke groet,
