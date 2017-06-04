@@ -5,6 +5,7 @@
   require_once 'databasehandler.class.php';
   require_once 'mail.class.php';
   require_once 'HtmlGenerator.class.php';
+  require_once 'config-webshop.php';
 
   class Payment extends order {
     private $mollie;
@@ -34,8 +35,8 @@
           "amount"       => $this->calculatePrice($orderID),
           "method"       => Mollie_API_Object_Method::IDEAL,
           "description"  => "Order: " . $orderID,
-          "redirectUrl"  => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/?op=displayOrder&orderID=" . $orderID . "",
-          "webhookUrl"   => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/?op=paymentResponse",
+          "redirectUrl"  => siteLocation . "?op=displayOrder&orderID=" . $orderID . "",
+          "webhookUrl"   => siteLocation . "?op=paymentResponse",
           'metadata'    => array(
             'order_id' => $orderID
           )
