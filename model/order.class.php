@@ -5,6 +5,7 @@
   require_once 'model/mail.class.php';
   require_once 'model/Customer.class.php';
   require_once 'model/HtmlGenerator.class.php';
+  require_once 'config-webshop.php';
 
   class Order {
     var $shoppingcard;
@@ -254,6 +255,32 @@
       $this->Mail->adress = $this->getEmailOfThePersonWhoOrder($orderID);
 
       $this->Mail->sendMail();
+    }
+
+    public function sendMailToCustomerAboutPayment($orderID) {
+      $Mail = new Mail();
+      $Customer = new Customer();
+
+      $Mail->adress = $this->getEmailOfThePersonWhoOrder($orderID);
+      $Mail->adressName = 'Multiversum Webshop';
+      $Mail->subject = 'Betaling ontvangen';
+
+      $Mail->messageInHTML = '
+        <p>Beste ' . $this->getNameOfThePersonWhoOrder($orderID) . ',</p>
+        <p>
+          We hebben uw betaling ontvangen.
+          We maken uw bestelling zo snel mogelijk gereed en versturen deze naar u.
+        </p>
+        <p>
+          Voor meer informatie over uw order klik <a href="' . siteLocation . '?op=displayOrder&orderID=' . $orderID . '">Hier</a>
+        </p>
+        <p>
+          Met vriendelijke groet,
+          <br />
+          Multiversum
+        </p>
+      ';
+      $Mail->sendMail();
     }
 
     /**

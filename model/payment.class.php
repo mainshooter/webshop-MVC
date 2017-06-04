@@ -77,6 +77,7 @@
       if ($payment->isPaid()) {
         // Payment is done
         $this->sendOwnerMailToReadAOrder($orderID);
+        $this->sendMailToCustomerAboutPayment($orderID);
       }
       else if (!$payment->isOpen()) {
         // payment is closed and has'nt been completed
