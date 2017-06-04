@@ -191,7 +191,7 @@
       $totalPrice = 0;
 
       foreach ($orderItems as $key) {
-        $totalPrice = $totalPrice + $key['prijs'];
+        $totalPrice = $totalPrice + $key['prijs'] * $key['aantal'];
       }
       return($totalPrice);
     }
