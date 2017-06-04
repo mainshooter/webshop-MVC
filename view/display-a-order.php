@@ -11,7 +11,7 @@
 
         De betaal status van je bestelling is: ' . $betaal_status . '
         <br />
-        De status van je order is:
+        De status van je order is: ' . $key['order_status'] . '
         <h2>Je order is:</h2>
       ';
     }
