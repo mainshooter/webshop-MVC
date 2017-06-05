@@ -11,6 +11,7 @@
   require_once 'model/payment.class.php';
   require_once 'model/user.class.php';
   require_once 'config-webshop.php';
+  require_once 'model/Translate.class.php';
 
   class WebshopController {
     // Webshop controller
@@ -114,7 +115,13 @@
         }
 
         else if ($op == 'dashboard') {
-          $this->adminDashboard();
+          $this->User->setPageAcces(['admin']);
+          if ($this->User->checkIfUserHasAcces()) {
+              $this->adminDashboard();
+          }
+          else {
+            echo "U bent niet ingelogd";
+          }
         }
 
       } catch (Exception $e) {
@@ -317,10 +324,15 @@
     }
 
     public function displayOrder() {
+      $Translate = new Translate();
+
       $orderID = ISSET($_REQUEST['orderID'])?$_REQUEST['orderID']: NULL;
 
       $order = $this->order->getOrder($orderID);
-      $orderItems = $this->order->getOrderItems($orderID);
+      foreach ($order as $key) {
+        $betaal_status = $Translate->translateEngToNL($key['betaal_status']);
+      }
+      $orderItems = $this->order->getOrderItemsForHtmlGenerator($orderID);
 
       include 'view/display-a-order.php';
     }
