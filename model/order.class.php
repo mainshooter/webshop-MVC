@@ -145,6 +145,19 @@
       return($order);
     }
 
+    public function updateOrderStatus($orderID, $status) {
+      $Db = new db();
+      $S = new Security();
+
+      $sql = "UPDATE `Order` SET `order_status`=:status WHERE `idOrder`=:orderID";
+      $input = array(
+        "status" => $S->checkInput($status),
+        "orderID" => $S->checkInput($orderID)
+      );
+
+      $Db->UpdateData($sql, $input);
+    }
+
     /**
      * Gets all items that a customer has orderd
      * @param  [INT] $orderID [The ID of the order]
