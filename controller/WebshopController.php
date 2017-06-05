@@ -10,6 +10,8 @@
   require_once 'model/mail.class.php';
   require_once 'model/payment.class.php';
   require_once 'model/user.class.php';
+  require_once 'config-webshop.php';
+  require_once 'model/Translate.class.php';
 
   class WebshopController {
     // Webshop controller
@@ -79,7 +81,7 @@
           // Than we redirect the client to the payment provider
 
           $orderID = $this->createOrder();
-          $this->createConfirmationMailForOrder($orderID);
+          $this->order->generateMailToCustomerAboutOrderConfirmation($orderID);
           $this->shoppingcard->clearShoppingcard();
 
           $this->payment->startPayment($orderID);
@@ -113,7 +115,13 @@
         }
 
         else if ($op == 'dashboard') {
-          $this->adminDashboard();
+          $this->User->setPageAcces(['admin']);
+          if ($this->User->checkIfUserHasAcces()) {
+              $this->adminDashboard();
+          }
+          else {
+            echo "U bent niet ingelogd";
+          }
         }
 
       } catch (Exception $e) {
@@ -248,42 +256,6 @@
       return($orderID);
     }
 
-    public function createConfirmationMailForOrder($orderID) {
-      $this->mail->subject = "Bevestiging order: " . $orderID;
-      $mailContent = "
-        <div>Beste " . $this->order->getNameOfThePersonWhoOrder($orderID) . ",<br /></div>
-        <div>We hebben uw order in behandeling genomen.</div>
-      ";
-
-      $orderList = $this->order->getOrderItems($orderID);
-      $mailContent .= '<table>';
-      $mailContent .= "
-        <tr>
-          <th>Product</th>
-          <th>Hoeveelheid</th>
-          <th>Prijs</th>
-          <th>Totaal</th>
-        </tr>
-      ";
-      foreach ($orderList as $key) {
-
-        $mailContent .= '
-        <tr>
-          <td>' . $productNaam = $this->product->getProductName($key['Product_idProduct']) . '</td>
-          <td>' . $key['aantal'] . '</td>
-          <td>' . str_replace('.', ',', $key['prijs']) . '</td>
-          <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
-        </tr>
-        ';
-      }
-      $mailContent .= '</table>';
-      $this->mail->messageInHTML = $mailContent;
-      $this->mail->adressName = $this->order->getNameOfThePersonWhoOrder($orderID);
-      $this->mail->adress = $this->order->getEmailOfThePersonWhoOrder($orderID);
-
-      $this->mail->sendMail();
-    }
-
     public function productListForAdmin() {
       $products = $this->product->productIDs();
       $productList = '
@@ -352,10 +324,15 @@
     }
 
     public function displayOrder() {
+      $Translate = new Translate();
+
       $orderID = ISSET($_REQUEST['orderID'])?$_REQUEST['orderID']: NULL;
 
       $order = $this->order->getOrder($orderID);
-      $orderItems = $this->order->getOrderItems($orderID);
+      foreach ($order as $key) {
+        $betaal_status = $Translate->translateEngToNL($key['betaal_status']);
+      }
+      $orderItems = $this->order->getOrderItemsForHtmlGenerator($orderID);
 
       include 'view/display-a-order.php';
     }

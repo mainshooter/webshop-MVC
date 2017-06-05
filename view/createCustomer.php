@@ -26,9 +26,6 @@
       <h2>Postcode</h2>
       <input type="text" name="customer_zipCode">
 
-      <h2>Land</h2>
-      <input type="text" name="customer_country">
-
       <h2>E-mail</h2>
       <input type="mail" name="customer_email">
 

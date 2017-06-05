@@ -3,6 +3,9 @@
   require_once 'Mollie/API/Autoloader.php';
   require_once 'security.class.php';
   require_once 'databasehandler.class.php';
+  require_once 'mail.class.php';
+  require_once 'HtmlGenerator.class.php';
+  require_once 'config-webshop.php';
 
   class Payment extends order {
     private $mollie;
@@ -32,8 +35,8 @@
           "amount"       => $this->calculatePrice($orderID),
           "method"       => Mollie_API_Object_Method::IDEAL,
           "description"  => "Order: " . $orderID,
-          "redirectUrl"  => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/?op=displayOrder&orderID=" . $orderID . "",
-          "webhookUrl"   => "https://dev.samebestserver.nl/leerjaar2/webshop-MVC/?op=paymentResponse",
+          "redirectUrl"  => siteLocation . "?op=displayOrder&orderID=" . $orderID . "",
+          "webhookUrl"   => siteLocation . "?op=paymentResponse",
           'metadata'    => array(
             'order_id' => $orderID
           )
@@ -56,11 +59,15 @@
 
     /**
      * This function handels the payment result from mollie
+     * @param [INT] $paymentID [The PaymentID given by mollie API!]
      */
     public function handelsPaymentResult($paymentID) {
       $s = new Security();
+      $mail = new Mail();
+      $HtmlGenerator = new HtmlGenerator();
 
       $paymentID = $s->checkInput($paymentID);
+      $orderID = $this->getOrderID($s->checkInput($paymentID));
 
       $payment = $this->mollie->payments->get($paymentID);
       $paymentStatus = $s->checkInput($payment->status);
@@ -69,33 +76,14 @@
 
       if ($payment->isPaid()) {
         // Payment is done
-        
+        $this->sendOwnerMailToReadAOrder($orderID);
+        $this->sendMailToCustomerAboutPayment($orderID);
+        $this->updateOrderStatus($orderID, 'ontvangen');
       }
       else if (!$payment->isOpen()) {
         // payment is closed and has'nt been completed
         // We remove it
-        $this->removeOrder($paymentID);
-      }
-    }
-
-    /**
-     * Gets the orderID by using the paymentID given by mollie
-     * @param  [INT] $paymentID [The paymentID geven by mollie]
-     * @return [INT] $orderID   [The ID of the order]
-     */
-    private function getOrderID($paymentID) {
-      $db = new db();
-      $s = new Security();
-
-      $sql = "SELECT idOrder FROM `Order` WHERE paymentID=:paymentID LIMIT 1";
-      $input = array(
-        "paymentID" => $paymentID
-      );
-
-      $result = $db->readData($sql, $input);
-
-      foreach ($result as $key) {
-        return($key['idOrder']);
+        $this->updateOrderStatus($orderID, 'gesloten');
       }
     }
 
@@ -160,13 +148,34 @@
       $db = new db();
       $s = new security();
 
-      $sql = "SELECT paymentID FROM Order WHERE idOrder=:orderID LIMIT 1";
+      $sql = "SELECT paymentID FROM `Order` WHERE idOrder=:orderID LIMIT 1";
       $input = array(
         "orderID" => $s->checkInput($orderID)
       );
       $result = $db->readData($sql, $input);
       foreach ($result as $key) {
         return($key['paymentID']);
+      }
+    }
+
+    /**
+     * gets the payment status by orderID
+     * @param  [INT] $orderID [The ID of a order]
+     * @return [string] [With the payment status]
+     */
+    public function getPaymentStatus($orderID) {
+      $Db = new db();
+      $S = new Security();
+
+      $sql = "SELECT betaal_status FROM `Order` WHERE idOrder=:orderID";
+      $input = array(
+        "orderID" => $S->checkInput($orderID)
+      );
+
+      $result = $Db->readData($sql, $input);
+
+      foreach ($result as $key) {
+        return($key['betaal_status']);
       }
     }
 
@@ -183,7 +192,7 @@
       $totalPrice = 0;
 
       foreach ($orderItems as $key) {
-        $totalPrice = $totalPrice + $key['prijs'];
+        $totalPrice = $totalPrice + $key['prijs'] * $key['aantal'];
       }
       return($totalPrice);
     }

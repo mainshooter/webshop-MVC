@@ -2,13 +2,26 @@
   require_once 'model/shoppingcard.class.php';
   require_once 'model/product.class.php';
   require_once 'model/databasehandler.class.php';
+  require_once 'model/mail.class.php';
+  require_once 'model/Customer.class.php';
+  require_once 'model/HtmlGenerator.class.php';
+  require_once 'config-webshop.php';
 
   class Order {
     var $shoppingcard;
     var $oderNumer;
 
+    private $Customer;
+    private $Mail;
+    private $Product;
+    private $HtmlGenerator;
+
     function __construct() {
       // Runs when class is created
+      $this->Mail = new Mail();
+      $this->Product = new Product();
+      $this->Customer = new Customer();
+      $this->HtmlGenerator = new HtmlGenerator();
     }
 
     public function createOrder($orderID) {
@@ -49,6 +62,27 @@
       }
     }
 
+    /**
+     * Removes a order by the paymentID
+     * We do that when they order has not been paid
+     * @param  [INT] $paymentID [The ID from a payment]
+     */
+    public function removeOrder($paymentID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "DELETE FROM `Order` WHERE paymentID=:paymentID";
+      $input = array(
+        "paymentID" => $s->checkInput($paymentID)
+      );
+      $db->deleteData($sql, $input);
+    }
+
+    /**
+     * Gets the name of the customer who ordered by orderID
+     * @param  [INT] $orderID [ID of the order]
+     * @return [string]          [full name of the customer]
+     */
     public function getNameOfThePersonWhoOrder($orderID) {
       // Gets the first and lastname of the person who ordered and returns it as a string
       $db = new db();
@@ -61,10 +95,23 @@
       $result = $db->readData($sql, $input);
 
       foreach ($result as $key) {
-        return($key['klant_voornaam'] . ' ' . $key['klant_achternaam']);
+        if (!ISSET($key['klant_tussenvoegsel'])) {
+          // If the customer don't have a tussenvoegels we need to clear it
+          // That it because other wise it will be saying NULL
+          $key['klant_tussenvoegsel'] = '';
+        }
+        else {
+          $key['klant_tussenvoegsel'] .= ' ';
+        }
+        return($key['klant_voornaam'] . ' ' . $key['klant_tussenvoegsel'] . $key['klant_achternaam']);
       }
     }
 
+    /**
+     * Get the email of a customer by the orderID
+     * @param  [INT] $orderID [The ID of the order]
+     * @return [string]          [customer email adress]
+     */
     public function getEmailOfThePersonWhoOrder($orderID) {
       // Gets the email adress from a order by orderID
       // Returns it as a string
@@ -98,6 +145,24 @@
       return($order);
     }
 
+    public function updateOrderStatus($orderID, $status) {
+      $Db = new db();
+      $S = new Security();
+
+      $sql = "UPDATE `Order` SET `order_status`=:status WHERE `idOrder`=:orderID";
+      $input = array(
+        "status" => $S->checkInput($status),
+        "orderID" => $S->checkInput($orderID)
+      );
+
+      $Db->UpdateData($sql, $input);
+    }
+
+    /**
+     * Gets all items that a customer has orderd
+     * @param  [INT] $orderID [The ID of the order]
+     * @return [assoc array] [With the result from the db]
+     */
     public function getOrderItems($orderID) {
       $db = new db();
       $s = new Security();
@@ -108,6 +173,168 @@
       );
 
       return($db->readData($sql, $input));
+    }
+
+    /**
+     * Gets the orderItems with the name of the product, amount and the price of the order
+     * @param  [INT] $orderID [The ID of the Order]
+     * @return [assoc array] [The result from the DB]
+     */
+    public function getOrderItemsForHtmlGenerator($orderID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT naam, aantal, order_item.prijs FROM order_item JOIN Product ON idProduct=Product_idProduct WHERE Order_idOrder=:orderID";
+      $input = array(
+        "orderID" => $s->checkInput($orderID)
+      );
+
+      return($db->readData($sql, $input));
+    }
+
+    /**
+     * Gets the headers for the product naam, aantal and price
+     * @param  [INT] $orderID [The ID of the order]
+     * @return [assoc array] [Result from the db]
+     */
+    public function getHeadersForOrderItemsForHtmlGenerator($orderID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT naam, aantal, order_item.prijs FROM order_item JOIN Product ON idProduct=Product_idProduct WHERE Order_idOrder=:orderID LIMIT 1";
+      $input = array(
+        "orderID" => $s->checkInput($orderID)
+      );
+
+      return($db->readData($sql, $input));
+    }
+
+    /**
+     * Gets the orderID by using the paymentID given by mollie
+     * @param  [INT] $paymentID [The paymentID geven by mollie]
+     * @return [INT] $orderID   [The ID of the order]
+     */
+    protected function getOrderID($paymentID) {
+      $db = new db();
+      $s = new Security();
+
+      $sql = "SELECT idOrder FROM `Order` WHERE paymentID=:paymentID LIMIT 1";
+      $input = array(
+        "paymentID" => $paymentID
+      );
+
+      $result = $db->readData($sql, $input);
+
+      foreach ($result as $key) {
+        return($key['idOrder']);
+      }
+    }
+
+    /**
+     * Generates a mail for the customer that we have is order in our system
+     * @param  [INT] $orderID [The ID of the Order]
+     */
+    public function generateMailToCustomerAboutOrderConfirmation($orderID) {
+      $this->Mail->subject = "Bevestiging order: " . $orderID;
+      $mailContent = "
+        <div>Beste " . $this->getNameOfThePersonWhoOrder($orderID) . ",<br /></div>
+        <div>We hebben uw order in behandeling genomen.</div>
+      ";
+
+      $orderList = $this->getOrderItems($orderID);
+      $mailContent .= '<table>';
+      $mailContent .= "
+        <tr>
+          <th>Product</th>
+          <th>Hoeveelheid</th>
+          <th>Prijs</th>
+          <th>Totaal</th>
+        </tr>
+      ";
+      foreach ($orderList as $key) {
+
+        $mailContent .= '
+        <tr>
+          <td>' . $productNaam = $this->Product->getProductName($key['Product_idProduct']) . '</td>
+          <td>' . $key['aantal'] . '</td>
+          <td>' . str_replace('.', ',', $key['prijs']) . '</td>
+          <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
+        </tr>
+        ';
+      }
+      $mailContent .= '</table>';
+      $mailContent .= '
+        <p>
+          Met vriendelijke groet,
+          <br/>
+          Multiversum
+        </p>
+      ';
+      $this->Mail->messageInHTML = $mailContent;
+      $this->Mail->adressName = $this->getNameOfThePersonWhoOrder($orderID);
+      $this->Mail->adress = $this->getEmailOfThePersonWhoOrder($orderID);
+
+      $this->Mail->sendMail();
+    }
+
+    /**
+     * Sents a mail to the customer when the order is paid
+     * @param  [INT] $orderID [The ID of the order]
+     */
+    public function sendMailToCustomerAboutPayment($orderID) {
+      $Mail = new Mail();
+      $Customer = new Customer();
+
+      $Mail->adress = $this->getEmailOfThePersonWhoOrder($orderID);
+      $Mail->adressName = 'Multiversum Webshop';
+      $Mail->subject = 'Betaling ontvangen';
+
+      $Mail->messageInHTML = '
+        <p>Beste ' . $this->getNameOfThePersonWhoOrder($orderID) . ',</p>
+        <p>
+          We hebben uw betaling ontvangen.
+          We maken uw bestelling zo snel mogelijk gereed en versturen deze naar u.
+        </p>
+        <p>
+          Voor meer informatie over uw order klik <a href="' . siteLocation . '?op=displayOrder&orderID=' . $orderID . '">hier</a>.
+        </p>
+        <p>
+          Met vriendelijke groet,
+          <br />
+          Multiversum
+        </p>
+      ';
+      $Mail->sendMail();
+    }
+
+    /**
+     * Sends a mail to the owner to start makeing a product ready
+     * @param  [INT] $orderID [The orderID]
+     */
+    public function sendOwnerMailToReadAOrder($orderID) {
+      $Mail = new Mail();
+      $customer = new Customer();
+      $HtmlGenerator = new HtmlGenerator();
+
+      $headers = $this->getHeadersForOrderItemsForHtmlGenerator($orderID);
+      $orderItems = $this->getOrderItemsForHtmlGenerator($orderID);
+      $customerInfo = $customer->getCustomerInfoByOrderID($orderID);
+
+      $Mail->adress = "498883@edu.rocmn.nl";
+      $Mail->adressName = "Multiversum Webshop";
+      $Mail->subject = "Er is een nieuwe order: " . $orderID;
+
+      $Mail->messageInHTML = '<p>Er is een nieuwe order binnen voor:</p>';
+
+      $Mail->messageInHTML .= '<ul>';
+
+        $Mail->messageInHTML .= $HtmlGenerator->generateUnorderList($customerInfo);
+
+      $Mail->messageInHTML .= '</ul>';
+
+      $Mail->messageInHTML .= $HtmlGenerator->generateOrderTable($headers, $orderItems);
+
+      $Mail->sendMail();
     }
 
 
