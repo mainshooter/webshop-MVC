@@ -78,11 +78,12 @@
         // Payment is done
         $this->sendOwnerMailToReadAOrder($orderID);
         $this->sendMailToCustomerAboutPayment($orderID);
+        $this->updateOrderStatus($orderID, 'ontvangen');
       }
       else if (!$payment->isOpen()) {
         // payment is closed and has'nt been completed
         // We remove it
-
+        $this->updateOrderStatus($orderID, 'gesloten');
       }
     }
 
