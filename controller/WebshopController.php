@@ -115,7 +115,7 @@
         else if ($op == 'dashboard') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-              $this->adminDashboard();
+              include 'view/admin/crud-dashboard.html';
           }
           else {
             echo "U bent niet ingelogd";
