@@ -105,18 +105,16 @@
         }
 
         else if ($op == 'loginForm') {
-          include 'view/admin/header.html';
           include 'view/admin/loginForm.html';
-          include 'view/admin/footer.html';
         }
 
         else if ($op == 'login') {
-          $this->user->userLogin();
+          $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
         }
 
         else if ($op == 'dashboard') {
-          $this->User->setPageAcces(['admin']);
-          if ($this->User->checkIfUserHasAcces()) {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
               $this->adminDashboard();
           }
           else {
