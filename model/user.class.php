@@ -269,7 +269,7 @@ require_once 'security.class.php';
  }
 
 // $user = new User();
-// $user->registerNewUser("admin", '1234');
+// $user->registerNewUser("admin@multiversum.nl", '1234');
 //
 // $user->registerNewUser("account@cooban", '1234');
 //
