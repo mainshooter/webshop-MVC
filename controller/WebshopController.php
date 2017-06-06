@@ -3,7 +3,7 @@
   require_once 'model/product.class.php';
   require_once 'model/shoppingcard.class.php';
   require_once 'model/productview.class.php';
-  require_once 'model/Shoppingcardview.class.php';
+  require_once 'model/shoppingcardview.class.php';
   require_once 'model/Customer.class.php';
   require_once 'model/security.class.php';
   require_once 'model/order.class.php';
