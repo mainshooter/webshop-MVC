@@ -123,6 +123,26 @@
           }
         }
 
+        else if ($op == 'addProductForm') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+              include 'view/admin/addProduct.html';
+          }
+          else {
+            echo "No acces";
+          }
+        }
+
+        else if ($op == 'productToevoegen') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $this->product->add($_REQUEST);
+          }
+          else {
+            echo "No acces";
+          }
+        }
+
         else if ($op == 'adminDeleteProduct') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {

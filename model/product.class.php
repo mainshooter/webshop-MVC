@@ -3,6 +3,7 @@
   require_once 'databasehandler.class.php';
   require_once 'security.class.php';
   require_once 'productview.class.php';
+  require_once 'filehandler.class.php';
 
   class Product {
     var $id;
@@ -19,18 +20,33 @@
     public function add($newProductArray) {
       // Add a product to database
       // Parameter is send as a array
+      $FileHandler = new Filehandler();
       $s = new Security();
       $db = new db();
-      $sql = "INSERT INTO `Product`(`naam`, `prijs`, `beschrijving`, `EAN`, `Categorie_idCategorie`) VALUES (:naam, :prijs, :beschrijving, :EAN,:Categorie_idCategorie)";
-      $input = array(
-        // "Fabrikant_idFabrikant" => $s->checkInput($newProductArray['fabrikantID']),
-        "naam" => $s->checkInput($newProductArray['naam']),
-        "prijs" => $s->checkInput($newProductArray['prijs']),
-        "beschrijving" => $s->checkInput($newProductArray['beschrijving']),
-        "Categorie_idCategorie" => $s->checkInput($newProductArray['catagorieID']),
-        "EAN" => $s->checkInput($newProductArray['EAN'])
-      );
-      return($db->CreateData($sql, $input));
+
+      $FileHandler->fileName = $_FILES['file_upload']['name'];
+      $FileHandler->filePath = 'file/uploads/';
+      if ($FileHandler->checkFileExists() == false) {
+        $sql = "INSERT INTO `Product`(`naam`, `prijs`, `beschrijving`, `EAN`, `Categorie_idCategorie`, `status`) VALUES (:naam, :prijs, :beschrijving, :EAN,:Categorie_idCategorie, '1')";
+        $input = array(
+          // "Fabrikant_idFabrikant" => $s->checkInput($newProductArray['fabrikantID']),
+          "naam" => $s->checkInput($newProductArray['productName']),
+          "prijs" => $s->checkInput($newProductArray['productPrice']),
+          "beschrijving" => $s->checkInput($newProductArray['discription']),
+          "Categorie_idCategorie" => $s->checkInput($newProductArray['catagorie']),
+          "EAN" => $s->checkInput($newProductArray['ean-code']),
+        );
+        $newProductID = $db->CreateData($sql, $input);
+
+        $FileHandler->uploadFile();
+        $fileID = $FileHandler->saveFileLocation($_FILES['file_upload']['name'], 'file/uploads/');
+
+        $this->linkProductToFile($newProductID, $fileID);
+      }
+      else {
+        return("We know this file <br />" . $_FILES['file_upload']['name']);
+      }
+      header("Location: ?op=dashboard");
     }
 
     /**
