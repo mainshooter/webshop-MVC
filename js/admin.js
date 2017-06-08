@@ -17,7 +17,7 @@ var product;
     delete: function(productID) {
       var confirmation = confirm('Weet u dit zeker?');
       if (confirmation == true) {
-        ajax("?op=adminDeleteProduct&productID" + productID);
+        console.log(ajax("?op=adminDeleteProduct&productID=" + productID));
         window.location.href = "?op=dashboard";
       }
     }

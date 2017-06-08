@@ -126,7 +126,7 @@
         else if ($op == 'adminDeleteProduct') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-
+            $this->product->delete($_REQUEST['productID']);
           }
           else {
             echo "No acces";

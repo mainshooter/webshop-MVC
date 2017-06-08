@@ -42,39 +42,12 @@
       // Removes product
       $s = new Security();
       $db = new db();
-      $filehandler = new filehandler();
 
-      $sql = "SELECT * FROM files JOIN files_has_Product on files.idfiles=files_has_Product.idfiles_has_Product WHERE Product_idProduct=:productID";
+      $sql = "UPDATE Product SET Product.status=0 WHERE idProduct=:productID";
       $input = array(
-        "productID" => $productID
+        "productID" => $s->checkInput($productID)
       );
       $result = $db->readData($sql, $input);
-
-      $fileID = '';
-      foreach ($result as $key) {
-        $fileID = $key['idfiles'];
-        $filehandler->fileName = $key['filenaam'];
-        $filehandler->filePath = '../file/uploads/';
-        $filehandler->deleteFile();
-      }
-      $sql = "DELETE FROM files WHERE idfiles=:fileID";
-      $input = array(
-        "fileID" => $fileID
-      );
-      $db->DeleteData($sql, $input);
-
-      $sql = "DELETE FROM `files_has_Product` WHERE `Product_idProduct`=:productID";
-      $input = array(
-        "productID" => $s->checkInput($productID)
-      );
-      $db->DeleteData($sql, $input);
-
-      $sql = "DELETE FROM `Product` WHERE idProduct=:productID";
-      $input = array(
-        "productID" => $s->checkInput($productID)
-      );
-      // echo $db->DeleteData($sql, $input);
-      return($db->DeleteData($sql, $input));
     }
 
     /**
