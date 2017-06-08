@@ -115,10 +115,21 @@
         else if ($op == 'dashboard') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-              include 'view/admin/crud-dashboard.html';
+              $AllProducts = $this->product->getAllProducts();
+              include 'view/admin/crud-dashboard.php';
           }
           else {
             echo "U bent niet ingelogd";
+          }
+        }
+
+        else if ($op == 'adminDeleteProduct') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+
+          }
+          else {
+            echo "No acces";
           }
         }
 
