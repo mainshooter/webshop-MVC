@@ -1,7 +1,7 @@
 <?php include 'header.html' ?>
   <body>
     <div class="row">
-      <a class="col-12" href="?op=productToevoegen">Product toevoegen</a>
+      <a class="col-12" href="?op=addProductForm">Product toevoegen</a>
 
       <?php
         echo "<table class='col-12'>";
