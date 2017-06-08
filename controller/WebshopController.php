@@ -143,6 +143,14 @@
           }
         }
 
+        else if ($op == 'updateProductForm') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $productDetails = $this->product->details($_REQUEST['productID']);
+            include 'view/admin/updateProductForm.php';
+          }
+        }
+
         else if ($op == 'adminDeleteProduct') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
