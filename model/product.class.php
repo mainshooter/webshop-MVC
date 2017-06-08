@@ -117,6 +117,19 @@
     }
 
     /**
+     * Gets all active products from the db
+     * @return [assoc array] [The result from the db]
+     */
+    public function getAllProducts() {
+      $Db = new db();
+
+      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles WHERE status=1";
+      $input = array();
+
+      return($Db->readData($sql, $input));
+    }
+
+    /**
      * Get the productSpecifications for a product
      * @param  [INT] $productID [The ID for the product to get all productSpecs]
      * @return [array]            [DB result with the productSpecifications]
