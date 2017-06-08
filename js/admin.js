@@ -12,10 +12,22 @@ var product;
   }
 })();
 
-ajax: function(url) {
+(function() {
+  product = {
+    delete: function(productID) {
+      var confirmation = confirm('Weet u dit zeker?');
+      if (confirmation == true) {
+        ajax("?op=adminDeleteProduct&productID" + productID);
+        window.location.href = "?op=dashboard";
+      }
+    }
+  }
+})();
+
+function ajax(url) {
   // AJAX SYNC GET REQUEST
   var xhttp = new XMLHttpRequest();
-  xhttp.open("GET", url, false);
+  xhttp.open("GET", url, true);
   xhttp.send();
 
   return(xhttp.responseText);
