@@ -64,6 +64,7 @@
         "productID" => $s->checkInput($productID)
       );
       $result = $db->readData($sql, $input);
+      header("Location: ?op=dashboard");
     }
 
     /**
@@ -104,7 +105,7 @@
               $Filehandler->deleteFileDatabase($pictureID);
 
               $Filehandler->fileName = $_FILES['file_upload']['name'];
-              $Filehandler->filePath = 'file/uploads/';
+              $Filehandler->filePath = '../file/uploads/';
               $Filehandler->uploadFile();
               // Uploads the file
 
@@ -116,7 +117,7 @@
               // There wasn't a picture for this product
               // So we only need to upload one
               $Filehandler->fileName = $_FILES['file_upload']['name'];
-              $Filehandler->filePath = '../file/uploads/';
+              $Filehandler->filePath = 'file/uploads/';
               if ($Filehandler->checkFileExists() == false) {
                 $Filehandler->uploadFile();
                 $fileID = $Filehandler->saveFileLocation($_FILES['file_upload']['name'], 'file/uploads/');
@@ -129,6 +130,7 @@
             }
           }
       }
+      header("Location: ?op=dashboard");
     }
 
     /**
