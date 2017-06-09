@@ -101,7 +101,7 @@
         }
 
         else if ($op == 'updateProduct') {
-          $this->updateFormProduct();
+          $this->product->update($_REQUEST);
         }
 
         else if ($op == 'loginForm') {

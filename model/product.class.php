@@ -82,7 +82,7 @@
       $input = array(
         "naam" => $s->checkInput($updateProductArray['product_name']),
         "prijs" => $s->checkInput($updateProductArray['product_price']),
-        "beschrijving" => $s->checkInput($updateProductArray['beschrijving']),
+        "beschrijving" => $s->checkInput($updateProductArray['product_description']),
         "EAN" => $s->checkInput($updateProductArray['EAN']),
         "productID" => $s->checkInput($updateProductArray['productID'])
       );
@@ -90,43 +90,43 @@
 
       if (ISSET($_FILES['file_upload']['name'])) {
         // If there is a file upload
-        $product_has_file = $this->checkForProductPhoto($_REQUEST['productID']);
-        // We check if we had a file
-        // If there is we first need to delete the image
-        // And then upload the new one
-          if ($product_has_file >= 1) {
-            $pictureID = $this->getProductPictureID($_REQUEST['productID']);
-            $fileName = $this->getProductPictureFileName($pictureID);
-            // Get the id from the picture and the filename
+        if ($_FILES['file_upload']['name'] > '') {
+          $product_has_file = $this->checkForProductPhoto($_REQUEST['productID']);
+          // We check if we had a file
+          // If there is we first need to delete the image
+          // And then upload the new one
+            if ($product_has_file >= 1) {
+              $pictureID = $this->getProductPictureID($_REQUEST['productID']);
+              $fileName = $this->getProductPictureFileName($pictureID);
+              // Get the id from the picture and the filename
 
-            $Filehandler->filePath = "../file/uploads/";
-            $Filehandler->deleteFileDatabase($pictureID);
+              $Filehandler->filePath = "file/uploads/";
+              $Filehandler->deleteFileDatabase($pictureID);
 
-            $Filehandler->fileName = $_FILES['file_upload']['name'];
-            $Filehandler->filePath = '../file/uploads/';
-            $Filehandler->uploadFile();
-            // Uploads the file
-
-            $Filehandler->filePath = "../file/uploads/";
-            $fileID = $Filehandler->saveFileLocation($_FILES['file_upload']['name'], 'file/uploads/');
-            $this->linkProductToFile($_REQUEST['productID'], $fileID);
-          }
-          else {
-            // There wasn't a picture for this product
-            // So we only need to upload one
-            $Filehandler->fileName = $_FILES['file_upload']['name'];
-            $Filehandler->filePath = '../file/uploads/';
-            if ($Filehandler->checkFileExists() == false) {
+              $Filehandler->fileName = $_FILES['file_upload']['name'];
+              $Filehandler->filePath = 'file/uploads/';
               $Filehandler->uploadFile();
+              // Uploads the file
+
+              $Filehandler->filePath = "file/uploads/";
               $fileID = $Filehandler->saveFileLocation($_FILES['file_upload']['name'], 'file/uploads/');
-
-              $this->linkProductToFile($updateProductArray['productID'], $fileID);
+              $this->linkProductToFile($_REQUEST['productID'], $fileID);
             }
-
             else {
-              return("File exists");
-            }
+              // There wasn't a picture for this product
+              // So we only need to upload one
+              $Filehandler->fileName = $_FILES['file_upload']['name'];
+              $Filehandler->filePath = '../file/uploads/';
+              if ($Filehandler->checkFileExists() == false) {
+                $Filehandler->uploadFile();
+                $fileID = $Filehandler->saveFileLocation($_FILES['file_upload']['name'], 'file/uploads/');
 
+                $this->linkProductToFile($updateProductArray['productID'], $fileID);
+              }
+              else {
+                return("File exists");
+              }
+            }
           }
       }
     }

@@ -2,11 +2,10 @@
   <body>
     <div class="row">
       <?php
-
       foreach ($productDetails as $key) {
         echo '
           <form method="post" enctype="multipart/form-data" class="col-12">
-            <img class="col-3" src="/leerjaar2/webshop/' . $key['pad'] . $key['filenaam'] .  '">
+            <img class="col-3" src="' . $key['pad'] . $key['filenaam'] .  '">
             <div>Product naam</div>
             <input type="text" name="product_name" value="' . $key['naam'] . '">
 
@@ -17,7 +16,7 @@
             <textarea name="product_description">' . $key['beschrijving'] . '</textarea>
 
             <div>EAN-code</div>
-            <input type="number" name="EAN" value="' . $key['ean'] . '">
+            <input type="number" name="EAN" value="' . $key['EAN'] . '">
 
             <div>Product foto</div>
             <input type="file" name="file_upload">
