@@ -105,7 +105,7 @@
               $Filehandler->deleteFileDatabase($pictureID);
 
               $Filehandler->fileName = $_FILES['file_upload']['name'];
-              $Filehandler->filePath = '../file/uploads/';
+              $Filehandler->filePath = 'file/uploads/';
               $Filehandler->uploadFile();
               // Uploads the file
 

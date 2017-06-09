@@ -129,6 +129,9 @@ require_once 'security.class.php';
     public function uploadFile() {
       // Handels it when a file is uploaded
       // Returns true when the file is uploaded without problem
+      echo "File: " . $_FILES['file_upload']['tmp_name'];
+      echo "<br>";
+      echo $this->filePath . $this->fileName;
       if (move_uploaded_file($_FILES['file_upload']['tmp_name'], $this->filePath . $this->fileName)) {
         return(true);
       }
@@ -178,6 +181,7 @@ require_once 'security.class.php';
       $db->DeleteData($sql, $input);
 
       foreach ($filenaam as $key) {
+        echo $key['filenaam'];
         $this->deleteFile($key['filenaam']);
       }
     }
