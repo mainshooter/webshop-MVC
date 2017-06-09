@@ -130,6 +130,7 @@ require_once 'security.class.php';
        if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
          $result = true;
          break;
+         // We break the loop, other wise it could overwrite the result that someone has acces
        }
        else {
          $result = false;
@@ -270,12 +271,6 @@ require_once 'security.class.php';
 
 // $user = new User();
 // $user->registerNewUser("admin@multiversum.nl", '1234');
-//
-// $user->registerNewUser("account@cooban", '1234');
-//
-// $user->registerNewUser("manager@cooban", '1234');
-//
-// $user->registerNewUser("systeembeheer@cooban", '1234');
 
 
 

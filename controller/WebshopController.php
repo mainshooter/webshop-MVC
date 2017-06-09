@@ -3,7 +3,7 @@
   require_once 'model/product.class.php';
   require_once 'model/shoppingcard.class.php';
   require_once 'model/productview.class.php';
-  require_once 'model/Shoppingcardview.class.php';
+  require_once 'model/shoppingcardview.class.php';
   require_once 'model/Customer.class.php';
   require_once 'model/security.class.php';
   require_once 'model/order.class.php';
@@ -105,7 +105,7 @@
         }
 
         else if ($op == 'updateProduct') {
-          $this->updateFormProduct();
+          $this->product->update($_REQUEST);
         }
 
         else if ($op == 'loginForm') {
@@ -119,10 +119,62 @@
         else if ($op == 'dashboard') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-              $this->adminDashboard();
+              $AllProducts = $this->product->getAllProducts();
+              include 'view/admin/crud-dashboard.php';
           }
           else {
             echo "U bent niet ingelogd";
+          }
+        }
+
+        else if ($op == 'addProductForm') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+              include 'view/admin/addProduct.html';
+          }
+          else {
+            echo "No acces";
+          }
+        }
+
+        else if ($op == 'productToevoegen') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $this->product->add($_REQUEST);
+          }
+          else {
+            echo "No acces";
+          }
+        }
+
+        else if ($op == 'updateProductForm') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $productDetails = $this->product->details($_REQUEST['productID']);
+            include 'view/admin/updateProductForm.php';
+          }
+          else {
+            echo "No acces";
+          }
+        }
+
+        else if ($op == 'updateProduct') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $this->product->update($_REQUEST);
+          }
+          else {
+            echo "No acces";
+          }
+        }
+
+        else if ($op == 'adminDeleteProduct') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $this->product->delete($_REQUEST['productID']);
+          }
+          else {
+            echo "No acces";
           }
         }
 
@@ -261,73 +313,6 @@
       $orderID = $this->customer->saveCustomerToDB();
       $orderCreate = $this->order->createOrder($orderID);
       return($orderID);
-    }
-
-    public function productListForAdmin() {
-      $products = $this->product->productIDs();
-      $productList = '
-        <table class="col-12">
-          <tr>
-            <th class="col-1">Product foto</th>
-            <th class="col-3">Product naam</th>
-            <th class="col-3">Product prijs</th>
-            <th class="col-3">EAN code</th>
-            <th class="col-2"></th>
-          </tr>
-      ';
-      foreach ($products as $result) {
-        $product = $this->product->details($result['idProduct']);
-        foreach ($product as $key) {
-          $productList .= '
-            <tr>
-              <td class="col-1"><img class="col-12" src="' . $key['pad'] . $key['filenaam'] .  '"></td>
-              <td class="col-3">' . $key['naam'] . '</td>
-              <td class="col-3">' . $key['prijs'] . '</td>
-              <td class="col-3">' . $key['EAN'] . '</td>
-              <td class="col-2">
-                <a href="?op=updateProduct&productID=' . $key['idProduct'] . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                <a href="?op=deleteProduct&productID=' . $key['idProduct'] . '"><i class="fa fa-trash-o" aria-hidden="true"></i>
-              </td>
-            </tr>
-          ';
-        }
-      }
-      $productList .= '</table>';
-      include 'view/adminProductList.php';
-    }
-
-    public function updateFormProduct() {
-      $productID = ISSET($_REQUEST['productID'])? $_REQUEST['productID']: NULL;
-
-      $product = $this->product->details($productID);
-
-      $form = '<form method="post">';
-
-      foreach ($product as $key) {
-        $form .= '
-        <div class="col-3"></div>
-        <form method="post" enctype="multipart/form-data" class="col-6">
-          <img class="col-3" src="/leerjaar2/webshop/' . $key['pad'] . $key['filenaam'] .  '">
-          <h2 class="col-3">Nieuwe foto</h2>
-          <input class="col-3" type="file" name="file_upload"/>
-          <div class="col-6"><a href="?product=deleteImage&fileID=' . $key['idfiles'] . '">Delete image</a></div>
-          <h2 class="col-12">Product naam</h2>
-          <input class="col-4" type="text" name="productName" value="' . $key['naam'] . '"/>
-          <h2 class="col-12">Product Prijs</h2>
-          <input class="col-4" type="number" step="0.01" name="productPrice" value="' . $key['prijs'] . '">
-          <h2 class="col-12">Beschrijving</h2>
-          <textarea class="col-8" name="discription">' . $key['beschrijving'] . '</textarea>
-          <h2 class="col-12">EAN-code</h2>
-          <input class="col-4" type="text" name="ean-code" value="' . $key['EAN'] . '"/>
-          <div class="col-12"></div>
-          <input class="col-2" type="submit" name="product" value="update">
-        </form>
-        <div class="col-3"></div>
-        ';
-      }
-      $form .= '</form>';
-
-      include 'view/updateProductForm.php';
     }
 
     public function displayOrder() {

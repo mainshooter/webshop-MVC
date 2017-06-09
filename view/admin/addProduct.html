@@ -1,0 +1,24 @@
+<form enctype="multipart/form-data" method="post">
+  <div>Product naam</div>
+  <input type="text" name="productName" />
+
+  <div>Product Prijs</div>
+  <input type="number" step="0.01" name="productPrice">
+
+  <div>Beschrijving</div>
+  <textarea name="discription"></textarea>
+
+  <div>Product Image</div>
+  <input type="file" name="file_upload"/>
+
+  <div>Product catagorie</div>
+  <select name="catagorie">
+    <option value="1">VR</option>
+  </select>
+
+  <div>EAN-code</div>
+  <input type="text" name="ean-code" />
+
+  <div></div>
+  <input type="submit" name="op" value="productToevoegen">
+</form>

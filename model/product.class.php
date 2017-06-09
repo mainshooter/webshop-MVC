@@ -3,6 +3,7 @@
   require_once 'databasehandler.class.php';
   require_once 'security.class.php';
   require_once 'productview.class.php';
+  require_once 'filehandler.class.php';
 
   class Product {
     var $id;
@@ -19,18 +20,33 @@
     public function add($newProductArray) {
       // Add a product to database
       // Parameter is send as a array
+      $FileHandler = new Filehandler();
       $s = new Security();
       $db = new db();
-      $sql = "INSERT INTO `Product`(`naam`, `prijs`, `beschrijving`, `EAN`, `Categorie_idCategorie`) VALUES (:naam, :prijs, :beschrijving, :EAN,:Categorie_idCategorie)";
-      $input = array(
-        // "Fabrikant_idFabrikant" => $s->checkInput($newProductArray['fabrikantID']),
-        "naam" => $s->checkInput($newProductArray['naam']),
-        "prijs" => $s->checkInput($newProductArray['prijs']),
-        "beschrijving" => $s->checkInput($newProductArray['beschrijving']),
-        "Categorie_idCategorie" => $s->checkInput($newProductArray['catagorieID']),
-        "EAN" => $s->checkInput($newProductArray['EAN'])
-      );
-      return($db->CreateData($sql, $input));
+
+      $FileHandler->fileName = $_FILES['file_upload']['name'];
+      $FileHandler->filePath = 'file/uploads/';
+      if ($FileHandler->checkFileExists() == false) {
+        $sql = "INSERT INTO `Product`(`naam`, `prijs`, `beschrijving`, `EAN`, `Categorie_idCategorie`, `status`) VALUES (:naam, :prijs, :beschrijving, :EAN,:Categorie_idCategorie, '1')";
+        $input = array(
+          // "Fabrikant_idFabrikant" => $s->checkInput($newProductArray['fabrikantID']),
+          "naam" => $s->checkInput($newProductArray['productName']),
+          "prijs" => $s->checkInput($newProductArray['productPrice']),
+          "beschrijving" => $s->checkInput($newProductArray['discription']),
+          "Categorie_idCategorie" => $s->checkInput($newProductArray['catagorie']),
+          "EAN" => $s->checkInput($newProductArray['ean-code']),
+        );
+        $newProductID = $db->CreateData($sql, $input);
+
+        $FileHandler->uploadFile();
+        $fileID = $FileHandler->saveFileLocation($_FILES['file_upload']['name'], 'file/uploads/');
+
+        $this->linkProductToFile($newProductID, $fileID);
+      }
+      else {
+        return("We know this file <br />" . $_FILES['file_upload']['name']);
+      }
+      header("Location: ?op=dashboard");
     }
 
     /**
@@ -42,43 +58,17 @@
       // Removes product
       $s = new Security();
       $db = new db();
-      $filehandler = new filehandler();
 
-      $sql = "SELECT * FROM files JOIN files_has_Product on files.idfiles=files_has_Product.idfiles_has_Product WHERE Product_idProduct=:productID";
+      $sql = "UPDATE Product SET Product.status=0 WHERE idProduct=:productID";
       $input = array(
-        "productID" => $productID
+        "productID" => $s->checkInput($productID)
       );
       $result = $db->readData($sql, $input);
-
-      $fileID = '';
-      foreach ($result as $key) {
-        $fileID = $key['idfiles'];
-        $filehandler->fileName = $key['filenaam'];
-        $filehandler->filePath = '../file/uploads/';
-        $filehandler->deleteFile();
-      }
-      $sql = "DELETE FROM files WHERE idfiles=:fileID";
-      $input = array(
-        "fileID" => $fileID
-      );
-      $db->DeleteData($sql, $input);
-
-      $sql = "DELETE FROM `files_has_Product` WHERE `Product_idProduct`=:productID";
-      $input = array(
-        "productID" => $s->checkInput($productID)
-      );
-      $db->DeleteData($sql, $input);
-
-      $sql = "DELETE FROM `Product` WHERE idProduct=:productID";
-      $input = array(
-        "productID" => $s->checkInput($productID)
-      );
-      // echo $db->DeleteData($sql, $input);
-      return($db->DeleteData($sql, $input));
+      header("Location: ?op=dashboard");
     }
 
     /**
-     * Updates a product
+     * Updates a product and the image from a product
      * @param  [array] $updateProductArray [The array that contains the new values for a product]
      * @return [string]                     [The result from the db handler]
      */
@@ -87,15 +77,60 @@
       // expexts an array with the values
       $s = new Security();
       $db = new db();
+      $Filehandler = new filehandler();
+
       $sql = "UPDATE `Product` SET `naam`=:naam,`prijs`=:prijs,`beschrijving`=:beschrijving, EAN=:EAN WHERE idProduct=:productID";
       $input = array(
-        "naam" => $s->checkInput($updateProductArray['naam']),
-        "prijs" => $s->checkInput($updateProductArray['prijs']),
-        "beschrijving" => $s->checkInput($updateProductArray['beschrijving']),
+        "naam" => $s->checkInput($updateProductArray['product_name']),
+        "prijs" => $s->checkInput($updateProductArray['product_price']),
+        "beschrijving" => $s->checkInput($updateProductArray['product_description']),
         "EAN" => $s->checkInput($updateProductArray['EAN']),
         "productID" => $s->checkInput($updateProductArray['productID'])
       );
-      return($db->UpdateData($sql, $input));
+      $result = $db->UpdateData($sql, $input);
+
+      if (ISSET($_FILES['file_upload']['name'])) {
+        // If there is a file upload
+        if ($_FILES['file_upload']['name'] > '') {
+          $product_has_file = $this->checkForProductPhoto($_REQUEST['productID']);
+          // We check if we had a file
+          // If there is we first need to delete the image
+          // And then upload the new one
+            if ($product_has_file >= 1) {
+              $pictureID = $this->getProductPictureID($_REQUEST['productID']);
+              $fileName = $this->getProductPictureFileName($pictureID);
+              // Get the id from the picture and the filename
+
+              $Filehandler->filePath = "file/uploads/";
+              $Filehandler->deleteFileDatabase($pictureID);
+
+              $Filehandler->fileName = $_FILES['file_upload']['name'];
+              $Filehandler->filePath = 'file/uploads/';
+              $Filehandler->uploadFile();
+              // Uploads the file
+
+              $Filehandler->filePath = "file/uploads/";
+              $fileID = $Filehandler->saveFileLocation($_FILES['file_upload']['name'], 'file/uploads/');
+              $this->linkProductToFile($_REQUEST['productID'], $fileID);
+            }
+            else {
+              // There wasn't a picture for this product
+              // So we only need to upload one
+              $Filehandler->fileName = $_FILES['file_upload']['name'];
+              $Filehandler->filePath = 'file/uploads/';
+              if ($Filehandler->checkFileExists() == false) {
+                $Filehandler->uploadFile();
+                $fileID = $Filehandler->saveFileLocation($_FILES['file_upload']['name'], 'file/uploads/');
+
+                $this->linkProductToFile($updateProductArray['productID'], $fileID);
+              }
+              else {
+                return("File exists");
+              }
+            }
+          }
+      }
+      header("Location: ?op=dashboard");
     }
 
     /**
@@ -114,6 +149,19 @@
         "productID" => $s->checkInput($id)
       );
       return($db->readData($sql, $input));
+    }
+
+    /**
+     * Gets all active products from the db
+     * @return [assoc array] [The result from the db]
+     */
+    public function getAllProducts() {
+      $Db = new db();
+
+      $sql = "SELECT * FROM `Product` JOIN files_has_Product on files_has_Product.Product_idProduct=`idProduct` JOIN files ON files_has_Product.files_idfiles=files.idfiles WHERE status=1";
+      $input = array();
+
+      return($Db->readData($sql, $input));
     }
 
     /**
