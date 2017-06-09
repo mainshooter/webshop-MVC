@@ -130,6 +130,7 @@ require_once 'security.class.php';
        if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
          $result = true;
          break;
+         // We break the loop, other wise it could overwrite the result that someone has acces
        }
        else {
          $result = false;
