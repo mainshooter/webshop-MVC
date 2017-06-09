@@ -80,8 +80,8 @@
 
       $sql = "UPDATE `Product` SET `naam`=:naam,`prijs`=:prijs,`beschrijving`=:beschrijving, EAN=:EAN WHERE idProduct=:productID";
       $input = array(
-        "naam" => $s->checkInput($updateProductArray['naam']),
-        "prijs" => $s->checkInput($updateProductArray['prijs']),
+        "naam" => $s->checkInput($updateProductArray['product_name']),
+        "prijs" => $s->checkInput($updateProductArray['product_price']),
         "beschrijving" => $s->checkInput($updateProductArray['beschrijving']),
         "EAN" => $s->checkInput($updateProductArray['EAN']),
         "productID" => $s->checkInput($updateProductArray['productID'])

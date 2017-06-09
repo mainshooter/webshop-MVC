@@ -15,8 +15,11 @@
             <div>Product beschrijving</div>
             <textarea name="product_description">' . $key['beschrijving'] . '</textarea>
 
+            <div>EAN-code</div>
+            <input type="number" name="EAN" value="' . $key['ean'] . '">
+
             <div>Product foto</div>
-            <input type="file" name="product_picture">
+            <input type="file" name="file_upload">
 
             <div></div>
             <input type="submit" name="op" value="updateProduct">
