@@ -24,7 +24,7 @@
             <ul id="width-ul">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="?op=page">Producten</a></li>
-                <li><a href="contact.php">Contact</a></li>
+                <li><a href="?op=contact">Contact</a></li>
             </ul>
         </div>
         <a href="?op=shoppingcardShow">

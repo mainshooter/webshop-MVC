@@ -49,6 +49,10 @@
           $this->showProductDetails();
         }
 
+        else if ($op == 'contact') {
+          $this->displayContact();
+        }
+
         else if ($op == 'shoppingcardAdd') {
           $this->addProductToShoppingcard();
         }
@@ -208,6 +212,7 @@
 
       include 'view/newproducts.php';
     }
+
     public function generatePagenering() {
       // Generates pagenering
       $productsTotal = $this->product->countAllProducts();
@@ -228,6 +233,10 @@
       $productview = new Productview();
       $productDetails = $productview->createProductDetails($productDetails);
       include 'view/details.php';
+    }
+
+    public function displayContact() {
+      include 'view/contact.php';
     }
 
     public function showShoppingCard() {
@@ -263,7 +272,7 @@
         $shoppingcard .= "<div class='col-8'></div><a href='?op=createOrder'><button type='button' class='col-2'>Bestellen!</button></a>";
       }
       else {
-        $shoppingcard .= "<h2 class='col-12 center'>Uw winkelmandje is leeg!</h2>";
+        $shoppingcard .= "<center><h2 class='col-12'>Uw winkelmandje is leeg!</h2></center>";
       }
       include 'view/shoppingcard.php';
     }
