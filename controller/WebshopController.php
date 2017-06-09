@@ -149,6 +149,19 @@
             $productDetails = $this->product->details($_REQUEST['productID']);
             include 'view/admin/updateProductForm.php';
           }
+          else {
+            echo "No acces";
+          }
+        }
+
+        else if ($op == 'updateProduct') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $this->product->update($_REQUEST);
+          }
+          else {
+            echo "No acces";
+          }
         }
 
         else if ($op == 'adminDeleteProduct') {

@@ -5,7 +5,7 @@
 
       foreach ($productDetails as $key) {
         echo '
-          <form method="post">
+          <form method="post" class="col-12">
             <div>Product naam</div>
             <input type="text" name="product_name" value="' . $key['naam'] . '">
 
@@ -19,7 +19,7 @@
             <input type="file" name="product_picture">
 
             <div></div>
-            <input type="submit" name="op" value="update">
+            <input type="submit" name="op" value="updateProduct">
           </form>
         ';
       }
