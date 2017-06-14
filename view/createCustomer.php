@@ -6,28 +6,28 @@
   <div class="col-10">
     <form method="post">
       <h2>Voornaam</h2>
-      <input type="text" name="customer_firstname">
+      <input type="text" name="customer_firstname" required="true">
 
       <h2>Achternaam</h2>
-      <input type="text" name="customer_lastname">
+      <input type="text" name="customer_lastname" required="true">
 
       <h2>tussenvoegsel</h2>
       <input type="text" name="customer_tussenvoegsel">
 
       <h2>Straat</h2>
-      <input type="text" name="customer_street">
+      <input type="text" name="customer_street" required="true">
 
       <h2>Huisnummer</h2>
-      <input type="number" name="customer_houseNumber">
+      <input type="number" name="customer_houseNumber" required="true">
 
       <h2>Toevoeging</h2>
       <input type="text" name="customer_addon">
 
       <h2>Postcode</h2>
-      <input type="text" name="customer_zipCode">
+      <input type="text" name="customer_zipCode" required="true">
 
       <h2>E-mail</h2>
-      <input type="mail" name="customer_email">
+      <input type="mail" name="customer_email" required="true">
 
       <input type="submit" name="op" value="betalen">
     </form>
