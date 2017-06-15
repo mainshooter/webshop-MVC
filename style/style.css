@@ -187,6 +187,7 @@ textarea {
 }
 .pagenering ul {
   display: inline-flex;
+  text-align: center;
 }
 .pagenering ul li {
   margin: 0 0.2em;

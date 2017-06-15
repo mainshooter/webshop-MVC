@@ -6,12 +6,15 @@
     foreach ($order as $key) {
       $orderDisplay .= '
         <h2>Order: ' . $key['idOrder'] . '</h2>
+        <br>
         <div>Beste: ' . $key['klant_voornaam'] . ',</div><br />
         We hebben je order ontvangen.<br />
 
         De betaal status van je bestelling is: ' . $betaal_status . '
         <br />
         De status van je order is: ' . $key['order_status'] . '
+        <br>
+        <br>
         <h2>Je order is:</h2>
       ';
     }
@@ -39,10 +42,12 @@
 
     $orderDisplay .= '</table>';
 
-    $orderDisplay .= '<br><br><p>We wensen u alvast veel plezier met uw VR-bril.
+    $orderDisplay .= '<br><br><p>We wensen u alvast veel plezier met uw VR-bril,
+      <br>
       <br>
       <br>
       Met vriendelijke groet,
+      <br>
       <br>
       Multiversum
     </p>';
