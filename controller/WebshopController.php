@@ -116,6 +116,9 @@
         else if ($op == 'login') {
           $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
         }
+        else if ($op == 'logout') {
+          $this->user->userLogout("?op=home");
+        }
 
         else if ($op == 'dashboard') {
           $this->user->setPageAcces(['admin']);
