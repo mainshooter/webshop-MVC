@@ -231,6 +231,11 @@ textarea {
 .login form div {
   margin-top: 1em;
 }
+.adminLogo {
+  margin: 0 auto;
+  display: block;
+  width: 25em;
+}
 
 @media only screen and (min-width: 768px) {
     /* For desktop: */

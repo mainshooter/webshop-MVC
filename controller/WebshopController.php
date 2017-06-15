@@ -127,7 +127,8 @@
               include 'view/admin/crud-dashboard.php';
           }
           else {
-            echo "U bent niet ingelogd";
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
           }
         }
 
@@ -137,7 +138,8 @@
               include 'view/admin/addProduct.html';
           }
           else {
-            echo "No acces";
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
           }
         }
 
@@ -147,7 +149,8 @@
             $this->product->add($_REQUEST);
           }
           else {
-            echo "No acces";
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
           }
         }
 
@@ -158,7 +161,8 @@
             include 'view/admin/updateProductForm.php';
           }
           else {
-            echo "No acces";
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
           }
         }
 
@@ -168,7 +172,8 @@
             $this->product->update($_REQUEST);
           }
           else {
-            echo "No acces";
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
           }
         }
 
@@ -178,7 +183,8 @@
             $this->product->delete($_REQUEST['productID']);
           }
           else {
-            echo "No acces";
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
           }
         }
 
