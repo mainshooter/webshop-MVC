@@ -1,0 +1,76 @@
+.login {
+  text-align: center;
+}
+.login img {
+  width: 25em;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 1em;
+}
+.login form div {
+  margin-top: 1em;
+}
+.adminLogo {
+  margin: 0 auto;
+  display: block;
+  width: 25em;
+}
+
+form input[type=text] {
+  font-size: 1.3em;
+  border: 1px solid #2c3e50;
+  font-weight: lighter;
+}
+form input[type=mail] {
+  font-size: 1.3em;
+  border: 1px solid #2c3e50;
+  font-weight: lighter;
+}
+form input[type=file] {
+  font-size: 1.3em;
+  font-weight: lighter;
+}
+form input[type=number] {
+  font-size: 1.3em;
+  border: 1px solid #2c3e50;
+  font-weight: lighter;
+}
+form input[type=password] {
+  font-size: 1.3em;
+  border: 1px solid #2c3e50;
+  font-weight: lighter;
+}
+form input[type=submit] {
+  width: 10em;
+  height: 3em;
+  background-color: #bdc3c7;
+  border: 2px solid #ecf0f1;
+  border-radius: 0.6em;
+  box-shadow: 0px 5px 16px #7f8c8d;
+  font-size: 1.1em;
+  margin: 0.2em;
+}
+form input[type=text]:focus, form input[type=number]:focus {
+outline: 3px solid black;
+transition: 0.4s;
+}
+
+form select {
+  font-size: 1.3em;
+  background-color: #ecf0f1;
+  color: black;
+  margin: 0.6em 0;
+}
+form select:focus {
+  outline: none;
+}
+form label {
+  display: block;
+  font-size: 1.3em;
+  margin-top: 0.3em;
+}
+.back_link {
+  padding: 1em;
+  font-size: 1.8em;
+  color: black;
+}
