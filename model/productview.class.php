@@ -9,7 +9,7 @@
       $products = '';
       foreach ($result as $key) {
         if ($counter == 0) {
-          $products .= '<div class="col-12">';
+          $products .= '<div class="col-12"><div class="col-1"></div><div class="col-10">';
         }
         $products .= '
         <div class="col-3 col-m-4 product">
@@ -26,7 +26,7 @@
         </div>
         ';
         if ($counter == 3) {
-          $products .= '</div>';
+          $products .= '</div><div class="col-1 height"></div></div>';
           $counter = 0;
         }
         else {
@@ -35,7 +35,7 @@
       }
       if ($counter != 3) {
         // To fix that we forgot 1 div at the end
-        $products .= '</div>';
+        $products .= '</div><div class="col-1 height"></div></div>';
       }
       return($products);
     }
