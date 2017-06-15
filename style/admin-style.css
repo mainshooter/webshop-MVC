@@ -1,3 +1,20 @@
+.header {
+  background-color: white;
+}
+.header img {
+  display: block;
+  margin: 0 auto;
+  width: 18em;
+}
+
+.header h2 {
+  color: #2ecc71;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: lighter;
+  margin-top: 0.8em; 
+}
+
 .login {
   text-align: center;
 }

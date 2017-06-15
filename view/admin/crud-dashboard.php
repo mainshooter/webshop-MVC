@@ -1,6 +1,9 @@
-<?php include 'header.html' ?>
   <body>
     <div class="row">
+      <div class="header">
+        <img src="file/site/logo.png">
+        <h2>Producten dashboard</h2>
+      </div>
       <a class="col-11" href="?op=addProductForm">Product toevoegen</a>
       <a class="col-1" href="?op=logout">Logout</a>
       <?php

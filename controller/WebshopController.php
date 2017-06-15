@@ -110,8 +110,8 @@
         }
 
         else if ($op == 'login') {
-          $loginResult = $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
-          if (!$loginResult) {
+          $login = $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
+          if (!$login) {
             include 'view/admin/header.html';
               include 'view/admin/loginForm.html';
             include 'view/admin/badLogin.html';
@@ -125,6 +125,7 @@
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
               $AllProducts = $this->product->getAllProducts();
+              include 'view/admin/header.html';
               include 'view/admin/crud-dashboard.php';
           }
           else {

@@ -19,6 +19,7 @@ require_once 'security.class.php';
     * @param [string] $redirectLocation The location that we need the user to redirect to
     */
    public function userLogin($userInputMail, $userInputPassword, $redirectLocation) {
+     session_set_cookie_params(1500);
      if ($this->checkIfEmailExists($userInputMail)) {
 
        $orginalHashedPassword = $this->getOrginalPassword($userInputMail);
@@ -86,6 +87,7 @@ require_once 'security.class.php';
     * @return [boolean] [If we have acces or not]
     */
    public function checkIfUserHasAcces() {
+     session_set_cookie_params(1500);
      if ($this->checkLoginToken() == true) {
        if ($this->checkUserGroup() == true) {
          return(true);
