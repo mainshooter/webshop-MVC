@@ -220,7 +220,7 @@
       $pages = ceil($productsTotal / 10);
       // echo $pages;
       $list = '';
-      $list .= '<ul class="col-12">';
+      $list .= '<ul class="col-12 pagenering">';
       for ($i=0; $i < $pages; $i++) {
         $list .= '<li><a href="?pageNumer=' . $i . '">' . $p=$i + 1 . '</a></li>';
       }
