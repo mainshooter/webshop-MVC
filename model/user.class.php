@@ -30,12 +30,12 @@ require_once 'security.class.php';
          header("Refresh:0; " . $redirectLocation);
        }
        else {
-          return("Wrong password");
+          return(false);
        }
      }
 
      else {
-       return("Don't know that user");
+       return(false);
      }
    }
 

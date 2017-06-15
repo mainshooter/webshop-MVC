@@ -110,7 +110,12 @@
         }
 
         else if ($op == 'login') {
-          $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
+          $loginResult = $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
+          if (!$loginResult) {
+            include 'view/admin/header.html';
+              include 'view/admin/loginForm.html';
+            include 'view/admin/badLogin.html';
+          }
         }
         else if ($op == 'logout') {
           $this->user->userLogout("?op=home");
@@ -131,6 +136,7 @@
         else if ($op == 'addProductForm') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
+              include 'view/admin/header.html';
               include 'view/admin/addProduct.html';
           }
           else {
@@ -154,6 +160,7 @@
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
             $productDetails = $this->product->details($_REQUEST['productID']);
+            include 'view/admin/header.html';
             include 'view/admin/updateProductForm.php';
           }
           else {
@@ -186,7 +193,7 @@
         else if ($op == 'contact') {
           include 'view/header.php';
             include 'view/contact.php';
-          include 'view/footer.php';
+          include 'view/contact.php';
         }
 
       } catch (Exception $e) {
