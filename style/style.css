@@ -140,6 +140,9 @@ textarea {
 .product a {
   text-decoration: none;
 }
+.product h2 a {
+  color: #16a085;
+}
 .product button {
   position: relative;
   top: -5.2em;
@@ -202,7 +205,41 @@ textarea {
 }
 .webshop-img {
   padding: 0px;
+  width: 15em;
+  display: block;
+  margin: 0 auto;
 }
+.shoppingcard_content div, p, h2 {
+  text-align: center;
+}
+.shoppingcard_content div, p {
+  margin-bottom: 0.2em;
+}
+.shoppingcard_content h2 i {
+  color: black;
+  font-size: 0.8em;
+}
+.shoppingcard_content h2 {
+  margin-bottom: 0.5em;
+}
+.shoppingcard_content h2 a {
+  color: #16a085;
+  text-decoration: none;
+}
+.shoppingcard_content p {
+  font-size: 1.3em;
+  font-weight: lighter;
+}
+#order {
+  width: 10em;
+  height: 3em;
+  background-color: #bdc3c7;
+  border: 2px solid #ecf0f1;
+  border-radius: 0.6em;
+  box-shadow: 0px 5px 16px #7f8c8d;
+  font-size: 1.1em;
+}
+
 .color-red {
   color: red;
 }
@@ -216,12 +253,22 @@ textarea {
 
 
 /* Admin style */
-
-.login div {
-  margin-top: 1em;
+.login {
+  text-align: center;
 }
 .login img {
-  width: 3em;
+  width: 25em;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 1em;
+}
+.login form div {
+  margin-top: 1em;
+}
+.adminLogo {
+  margin: 0 auto;
+  display: block;
+  width: 25em;
 }
 
 @media only screen and (min-width: 768px) {

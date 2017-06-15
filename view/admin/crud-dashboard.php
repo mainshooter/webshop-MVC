@@ -1,8 +1,8 @@
 <?php include 'header.html' ?>
   <body>
     <div class="row">
-      <a class="col-12" href="?op=addProductForm">Product toevoegen</a>
-
+      <a class="col-11" href="?op=addProductForm">Product toevoegen</a>
+      <a class="col-1" href="?op=logout">Logout</a>
       <?php
         echo "<table class='col-12'>";
         foreach ($AllProducts as $key) {
