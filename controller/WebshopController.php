@@ -109,6 +109,7 @@
         }
 
         else if ($op == 'loginForm') {
+          include 'view/admin/header.html';
           include 'view/admin/loginForm.html';
         }
 
