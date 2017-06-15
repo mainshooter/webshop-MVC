@@ -2,8 +2,15 @@
 
   class Productview {
     public function createProductsView($result) {
+      $counter = 0;
+      // Counts how many times we displayed a product
+      // Reset it self when it reach 4
+
       $products = '';
       foreach ($result as $key) {
+        if ($counter == 0) {
+          $products .= '<div class="col-12">';
+        }
         $products .= '
         <div class="col-3 col-m-4 product">
           <a href="?op=details&productID=' . $key['idProduct'] . '">
@@ -18,6 +25,17 @@
           <i class="fa fa-cart-arrow-down" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();"></i>
         </div>
         ';
+        if ($counter == 3) {
+          $products .= '</div>';
+          $counter = 0;
+        }
+        else {
+          $counter++;
+        }
+      }
+      if ($counter != 3) {
+        // To fix that we forgot 1 div at the end
+        $products .= '</div>';
       }
       return($products);
     }
