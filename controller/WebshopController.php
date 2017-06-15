@@ -199,9 +199,10 @@
       $productview = new Productview();
       $productview = $productview->createProductsView($products);
 
-      $productPagenering = $this->generatePagenering();
-
+      include 'view/header.php';
       include 'view/products.php';
+      $productPagenering = $this->generatePagenering();
+      include 'view/footer.php';
     }
 
     public function displayNewestProducts() {
@@ -218,16 +219,7 @@
       $productsTotal = $this->product->countAllProducts();
 
       $pages = ceil($productsTotal / 10);
-      // echo $pages;
-      $list = '';
-      $list .= '
-      <div class="pagenering col-12">
-        <ul>';
-      for ($i=0; $i < $pages; $i++) {
-        $list .= '<li><a href="?pageNumer=' . $i . '">' . $p=$i + 1 . '</a></li>';
-      }
-      $list .= '</ul></div>';
-      return($list);
+      include 'view/pagenering.php';
     }
 
     public function showProductDetails() {
