@@ -216,12 +216,17 @@ textarea {
 
 
 /* Admin style */
-
-.login div {
-  margin-top: 1em;
+.login {
+  text-align: center;
 }
 .login img {
-  width: 3em;
+  width: 25em;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 1em;
+}
+.login form div {
+  margin-top: 1em;
 }
 
 @media only screen and (min-width: 768px) {
