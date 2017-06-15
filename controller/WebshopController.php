@@ -125,6 +125,7 @@
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
               $AllProducts = $this->product->getAllProducts();
+              include 'view/admin/header.html';
               include 'view/admin/crud-dashboard.php';
           }
           else {
