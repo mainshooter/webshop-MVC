@@ -109,6 +109,7 @@
         }
 
         else if ($op == 'loginForm') {
+          include 'view/admin/header.html';
           include 'view/admin/loginForm.html';
         }
 
@@ -199,9 +200,10 @@
       $productview = new Productview();
       $productview = $productview->createProductsView($products);
 
-      $productPagenering = $this->generatePagenering();
-
+      include 'view/header.php';
       include 'view/products.php';
+      $productPagenering = $this->generatePagenering();
+      include 'view/footer.php';
     }
 
     public function displayNewestProducts() {
@@ -218,14 +220,7 @@
       $productsTotal = $this->product->countAllProducts();
 
       $pages = ceil($productsTotal / 10);
-      // echo $pages;
-      $list = '';
-      $list .= '<ul class="col-12 pagenering">';
-      for ($i=0; $i < $pages; $i++) {
-        $list .= '<li><a href="?pageNumer=' . $i . '">' . $p=$i + 1 . '</a></li>';
-      }
-      $list .= '</ul>';
-      return($list);
+      include 'view/pagenering.php';
     }
 
     public function showProductDetails() {
@@ -272,7 +267,7 @@
         $shoppingcard .= "<div class='col-8'></div><a href='?op=createOrder'><button type='button' class='col-2'>Bestellen!</button></a>";
       }
       else {
-        $shoppingcard .= "<center><h2 class='col-12'>Uw winkelmandje is leeg!</h2></center>";
+        $shoppingcard .= "<center><h2 class='shoppingcard-message col-12'>Uw winkelmandje is leeg!</h2></center>";
       }
       include 'view/shoppingcard.php';
     }
