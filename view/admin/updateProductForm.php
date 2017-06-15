@@ -1,24 +1,25 @@
 <?php include 'header.html'; ?>
   <body>
+    <a class="back_link" href="?op=dashboard"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
     <div class="row">
       <?php
       foreach ($productDetails as $key) {
         echo '
-          <form method="post" enctype="multipart/form-data" class="col-12">
-            <img class="col-3" src="' . $key['pad'] . $key['filenaam'] .  '">
-            <div>Product naam</div>
+        <img class="col-3" src="' . $key['pad'] . $key['filenaam'] .  '">
+          <form method="post" enctype="multipart/form-data" class="col-9">
+            <label>Product naam</label>
             <input type="text" name="product_name" value="' . $key['naam'] . '">
 
-            <div>Prijs</div>
+            <label>Prijs</label>
             <input type="number" step="0.01" name="product_price" value="' . $key['prijs'] . '">
 
-            <div>Product beschrijving</div>
+            <label>Product beschrijving</label>
             <textarea name="product_description">' . $key['beschrijving'] . '</textarea>
 
-            <div>EAN-code</div>
+            <label>EAN-code</label>
             <input type="number" name="EAN" value="' . $key['EAN'] . '">
 
-            <div>Product foto</div>
+            <label>Product foto</label>
             <input type="file" name="file_upload">
 
             <div></div>
