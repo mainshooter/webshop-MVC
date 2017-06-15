@@ -140,6 +140,9 @@ textarea {
 .product a {
   text-decoration: none;
 }
+.product h2 a {
+  color: #16a085;
+}
 .product button {
   position: relative;
   top: -5.2em;
