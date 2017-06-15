@@ -217,10 +217,10 @@ textarea {
 }
 .shoppingcard_content h2 i {
   color: black;
-  font-size: 1em;
+  font-size: 0.8em;
 }
 .shoppingcard_content h2 {
-  margin-bottom: 0.3em;
+  margin-bottom: 0.5em;
 }
 .shoppingcard_content h2 a {
   color: #16a085;
