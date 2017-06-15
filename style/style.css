@@ -193,6 +193,9 @@ textarea {
   margin: 0 0.2em;
   color: black;
 }
+.pagenering li a {
+  color: black;
+}
 .webshop-img {
   padding: 0px;
 }
