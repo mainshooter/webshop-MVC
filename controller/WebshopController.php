@@ -272,7 +272,7 @@
         $shoppingcard .= "<div class='col-8'></div><a href='?op=createOrder'><button type='button' class='col-2'>Bestellen!</button></a>";
       }
       else {
-        $shoppingcard .= "<center><h2 class='col-12'>Uw winkelmandje is leeg!</h2></center>";
+        $shoppingcard .= "<center><h2 class='shoppingcard-message col-12'>Uw winkelmandje is leeg!</h2></center>";
       }
       include 'view/shoppingcard.php';
     }

@@ -177,6 +177,10 @@ textarea {
   height: 100%;
   display: block;
 }
+.shoppingcard-message {
+  margin-top: 1.3em;
+  margin-bottom: 3em;
+}
 .paybutton {
   background-color: #16a085;
   margin-bottom: 1em;
