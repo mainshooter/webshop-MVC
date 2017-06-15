@@ -11,7 +11,9 @@
               <div class="col-5 col-m-5"><h2 class="left-text"><a href="?op=details&productID=' . $key['idProduct'] . '">' . $key['naam'] . '</a></h2></div>
               <div class="col-1 col-m-1" style="margin-top: 0.5em;">&euro;' . str_replace('.', ',', $key['prijs']) . '</div>
               <div class="col-1 col-m-1 right-text" style="margin-top: 0.5em;">Aantal: </div>
-              <div class="col-1 col-m-2" style="margin-top: 0.5em;">'; $view .= $this->generateOptionNumbers($key['idProduct'], $amount); $view .='</div>
+              <div class="col-1 col-m-2" style="margin-top: 0.5em;">';
+              $view .= $this->generateOptionNumbers($key['idProduct'], $amount);
+              $view .='</div>
               <div class="col-1 col-m-1" style="margin-top: 0.5em;"><i class="fa fa-trash-o" aria-hidden="true" onclick="shoppingcard.remove(' . $key['idProduct'] . ')"></i></div>
               <div class="col-2 col-m-1" style="margin-top: 0.5em;">Totaal: &euro;' . $productTotal . '</div>
           </div>
