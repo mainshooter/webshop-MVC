@@ -49,10 +49,6 @@
           $this->showProductDetails();
         }
 
-        else if ($op == 'contact') {
-          $this->displayContact();
-        }
-
         else if ($op == 'shoppingcardAdd') {
           $this->addProductToShoppingcard();
         }
@@ -187,6 +183,11 @@
             include 'view/admin/no-acces.html';
           }
         }
+        else if ($op == 'contact') {
+          include 'view/header.php';
+            include 'view/contact.php';
+          include 'view/footer.php';
+        }
 
       } catch (Exception $e) {
         $this->showError("Application error", $e->getMessage());
@@ -264,16 +265,16 @@
         $BTWPrice = $this->shoppingcard->calculateBTW();
         $BTWPrice = str_replace('.', ',', $BTWPrice);
 
-        $shoppingcard .= "<h2 class='col-10 right-text'>BTW: &euro;" . $BTWPrice . "</h2>";
+        $shoppingcard .= "<div class='col-12'><h2>BTW: &euro;" . $BTWPrice . "</h2>";
         $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
         $priceWithoutBTW = str_replace('.', ',', $priceWithoutBTW);
 
-        $shoppingcard .= "<h2 class='col-10 right-text'>Exclusief BTW: &euro;" . $priceWithoutBTW . "</h2>";
+        $shoppingcard .= "<h2>Exclusief BTW: &euro;" . $priceWithoutBTW . "</h2>";
         $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
         $totalPrice = str_replace('.', ',', $totalPrice);
 
-        $shoppingcard .= "<h2 class='col-10 right-text'>Totaal: &euro;" . $totalPrice . "</h2>";
-        $shoppingcard .= "<div class='col-8'></div><a href='?op=createOrder'><button type='button' class='col-2'>Bestellen!</button></a>";
+        $shoppingcard .= "<h2>Totaal: &euro;" . $totalPrice . "</h2></div>";
+        $shoppingcard .= "<div class='col-12'></div><div class='col-2'><a href='?op=createOrder'><button id='order' type='button'>Bestellen!</button></a></div>";
       }
       else {
         $shoppingcard .= "<center><h2 class='shoppingcard-message col-12'>Uw winkelmandje is leeg!</h2></center>";

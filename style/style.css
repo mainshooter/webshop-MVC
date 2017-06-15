@@ -230,6 +230,15 @@ textarea {
   font-size: 1.3em;
   font-weight: lighter;
 }
+#order {
+  width: 10em;
+  height: 3em;
+  background-color: #bdc3c7;
+  border: 2px solid #ecf0f1;
+  border-radius: 0.6em;
+  box-shadow: 0px 5px 16px #7f8c8d;
+  font-size: 1.1em;
+}
 
 .color-red {
   color: red;
