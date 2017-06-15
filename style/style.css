@@ -205,7 +205,32 @@ textarea {
 }
 .webshop-img {
   padding: 0px;
+  width: 15em;
+  display: block;
+  margin: 0 auto;
 }
+.shoppingcard_content div, p, h2 {
+  text-align: center;
+}
+.shoppingcard_content div, p {
+  margin-bottom: 0.2em;
+}
+.shoppingcard_content h2 i {
+  color: black;
+  font-size: 1em;
+}
+.shoppingcard_content h2 {
+  margin-bottom: 0.3em;
+}
+.shoppingcard_content h2 a {
+  color: #16a085;
+  text-decoration: none;
+}
+.shoppingcard_content p {
+  font-size: 1.3em;
+  font-weight: lighter;
+}
+
 .color-red {
   color: red;
 }
