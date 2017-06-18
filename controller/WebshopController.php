@@ -259,39 +259,41 @@
       $shoppingcardArray = $this->shoppingcard->get();
 
       $teller = 0;
-      foreach ($shoppingcardArray as $key) {
-        $product_details[] = $this->product->details($key['productID']);
+      if (!empty($shoppingcardArray)) {
+        foreach ($shoppingcardArray as $key) {
+          $product_details[] = $this->product->details($key['productID']);
 
-        $product_details_price[]['productTotal'] = number_format($this->shoppingcard->productTotalPriceInShoppingCard($key['productID']), 2);
+          $product_details_price[]['productTotal'] = number_format($this->shoppingcard->productTotalPriceInShoppingCard($key['productID']), 2);
 
-        $product_details_aantal[]['aantal'] = $view->generateOptionNumbers($key['productID'] ,$shoppingcardArray[$key['productID']]['amount']);
+          $product_details_aantal[]['aantal'] = $view->generateOptionNumbers($key['productID'] ,$shoppingcardArray[$key['productID']]['amount']);
 
 
-          $BTWPrice = $this->shoppingcard->calculateBTW();
-          $BTWPrice = number_format($BTWPrice, 2);
-          $BTWPrice = str_replace('.', 'dot', $BTWPrice);
-          $BTWPrice = str_replace(',', 'comma', $BTWPrice);
-          $BTWPrice = str_replace('dot', ',', $BTWPrice);
-          $BTWPrice = str_replace('comma', '.', $BTWPrice);
-          // Scanning for all dots and comma's
-          // After we did that we convert that
-          // To make sure that it is done correctly
+            $BTWPrice = $this->shoppingcard->calculateBTW();
+            $BTWPrice = number_format($BTWPrice, 2);
+            $BTWPrice = str_replace('.', 'dot', $BTWPrice);
+            $BTWPrice = str_replace(',', 'comma', $BTWPrice);
+            $BTWPrice = str_replace('dot', ',', $BTWPrice);
+            $BTWPrice = str_replace('comma', '.', $BTWPrice);
+            // Scanning for all dots and comma's
+            // After we did that we convert that
+            // To make sure that it is done correctly
 
-          $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
-          $priceWithoutBTW = number_format($priceWithoutBTW, 2);
-          $priceWithoutBTW = str_replace('.', 'dot', $priceWithoutBTW);
-          $priceWithoutBTW = str_replace(',', 'comma', $priceWithoutBTW);
-          $priceWithoutBTW = str_replace('dot', ',', $priceWithoutBTW);
-          $priceWithoutBTW = str_replace('comma', '.', $priceWithoutBTW);
+            $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
+            $priceWithoutBTW = number_format($priceWithoutBTW, 2);
+            $priceWithoutBTW = str_replace('.', 'dot', $priceWithoutBTW);
+            $priceWithoutBTW = str_replace(',', 'comma', $priceWithoutBTW);
+            $priceWithoutBTW = str_replace('dot', ',', $priceWithoutBTW);
+            $priceWithoutBTW = str_replace('comma', '.', $priceWithoutBTW);
 
-          $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
-          $totalPrice = number_format($totalPrice, 2);
-          $totalPrice = str_replace('.', 'dot', $totalPrice);
-          $totalPrice = str_replace(',', 'comma', $totalPrice);
-          $totalPrice = str_replace('dot', ',', $totalPrice);
-          $totalPrice = str_replace('comma', '.', $totalPrice);
+            $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
+            $totalPrice = number_format($totalPrice, 2);
+            $totalPrice = str_replace('.', 'dot', $totalPrice);
+            $totalPrice = str_replace(',', 'comma', $totalPrice);
+            $totalPrice = str_replace('dot', ',', $totalPrice);
+            $totalPrice = str_replace('comma', '.', $totalPrice);
 
-        $teller++;
+          $teller++;
+        }
       }
       include 'view/header.php';
 
