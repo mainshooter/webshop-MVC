@@ -110,7 +110,10 @@
         }
 
         else if ($op == 'login') {
-          $login = $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
+          $mail = ISSET($_POST['login_mail'])?$_POST['login_mail']: NULL;
+          $password = ISSET($_POST['login_password'])?$_POST['login_password']: NULL;
+
+          $login = $this->user->userLogin($mail, $password, "?op=dashboard");
           if (!$login) {
             include 'view/admin/header.html';
               include 'view/admin/loginForm.html';
@@ -220,7 +223,7 @@
 
       include 'view/header.php';
       include 'view/products.php';
-      $productPagenering = $this->generatePagenering();
+      $productPagenering = $this->generatePagenering($pageNumer);
       include 'view/footer.php';
     }
 
@@ -234,7 +237,7 @@
 
     }
 
-    public function generatePagenering() {
+    public function generatePagenering($pageNumer) {
       // Generates pagenering
       $productsTotal = $this->product->countAllProducts();
 
@@ -259,24 +262,41 @@
       $shoppingcardArray = $this->shoppingcard->get();
 
       $teller = 0;
-      foreach ($shoppingcardArray as $key) {
-        $product_details[] = $this->product->details($key['productID']);
+      if (!empty($shoppingcardArray)) {
+        foreach ($shoppingcardArray as $key) {
+          $product_details[] = $this->product->details($key['productID']);
 
-        $product_details_price[]['productTotal'] = $this->shoppingcard->productTotalPriceInShoppingCard($key['productID']);
+          $product_details_price[]['productTotal'] = number_format($this->shoppingcard->productTotalPriceInShoppingCard($key['productID']), 2);
 
-        $product_details_aantal[]['aantal'] = $view->generateOptionNumbers($key['productID'] ,$shoppingcardArray[$key['productID']]['amount']);
+          $product_details_aantal[]['aantal'] = $view->generateOptionNumbers($key['productID'] ,$shoppingcardArray[$key['productID']]['amount']);
 
 
-          $BTWPrice = $this->shoppingcard->calculateBTW();
-          $BTWPrice = str_replace('.', ',', $BTWPrice);
+            $BTWPrice = $this->shoppingcard->calculateBTW();
+            $BTWPrice = number_format($BTWPrice, 2);
+            $BTWPrice = str_replace('.', 'dot', $BTWPrice);
+            $BTWPrice = str_replace(',', 'comma', $BTWPrice);
+            $BTWPrice = str_replace('dot', ',', $BTWPrice);
+            $BTWPrice = str_replace('comma', '.', $BTWPrice);
+            // Scanning for all dots and comma's
+            // After we did that we convert that
+            // To make sure that it is done correctly
 
-          $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
-          $priceWithoutBTW = str_replace('.', ',', $priceWithoutBTW);
+            $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
+            $priceWithoutBTW = number_format($priceWithoutBTW, 2);
+            $priceWithoutBTW = str_replace('.', 'dot', $priceWithoutBTW);
+            $priceWithoutBTW = str_replace(',', 'comma', $priceWithoutBTW);
+            $priceWithoutBTW = str_replace('dot', ',', $priceWithoutBTW);
+            $priceWithoutBTW = str_replace('comma', '.', $priceWithoutBTW);
 
-          $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
-          $totalPrice = str_replace('.', ',', $totalPrice);
+            $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
+            $totalPrice = number_format($totalPrice, 2);
+            $totalPrice = str_replace('.', 'dot', $totalPrice);
+            $totalPrice = str_replace(',', 'comma', $totalPrice);
+            $totalPrice = str_replace('dot', ',', $totalPrice);
+            $totalPrice = str_replace('comma', '.', $totalPrice);
 
-        $teller++;
+          $teller++;
+        }
       }
       include 'view/header.php';
 

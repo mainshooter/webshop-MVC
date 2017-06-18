@@ -2,20 +2,21 @@
   include 'header.php';
 
   $orderDisplay = '<div class="col-2"></div>';
-    $orderDisplay .= '<div class="col-10">';
+    $orderDisplay .= '<div class="col-10 order-display">';
     foreach ($order as $key) {
       $orderDisplay .= '
         <h2>Order: ' . $key['idOrder'] . '</h2>
         <br>
-        <div>Beste: ' . $key['klant_voornaam'] . ',</div><br />
+        <div>Beste ' . $key['klant_voornaam'] . ',</div><br />
         We hebben je order ontvangen.<br />
 
         De betaal status van je bestelling is: ' . $betaal_status . '
         <br />
+        <br />
         De status van je order is: ' . $key['order_status'] . '
         <br>
         <br>
-        <h2>Je order is:</h2>
+        <h2>Je hebt het volgende besteld</h2>
       ';
     }
 
@@ -34,8 +35,8 @@
       <tr>
         <td>' . $key['naam'] . '</td>
         <td>' . $key['aantal'] . '</td>
-        <td>' . str_replace('.', ',', $key['prijs']) . '</td>
-        <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
+        <td>&euro;' . str_replace('.', ',', $key['prijs']) . '</td>
+        <td>&euro;' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
       </tr>
       ';
     }

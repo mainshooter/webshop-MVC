@@ -11,26 +11,30 @@
 
   <form class="col-12" enctype="multipart/form-data" method="post">
     <div>Product naam</div>
-    <input type="text" name="productName" />
+    <input type="text" name="productName" required="true"/>
 
     <div>Product Prijs</div>
-    <input type="number" step="0.01" name="productPrice">
+    <input type="number" step="0.01" name="productPrice" required="true">
 
     <div>Beschrijving</div>
-    <textarea name="discription"></textarea>
+    <textarea name="discription" id="editor1" rows="10" cols="80" required="true"></textarea>
 
     <div>Product Image</div>
-    <input type="file" name="file_upload"/>
-
+    <input type="file" name="file_upload" required="true"/>
     <div>Product catagorie</div>
     <select name="catagorie">
       <option value="1">VR</option>
     </select>
 
     <div>EAN-code</div>
-    <input type="text" name="ean-code" />
+    <input type="text" name="ean-code" required="true"/>
 
     <div></div>
     <input type="submit" name="op" value="productToevoegen">
   </form>
 </div>
+<script>
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace( 'editor1' );
+</script>

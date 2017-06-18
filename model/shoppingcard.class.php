@@ -133,6 +133,8 @@ require_once 'security.class.php';
       $BTWPercentage = 21;
       $BTWPrice = $totalPrice / 100 * $BTWPercentage;
 
+      $BTWPrice = round($BTWPrice, 2);
+
       return($BTWPrice);
     }
 
@@ -146,6 +148,8 @@ require_once 'security.class.php';
       $totalPrice = $this->calculateTotalPriceShoppingcard();
       $totalBTWPrice = $this->calculateBTW();
       $priceWithoutBTW = $totalPrice - $totalBTWPrice;
+
+      $priceWithoutBTW = round($priceWithoutBTW, 2);
 
       return($priceWithoutBTW);
     }
@@ -166,6 +170,7 @@ require_once 'security.class.php';
           $totalPrice = $totalPrice + $this->productTotalPriceInShoppingCard($value);
         }
       }
+      $totalPrice = round($totalPrice, 2);
       return($totalPrice);
     }
 
@@ -184,9 +189,10 @@ require_once 'security.class.php';
       foreach ($card as $key) {
         if ($key['productID'] == $productID) {
           // Only calculate a total product price when it is eacual to the productID
-            $total = $total + (intval($key['amount']) * $productPrice);
+            $total = $total + ($key['amount'] * $productPrice);
         }
       }
+      $total = round($total, 2);
       return($total);
     }
   }

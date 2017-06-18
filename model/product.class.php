@@ -262,7 +262,7 @@
       $result = $db->readData($sql, $input);
 
       foreach ($result as $row) {
-        return(intval($row['prijs']));
+        return(floatval($row['prijs']));
       }
     }
 

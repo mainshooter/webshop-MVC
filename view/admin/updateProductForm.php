@@ -8,16 +8,16 @@
         <img class="col-3" src="' . $key['pad'] . $key['filenaam'] .  '">
           <form method="post" enctype="multipart/form-data" class="col-9">
             <label>Product naam</label>
-            <input type="text" name="product_name" value="' . $key['naam'] . '">
+            <input type="text" name="product_name" value="' . $key['naam'] . ' required="true"">
 
             <label>Prijs</label>
-            <input type="number" step="0.01" name="product_price" value="' . $key['prijs'] . '">
+            <input type="number" step="0.01" name="product_price" value="' . $key['prijs'] . ' required="true"">
 
             <label>Product beschrijving</label>
-            <textarea name="product_description">' . $key['beschrijving'] . '</textarea>
+            <textarea name="product_description" id="editor1" rows="10" cols="80" required="true">' . html_entity_decode(html_entity_decode($key['beschrijving'])) . '</textarea>
 
             <label>EAN-code</label>
-            <input type="number" name="EAN" value="' . $key['EAN'] . '">
+            <input type="number" name="EAN" value="' . $key['EAN'] . '" required="true">
 
             <label>Product foto</label>
             <input type="file" name="file_upload">
@@ -30,5 +30,10 @@
 
       ?>
     </div>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'editor1' );
+    </script>
   </body>
 </html>
