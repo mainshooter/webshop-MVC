@@ -110,7 +110,10 @@
         }
 
         else if ($op == 'login') {
-          $login = $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
+          $mail = ISSET($_POST['login_mail'])?$_POST['login_mail']: NULL;
+          $password = ISSET($_POST['login_password'])?$_POST['login_password']: NULL;
+
+          $login = $this->user->userLogin($mail, $password, "?op=dashboard");
           if (!$login) {
             include 'view/admin/header.html';
               include 'view/admin/loginForm.html';
