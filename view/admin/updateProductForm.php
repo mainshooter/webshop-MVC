@@ -3,9 +3,7 @@
     <a class="back_link" href="?op=dashboard"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></a>
     <div class="row">
       <?php
-      echo "<pre>";
-      var_dump($productDetails);
-      echo "</pre>";
+
       foreach ($productDetails as $key) {
         echo '
         <img class="col-3" src="' . $key['pad'] . $key['filenaam'] .  '">
