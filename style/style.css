@@ -109,6 +109,9 @@ nav ul ul {
   color: black;
   width: 100%;
 }
+.shoppingcard_content p {
+  text-align: center;
+}
 .categories {
   font-size: 1.3em;
 }
