@@ -14,7 +14,7 @@
         <label>Achternaam</label>
         <input type="text" name="customer_lastname" required="true">
 
-        <label>tussenvoegsel</label>
+        <label>Tussenvoegsel</label>
         <input type="text" name="customer_tussenvoegsel">
 
         <label>E-mail</label>
