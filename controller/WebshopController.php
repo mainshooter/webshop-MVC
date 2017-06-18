@@ -261,7 +261,6 @@
       $teller = 0;
       foreach ($shoppingcardArray as $key) {
         $product_details[] = $this->product->details($key['productID']);
-        echo "<h2 class='col-12'>" . $product_details[0][0]['prijs'] . "</h2>";
 
         $product_details_price[]['productTotal'] = $this->shoppingcard->productTotalPriceInShoppingCard($key['productID']);
 
