@@ -14,7 +14,7 @@
             <input type="number" step="0.01" name="product_price" value="' . $key['prijs'] . '">
 
             <label>Product beschrijving</label>
-            <textarea name="product_description">' . $key['beschrijving'] . '</textarea>
+            <textarea name="product_description" id="editor1" rows="10" cols="80">' . html_entity_decode(html_entity_decode($key['beschrijving'])) . '</textarea>
 
             <label>EAN-code</label>
             <input type="number" name="EAN" value="' . $key['EAN'] . '">
@@ -30,5 +30,10 @@
 
       ?>
     </div>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'editor1' );
+    </script>
   </body>
 </html>

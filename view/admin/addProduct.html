@@ -17,11 +17,10 @@
     <input type="number" step="0.01" name="productPrice">
 
     <div>Beschrijving</div>
-    <textarea name="discription"></textarea>
+    <textarea name="discription" id="editor1" rows="10" cols="80"></textarea>
 
     <div>Product Image</div>
     <input type="file" name="file_upload"/>
-
     <div>Product catagorie</div>
     <select name="catagorie">
       <option value="1">VR</option>
@@ -34,3 +33,8 @@
     <input type="submit" name="op" value="productToevoegen">
   </form>
 </div>
+<script>
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace( 'editor1' );
+</script>
