@@ -157,7 +157,7 @@ textarea {
 .product p {
   font-weight: lighter;
   font-size: 1.2em;
-  font-family: 'Quicksand', sans-serif;
+  /*font-family: 'Quicksand', sans-serif;*/
   margin-top: 0.3em;
 }
 .product_details h2 {
