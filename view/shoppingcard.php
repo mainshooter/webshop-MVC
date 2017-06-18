@@ -1,10 +1,12 @@
 <?php
 
-
-    // echo $shoppingcard;
 $teller = 0;
+$tellerForTimesPlaced = 0;
     foreach ($product_details as $row) {
       foreach ($row as $key) {
+        if ($tellerForTimesPlaced == 0) {
+          echo "<div class='row'>";
+        }
         echo  '<div class="col-4 shoppingcard_content">
           <img class="webshop-img" src="' . $key['pad'] . $key['filenaam'] . '">
           <h2><a href="?op=details&productID=' . $key['idProduct'] . '">' . $key['naam'] . '</a> <i class="fa fa-trash-o" aria-hidden="true" onclick="shoppingcard.remove(' . $key['idProduct'] . ')"></i></h2>
@@ -17,6 +19,13 @@ $teller = 0;
         </div>
       ';
       $teller++;
+      if ($tellerForTimesPlaced == 3) {
+          echo "</div>";
+          $tellerForTimesPlaced = 0;
+        }
+        else {
+          $tellerForTimesPlaced++;
+        }
       }
     }
     echo "<div class='col-12'><h2>BTW: &euro;" . $BTWPrice . "</h2>";
