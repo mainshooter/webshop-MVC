@@ -215,8 +215,8 @@
       $pageLimit = 10;
 
       $products = $this->product->getProducts($pageNumer, $pageLimit);
-      $productview = new Productview();
-      $productview = $productview->createProductsView($products);
+      // $productview = new Productview();
+      // $productview = $productview->createProductsView($products);
 
       include 'view/header.php';
       include 'view/products.php';
