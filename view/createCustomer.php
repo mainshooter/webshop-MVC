@@ -32,7 +32,7 @@
       <input type="mail" name="customer_email" required="true">
       <br>
       <br>
-      <input type="submit" name="op" value="betalen">
+      <input id="order" type="submit" name="op" value="betalen">
     </form>
 
   </div>
