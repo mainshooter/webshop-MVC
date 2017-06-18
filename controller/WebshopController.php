@@ -288,7 +288,9 @@
       else {
         $shoppingcard .= "<center><h2 class='shoppingcard-message col-12'>Uw winkelmandje is leeg!</h2></center>";
       }
+      include 'view/header.php';
       include 'view/shoppingcard.php';
+      include 'view/footer.php';
     }
 
     public function addProductToShoppingcard() {
