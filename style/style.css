@@ -152,7 +152,7 @@ textarea {
   font-size: 0.8em;
 }
 .product_img {
-  width: 100%;
+    height: 9em;
 }
 .product p {
   font-weight: lighter;

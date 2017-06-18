@@ -227,10 +227,11 @@
     public function displayNewestProducts() {
       // Displays the newest products
       $newestProducts = $this->product->getNewestProducts();
-      $newestProductsView = new Productview();
-      $newestProductsView = $newestProductsView->createNewProductsView($newestProducts);
 
+      include 'view/header.php';
       include 'view/newproducts.php';
+      include 'view/footer.php';
+
     }
 
     public function generatePagenering() {
