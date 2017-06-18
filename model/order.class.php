@@ -184,7 +184,7 @@
       $db = new db();
       $s = new Security();
 
-      $sql = "SELECT naam, aantal, order_item.prijs FROM order_item JOIN Product ON idProduct=Product_idProduct WHERE Order_idOrder=:orderID";
+      $sql = "SELECT naam, aantal FROM order_item JOIN Product ON idProduct=Product_idProduct WHERE Order_idOrder=:orderID";
       $input = array(
         "orderID" => $s->checkInput($orderID)
       );
@@ -201,7 +201,7 @@
       $db = new db();
       $s = new Security();
 
-      $sql = "SELECT naam, aantal, order_item.prijs FROM order_item JOIN Product ON idProduct=Product_idProduct WHERE Order_idOrder=:orderID LIMIT 1";
+      $sql = "SELECT naam, aantal FROM order_item JOIN Product ON idProduct=Product_idProduct WHERE Order_idOrder=:orderID LIMIT 1";
       $input = array(
         "orderID" => $s->checkInput($orderID)
       );
