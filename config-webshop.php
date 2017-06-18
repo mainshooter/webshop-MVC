@@ -12,5 +12,7 @@
 
   define('databaseName', 'multiversum');
 
+  define('admin_mail', '498883@edu.rocmn.nl');
+
 
 ?>
