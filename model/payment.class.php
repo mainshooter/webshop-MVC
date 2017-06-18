@@ -34,7 +34,7 @@
         $payment = $this->mollie->payments->create(array(
           "amount"       => $this->calculatePrice($orderID),
           "method"       => Mollie_API_Object_Method::IDEAL,
-          "description"  => "Order: " . $orderID,
+          "description"  => "Multiversum - Order: " . $orderID,
           "redirectUrl"  => siteLocation . "?op=displayOrder&orderID=" . $orderID . "",
           "webhookUrl"   => siteLocation . "?op=paymentResponse",
           'metadata'    => array(
