@@ -140,6 +140,9 @@ textarea {
 .product a {
   text-decoration: none;
 }
+.product h2 a {
+  color: #16a085;
+}
 .product button {
   position: relative;
   top: -5.2em;
@@ -149,12 +152,12 @@ textarea {
   font-size: 0.8em;
 }
 .product_img {
-  width: 100%;
+    height: 9em;
 }
 .product p {
   font-weight: lighter;
   font-size: 1.2em;
-  font-family: 'Quicksand', sans-serif;
+  /*font-family: 'Quicksand', sans-serif;*/
   margin-top: 0.3em;
 }
 .product_details h2 {
@@ -177,6 +180,10 @@ textarea {
   height: 100%;
   display: block;
 }
+.shoppingcard-message {
+  margin-top: 1.3em;
+  margin-bottom: 3em;
+}
 .paybutton {
   background-color: #16a085;
   margin-bottom: 1em;
@@ -187,13 +194,55 @@ textarea {
 }
 .pagenering ul {
   display: inline-flex;
+  text-align: center;
 }
 .pagenering ul li {
   margin: 0 0.2em;
+  color: black;
+}
+.pagenering li a {
+  color: black;
 }
 .webshop-img {
   padding: 0px;
+  width: 15em;
+  display: block;
+  margin: 0 auto;
 }
+.shoppingcard_content div, p, h2 {
+  text-align: center;
+}
+.shoppingcard_content div, p {
+  margin-bottom: 0.2em;
+}
+.shoppingcard_content h2 i {
+  color: black;
+  font-size: 0.8em;
+}
+.shoppingcard_content h2 {
+  margin-bottom: 0.5em;
+}
+.shoppingcard_content h2 a {
+  color: #16a085;
+  text-decoration: none;
+}
+.shoppingcard_content p {
+  font-size: 1.3em;
+  font-weight: lighter;
+}
+#order {
+  width: 10em;
+  height: 3em;
+  background-color: #bdc3c7;
+  border: 2px solid #ecf0f1;
+  border-radius: 0.6em;
+  box-shadow: 0px 5px 16px #7f8c8d;
+  font-size: 1.1em;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
 .color-red {
   color: red;
 }
@@ -204,7 +253,12 @@ textarea {
   bottom: 0;
   left: 0;
 }
-@media only screen and (min-width: 768px) {
+
+
+/* Admin style */
+
+
+@media only screen and (min-width: 1101px) {
     /* For desktop: */
     #nav {
         text-align: right;
@@ -219,12 +273,15 @@ textarea {
     }
 
 }
-@media only screen and (min-width: 600px) and (max-width: 767px) {
+@media only screen and (min-width: 600px) and (max-width: 1100px) {
   /* Tablet */
   .shopping_card {
     /*width: 0;*/
   }
   .center {
     text-align: center;
+  }
+  .product_img {
+    height: 4em;
   }
 }

@@ -4,31 +4,34 @@
 ?>
   <div class="col-1"></div>
   <div class="col-10">
+    <h2>Voordat we uw bestelling kunnen verwerken, hebben we wat gegevens van u nodig</h2>
+    <br>
     <form method="post">
-      <h2>Voornaam</h2>
-      <input type="text" name="customer_firstname">
+      <h3>Voornaam</h3>
+      <input type="text" name="customer_firstname" required="true">
 
-      <h2>Achternaam</h2>
-      <input type="text" name="customer_lastname">
+      <h3>Achternaam</h3>
+      <input type="text" name="customer_lastname" required="true">
 
-      <h2>tussenvoegsel</h2>
+      <h3>tussenvoegsel</h3>
       <input type="text" name="customer_tussenvoegsel">
 
-      <h2>Straat</h2>
-      <input type="text" name="customer_street">
+      <h3>Straat</h3>
+      <input type="text" name="customer_street" required="true">
 
-      <h2>Huisnummer</h2>
-      <input type="number" name="customer_houseNumber">
+      <h3>Huisnummer</h3>
+      <input type="number" name="customer_houseNumber" required="true">
 
-      <h2>Toevoeging</h2>
+      <h3>Toevoeging</h3>
       <input type="text" name="customer_addon">
 
-      <h2>Postcode</h2>
-      <input type="text" name="customer_zipCode">
+      <h3>Postcode</h3>
+      <input type="text" name="customer_zipCode" required="true">
 
-      <h2>E-mail</h2>
-      <input type="mail" name="customer_email">
-
+      <h3>E-mail</h3>
+      <input type="mail" name="customer_email" required="true">
+      <br>
+      <br>
       <input type="submit" name="op" value="betalen">
     </form>
 

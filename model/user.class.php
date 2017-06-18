@@ -19,6 +19,7 @@ require_once 'security.class.php';
     * @param [string] $redirectLocation The location that we need the user to redirect to
     */
    public function userLogin($userInputMail, $userInputPassword, $redirectLocation) {
+     session_set_cookie_params(1500);
      if ($this->checkIfEmailExists($userInputMail)) {
 
        $orginalHashedPassword = $this->getOrginalPassword($userInputMail);
@@ -30,12 +31,12 @@ require_once 'security.class.php';
          header("Refresh:0; " . $redirectLocation);
        }
        else {
-          return("Wrong password");
+          return(false);
        }
      }
 
      else {
-       return("Don't know that user");
+       return(false);
      }
    }
 
@@ -86,6 +87,7 @@ require_once 'security.class.php';
     * @return [boolean] [If we have acces or not]
     */
    public function checkIfUserHasAcces() {
+     session_set_cookie_params(1500);
      if ($this->checkLoginToken() == true) {
        if ($this->checkUserGroup() == true) {
          return(true);
@@ -130,6 +132,7 @@ require_once 'security.class.php';
        if ($key == $_SESSION['userGroup'] || $_SESSION['userGroup'] == 'admin') {
          $result = true;
          break;
+         // We break the loop, other wise it could overwrite the result that someone has acces
        }
        else {
          $result = false;
@@ -269,13 +272,7 @@ require_once 'security.class.php';
  }
 
 // $user = new User();
-// $user->registerNewUser("admin", '1234');
-//
-// $user->registerNewUser("account@cooban", '1234');
-//
-// $user->registerNewUser("manager@cooban", '1234');
-//
-// $user->registerNewUser("systeembeheer@cooban", '1234');
+// $user->registerNewUser("admin@multiversum.nl", '1234');
 
 
 

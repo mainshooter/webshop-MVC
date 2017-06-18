@@ -2,20 +2,40 @@
 
   class Productview {
     public function createProductsView($result) {
+      $counter = 0;
+      // Counts how many times we displayed a product
+      // Reset it self when it reach 4
+
       $products = '';
       foreach ($result as $key) {
+        if ($counter == 0) {
+          $products .= '<div class="col-12"><div class="col-1"></div><div class="col-10">';
+        }
         $products .= '
         <div class="col-3 col-m-4 product">
           <a href="?op=details&productID=' . $key['idProduct'] . '">
             <div class="col-12 col-m-12">
               <img class="product_img" src="' . $key['pad'] . $key['filenaam'] . '" />
             </div>
-            <h2>' . $key['naam'] . '</h2>
+            <div class="col-12 product-title">
+              <h2>' . $key['naam'] . '</h2>
+            </div>
           </a>
           <p>&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
           <i class="fa fa-cart-arrow-down" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();"></i>
         </div>
         ';
+        if ($counter == 3) {
+          $products .= '</div><div class="col-1 height"></div></div>';
+          $counter = 0;
+        }
+        else {
+          $counter++;
+        }
+      }
+      if ($counter != 3) {
+        // To fix that we forgot 1 div at the end
+        $products .= '</div><div class="col-1 height"></div></div>';
       }
       return($products);
     }
@@ -63,6 +83,7 @@
       $detail = '';
       foreach ($result as $key) {
         $detail .= '
+          <div class="col-1"></div>
           <div class="col-10 product_details">
             <h2 class="col-12">' . $key['naam'] . '</h2>
             <img class="col-3" src="' . $key['pad'] . $key['filenaam'] . '" />
@@ -70,6 +91,7 @@
             <p class="col-1">&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
             <i class="fa fa-cart-plus col-5" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ')"></i>
           </div>
+          <div class="col-1"></div>
         ';
     }
     return($detail);

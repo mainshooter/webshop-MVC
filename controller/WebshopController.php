@@ -3,7 +3,7 @@
   require_once 'model/product.class.php';
   require_once 'model/shoppingcard.class.php';
   require_once 'model/productview.class.php';
-  require_once 'model/Shoppingcardview.class.php';
+  require_once 'model/shoppingcardview.class.php';
   require_once 'model/Customer.class.php';
   require_once 'model/security.class.php';
   require_once 'model/order.class.php';
@@ -101,27 +101,100 @@
         }
 
         else if ($op == 'updateProduct') {
-          $this->updateFormProduct();
+          $this->product->update($_REQUEST);
         }
 
         else if ($op == 'loginForm') {
           include 'view/admin/header.html';
           include 'view/admin/loginForm.html';
-          include 'view/admin/footer.html';
         }
 
         else if ($op == 'login') {
-          $this->user->userLogin();
+          $login = $this->user->userLogin($_POST['login_mail'], $_POST['login_password'], "?op=dashboard");
+          if (!$login) {
+            include 'view/admin/header.html';
+              include 'view/admin/loginForm.html';
+            include 'view/admin/badLogin.html';
+          }
+        }
+        else if ($op == 'logout') {
+          $this->user->userLogout("?op=home");
         }
 
         else if ($op == 'dashboard') {
-          $this->User->setPageAcces(['admin']);
-          if ($this->User->checkIfUserHasAcces()) {
-              $this->adminDashboard();
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+              $AllProducts = $this->product->getAllProducts();
+              include 'view/admin/header.html';
+              include 'view/admin/crud-dashboard.php';
           }
           else {
-            echo "U bent niet ingelogd";
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
           }
+        }
+
+        else if ($op == 'addProductForm') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+              include 'view/admin/header.html';
+              include 'view/admin/addProduct.html';
+          }
+          else {
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
+          }
+        }
+
+        else if ($op == 'productToevoegen') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $this->product->add($_REQUEST);
+          }
+          else {
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
+          }
+        }
+
+        else if ($op == 'updateProductForm') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $productDetails = $this->product->details($_REQUEST['productID']);
+            include 'view/admin/header.html';
+            include 'view/admin/updateProductForm.php';
+          }
+          else {
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
+          }
+        }
+
+        else if ($op == 'updateProduct') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $this->product->update($_REQUEST);
+          }
+          else {
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
+          }
+        }
+
+        else if ($op == 'adminDeleteProduct') {
+          $this->user->setPageAcces(['admin']);
+          if ($this->user->checkIfUserHasAcces()) {
+            $this->product->delete($_REQUEST['productID']);
+          }
+          else {
+            include 'view/admin/header.html';
+            include 'view/admin/no-acces.html';
+          }
+        }
+        else if ($op == 'contact') {
+          include 'view/header.php';
+            include 'view/contact.php';
+          include 'view/footer.php';
         }
 
       } catch (Exception $e) {
@@ -142,35 +215,31 @@
       $pageLimit = 10;
 
       $products = $this->product->getProducts($pageNumer, $pageLimit);
-      $productview = new Productview();
-      $productview = $productview->createProductsView($products);
+      // $productview = new Productview();
+      // $productview = $productview->createProductsView($products);
 
-      $productPagenering = $this->generatePagenering();
-
+      include 'view/header.php';
       include 'view/products.php';
+      $productPagenering = $this->generatePagenering();
+      include 'view/footer.php';
     }
 
     public function displayNewestProducts() {
       // Displays the newest products
       $newestProducts = $this->product->getNewestProducts();
-      $newestProductsView = new Productview();
-      $newestProductsView = $newestProductsView->createNewProductsView($newestProducts);
 
+      include 'view/header.php';
       include 'view/newproducts.php';
+      include 'view/footer.php';
+
     }
+
     public function generatePagenering() {
       // Generates pagenering
       $productsTotal = $this->product->countAllProducts();
 
       $pages = ceil($productsTotal / 10);
-      // echo $pages;
-      $list = '';
-      $list .= '<ul class="col-12">';
-      for ($i=0; $i < $pages; $i++) {
-        $list .= '<li><a href="?pageNumer=' . $i . '">' . $p=$i + 1 . '</a></li>';
-      }
-      $list .= '</ul>';
-      return($list);
+      include 'view/pagenering.php';
     }
 
     public function showProductDetails() {
@@ -180,42 +249,44 @@
       include 'view/details.php';
     }
 
+    public function displayContact() {
+      include 'view/contact.php';
+    }
+
     public function showShoppingCard() {
       $shoppingcard = '';
       $view = new ShoppingcardView();
       $shoppingcardArray = $this->shoppingcard->get();
+
+      $teller = 0;
+      foreach ($shoppingcardArray as $key) {
+        $product_details[] = $this->product->details($key['productID']);
+
+        $product_details_price[]['productTotal'] = $this->shoppingcard->productTotalPriceInShoppingCard($key['productID']);
+
+        $product_details_aantal[]['aantal'] = $view->generateOptionNumbers($key['productID'] ,$shoppingcardArray[$key['productID']]['amount']);
+
+
+          $BTWPrice = $this->shoppingcard->calculateBTW();
+          $BTWPrice = str_replace('.', ',', $BTWPrice);
+
+          $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
+          $priceWithoutBTW = str_replace('.', ',', $priceWithoutBTW);
+
+          $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
+          $totalPrice = str_replace('.', ',', $totalPrice);
+
+        $teller++;
+      }
+      include 'view/header.php';
+
       if (!empty($shoppingcardArray)) {
-        foreach ($shoppingcardArray as $key) {
-          // Loops trough every item of the shoppingcard
-          $product_details = $this->product->details($key['productID']);
-          // Get the details of a product
-          $amount = str_replace(',', '.', $shoppingcardArray[$key['productID']]['amount']);
-          // Get how mutch we have of one product
-          $productTotal = $this->shoppingcard->productTotalPriceInShoppingCard($key['productID']);
-          // Total cost of one product with multiple items
-          $shoppingcardArray['productDetails'] = $this->product->details($key['productID']);
-
-          $shoppingcard .= $view->displayShoppingCard($product_details, $amount, $productTotal);
-          // Display
-        }
-        $BTWPrice = $this->shoppingcard->calculateBTW();
-        $BTWPrice = str_replace('.', ',', $BTWPrice);
-
-        $shoppingcard .= "<h2 class='col-10 right-text'>BTW: &euro;" . $BTWPrice . "</h2>";
-        $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
-        $priceWithoutBTW = str_replace('.', ',', $priceWithoutBTW);
-
-        $shoppingcard .= "<h2 class='col-10 right-text'>Exclusief BTW: &euro;" . $priceWithoutBTW . "</h2>";
-        $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
-        $totalPrice = str_replace('.', ',', $totalPrice);
-
-        $shoppingcard .= "<h2 class='col-10 right-text'>Totaal: &euro;" . $totalPrice . "</h2>";
-        $shoppingcard .= "<div class='col-8'></div><a href='?op=createOrder'><button type='button' class='col-2'>Bestellen!</button></a>";
+        include 'view/shoppingcard.php';
       }
       else {
-        $shoppingcard .= "<h2 class='col-12 center'>Uw winkelmandje is leeg!</h2>";
+        include 'view/emptyShoppingcard.php';
       }
-      include 'view/shoppingcard.php';
+      include 'view/footer.php';
     }
 
     public function addProductToShoppingcard() {
@@ -254,73 +325,6 @@
       $orderID = $this->customer->saveCustomerToDB();
       $orderCreate = $this->order->createOrder($orderID);
       return($orderID);
-    }
-
-    public function productListForAdmin() {
-      $products = $this->product->productIDs();
-      $productList = '
-        <table class="col-12">
-          <tr>
-            <th class="col-1">Product foto</th>
-            <th class="col-3">Product naam</th>
-            <th class="col-3">Product prijs</th>
-            <th class="col-3">EAN code</th>
-            <th class="col-2"></th>
-          </tr>
-      ';
-      foreach ($products as $result) {
-        $product = $this->product->details($result['idProduct']);
-        foreach ($product as $key) {
-          $productList .= '
-            <tr>
-              <td class="col-1"><img class="col-12" src="' . $key['pad'] . $key['filenaam'] .  '"></td>
-              <td class="col-3">' . $key['naam'] . '</td>
-              <td class="col-3">' . $key['prijs'] . '</td>
-              <td class="col-3">' . $key['EAN'] . '</td>
-              <td class="col-2">
-                <a href="?op=updateProduct&productID=' . $key['idProduct'] . '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                <a href="?op=deleteProduct&productID=' . $key['idProduct'] . '"><i class="fa fa-trash-o" aria-hidden="true"></i>
-              </td>
-            </tr>
-          ';
-        }
-      }
-      $productList .= '</table>';
-      include 'view/adminProductList.php';
-    }
-
-    public function updateFormProduct() {
-      $productID = ISSET($_REQUEST['productID'])? $_REQUEST['productID']: NULL;
-
-      $product = $this->product->details($productID);
-
-      $form = '<form method="post">';
-
-      foreach ($product as $key) {
-        $form .= '
-        <div class="col-3"></div>
-        <form method="post" enctype="multipart/form-data" class="col-6">
-          <img class="col-3" src="/leerjaar2/webshop/' . $key['pad'] . $key['filenaam'] .  '">
-          <h2 class="col-3">Nieuwe foto</h2>
-          <input class="col-3" type="file" name="file_upload"/>
-          <div class="col-6"><a href="?product=deleteImage&fileID=' . $key['idfiles'] . '">Delete image</a></div>
-          <h2 class="col-12">Product naam</h2>
-          <input class="col-4" type="text" name="productName" value="' . $key['naam'] . '"/>
-          <h2 class="col-12">Product Prijs</h2>
-          <input class="col-4" type="number" step="0.01" name="productPrice" value="' . $key['prijs'] . '">
-          <h2 class="col-12">Beschrijving</h2>
-          <textarea class="col-8" name="discription">' . $key['beschrijving'] . '</textarea>
-          <h2 class="col-12">EAN-code</h2>
-          <input class="col-4" type="text" name="ean-code" value="' . $key['EAN'] . '"/>
-          <div class="col-12"></div>
-          <input class="col-2" type="submit" name="product" value="update">
-        </form>
-        <div class="col-3"></div>
-        ';
-      }
-      $form .= '</form>';
-
-      include 'view/updateProductForm.php';
     }
 
     public function displayOrder() {
