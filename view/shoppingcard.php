@@ -15,7 +15,7 @@ $tellerForTimesPlaced = 0;
             Aantal: ' . $product_details_aantal[$teller]['aantal'] . '
           </div>
           <div></div>
-          <div>Totaal: &euro;' . $product_details_price[$teller]['productTotal'] . '</div>
+          <div>Totaal: &euro;' . str_replace('.', ',', $product_details_price[$teller]['productTotal']) . '</div>
         </div>
       ';
       $teller++;
