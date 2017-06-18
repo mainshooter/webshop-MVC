@@ -133,7 +133,7 @@ require_once 'security.class.php';
       $BTWPercentage = 21;
       $BTWPrice = $totalPrice / 100 * $BTWPercentage;
 
-      $BTWPrice = number_format(round($BTWPrice, 2), 2);
+      $BTWPrice = round($BTWPrice, 2);
 
       return($BTWPrice);
     }
@@ -149,7 +149,7 @@ require_once 'security.class.php';
       $totalBTWPrice = $this->calculateBTW();
       $priceWithoutBTW = $totalPrice - $totalBTWPrice;
 
-      $priceWithoutBTW = number_format(round($priceWithoutBTW, 2), 2);
+      $priceWithoutBTW = round($priceWithoutBTW, 2);
 
       return($priceWithoutBTW);
     }
@@ -170,7 +170,7 @@ require_once 'security.class.php';
           $totalPrice = $totalPrice + $this->productTotalPriceInShoppingCard($value);
         }
       }
-      $totalPrice = number_format(round($totalPrice, 2), 2);
+      $totalPrice = round($totalPrice, 2);
       return($totalPrice);
     }
 
@@ -192,7 +192,7 @@ require_once 'security.class.php';
             $total = $total + ($key['amount'] * $productPrice);
         }
       }
-      $total = number_format(round($total, 2), 2);
+      $total = round($total, 2);
       return($total);
     }
   }

@@ -6,8 +6,15 @@
       // Generates a select input field.
       // When the option is the same to the number we got for the option input
       // We set that as selected
+      if ($amount > 10) {
+        $maxNumbers = intval($amount + 5);
+      }
+      else {
+          $maxNumbers = 10;
+      }
+
       $selectField = '<select onchange="shoppingcard.update(\'' . $productID . '\', this.value);">';
-      for ($i=0; $i < 10; $i++) {
+      for ($i=0; $i < $maxNumbers; $i++) {
         if ($amount == $i) {
           $selectField .= '<option value="' . $i .'" selected>' . $i . '</option>';
         }
