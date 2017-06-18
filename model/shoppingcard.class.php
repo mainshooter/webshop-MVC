@@ -184,7 +184,7 @@ require_once 'security.class.php';
       foreach ($card as $key) {
         if ($key['productID'] == $productID) {
           // Only calculate a total product price when it is eacual to the productID
-            $total = $total + (intval($key['amount']) * $productPrice);
+            $total = $total + ($key['amount'] * $productPrice);
         }
       }
       return($total);
