@@ -93,9 +93,10 @@ nav ul ul {
 }
 #shoppingcardCount {
   position: relative;
-  top: 19px;
+  top: -7px;
   font-size: 0.7em;
   color: black;
+  right: -1.5em;
 }
 .shopping_card {
   padding: 0;
