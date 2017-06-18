@@ -258,7 +258,7 @@ textarea {
 /* Admin style */
 
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1101px) {
     /* For desktop: */
     #nav {
         text-align: right;
@@ -273,12 +273,15 @@ textarea {
     }
 
 }
-@media only screen and (min-width: 600px) and (max-width: 767px) {
+@media only screen and (min-width: 600px) and (max-width: 1100px) {
   /* Tablet */
   .shopping_card {
     /*width: 0;*/
   }
   .center {
     text-align: center;
+  }
+  .product_img {
+    height: 4em;
   }
 }
