@@ -194,7 +194,7 @@
         else if ($op == 'contact') {
           include 'view/header.php';
             include 'view/contact.php';
-          include 'view/contact.php';
+          include 'view/footer.php';
         }
 
       } catch (Exception $e) {
@@ -215,8 +215,8 @@
       $pageLimit = 10;
 
       $products = $this->product->getProducts($pageNumer, $pageLimit);
-      $productview = new Productview();
-      $productview = $productview->createProductsView($products);
+      // $productview = new Productview();
+      // $productview = $productview->createProductsView($products);
 
       include 'view/header.php';
       include 'view/products.php';
@@ -227,10 +227,11 @@
     public function displayNewestProducts() {
       // Displays the newest products
       $newestProducts = $this->product->getNewestProducts();
-      $newestProductsView = new Productview();
-      $newestProductsView = $newestProductsView->createNewProductsView($newestProducts);
 
+      include 'view/header.php';
       include 'view/newproducts.php';
+      include 'view/footer.php';
+
     }
 
     public function generatePagenering() {
@@ -256,38 +257,36 @@
       $shoppingcard = '';
       $view = new ShoppingcardView();
       $shoppingcardArray = $this->shoppingcard->get();
+
+      $teller = 0;
+      foreach ($shoppingcardArray as $key) {
+        $product_details[] = $this->product->details($key['productID']);
+
+        $product_details_price[]['productTotal'] = $this->shoppingcard->productTotalPriceInShoppingCard($key['productID']);
+
+        $product_details_aantal[]['aantal'] = $view->generateOptionNumbers($key['productID'] ,$shoppingcardArray[$key['productID']]['amount']);
+
+
+          $BTWPrice = $this->shoppingcard->calculateBTW();
+          $BTWPrice = str_replace('.', ',', $BTWPrice);
+
+          $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
+          $priceWithoutBTW = str_replace('.', ',', $priceWithoutBTW);
+
+          $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
+          $totalPrice = str_replace('.', ',', $totalPrice);
+
+        $teller++;
+      }
+      include 'view/header.php';
+
       if (!empty($shoppingcardArray)) {
-        foreach ($shoppingcardArray as $key) {
-          // Loops trough every item of the shoppingcard
-          $product_details = $this->product->details($key['productID']);
-          // Get the details of a product
-          $amount = str_replace(',', '.', $shoppingcardArray[$key['productID']]['amount']);
-          // Get how mutch we have of one product
-          $productTotal = $this->shoppingcard->productTotalPriceInShoppingCard($key['productID']);
-          // Total cost of one product with multiple items
-          $shoppingcardArray['productDetails'] = $this->product->details($key['productID']);
-
-          $shoppingcard .= $view->displayShoppingCard($product_details, $amount, $productTotal);
-          // Display
-        }
-        $BTWPrice = $this->shoppingcard->calculateBTW();
-        $BTWPrice = str_replace('.', ',', $BTWPrice);
-
-        $shoppingcard .= "<div class='col-12'><h2>BTW: &euro;" . $BTWPrice . "</h2>";
-        $priceWithoutBTW = $this->shoppingcard->calculatePriceWithoutBTW();
-        $priceWithoutBTW = str_replace('.', ',', $priceWithoutBTW);
-
-        $shoppingcard .= "<h2>Exclusief BTW: &euro;" . $priceWithoutBTW . "</h2>";
-        $totalPrice = $this->shoppingcard->calculateTotalPriceShoppingcard();
-        $totalPrice = str_replace('.', ',', $totalPrice);
-
-        $shoppingcard .= "<h2>Totaal: &euro;" . $totalPrice . "</h2></div>";
-        $shoppingcard .= "<div class='col-12'></div><div class='col-2'><a href='?op=createOrder'><button id='order' type='button'>Bestellen!</button></a></div>";
+        include 'view/shoppingcard.php';
       }
       else {
-        $shoppingcard .= "<center><h2 class='shoppingcard-message col-12'>Uw winkelmandje is leeg!</h2></center>";
+        include 'view/emptyShoppingcard.php';
       }
-      include 'view/shoppingcard.php';
+      include 'view/footer.php';
     }
 
     public function addProductToShoppingcard() {
