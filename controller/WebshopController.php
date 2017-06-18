@@ -194,7 +194,7 @@
         else if ($op == 'contact') {
           include 'view/header.php';
             include 'view/contact.php';
-          include 'view/contact.php';
+          include 'view/footer.php';
         }
 
       } catch (Exception $e) {
