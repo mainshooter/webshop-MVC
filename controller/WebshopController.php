@@ -220,7 +220,7 @@
 
       include 'view/header.php';
       include 'view/products.php';
-      $productPagenering = $this->generatePagenering();
+      $productPagenering = $this->generatePagenering($pageNumer);
       include 'view/footer.php';
     }
 
@@ -234,7 +234,7 @@
 
     }
 
-    public function generatePagenering() {
+    public function generatePagenering($pageNumer) {
       // Generates pagenering
       $productsTotal = $this->product->countAllProducts();
 

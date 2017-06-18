@@ -35,8 +35,8 @@
       <tr>
         <td>' . $key['naam'] . '</td>
         <td>' . $key['aantal'] . '</td>
-        <td>' . str_replace('.', ',', $key['prijs']) . '</td>
-        <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
+        <td>&euro;' . str_replace('.', ',', $key['prijs']) . '</td>
+        <td>&euro;' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
       </tr>
       ';
     }

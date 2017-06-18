@@ -189,6 +189,9 @@ textarea {
   text-align: center;
   font-size: 1.4em;
 }
+.current_page {
+  text-decoration: underline;
+}
 .pagenering ul {
   display: inline-flex;
   text-align: center;
