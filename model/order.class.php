@@ -237,12 +237,12 @@
     public function generateMailToCustomerAboutOrderConfirmation($orderID) {
       $this->Mail->subject = "Bevestiging order: " . $orderID;
       $mailContent = "
-        <div>Beste " . $this->getNameOfThePersonWhoOrder($orderID) . ",<br /></div>
+        <div>Beste " . $this->getNameOfThePersonWhoOrder($orderID) . ",<br /><br /></div>
         <div>We hebben uw order in behandeling genomen.</div>
       ";
 
       $orderList = $this->getOrderItems($orderID);
-      $mailContent .= '<table>';
+      $mailContent .= '<br><table>';
       $mailContent .= "
         <tr>
           <th>Product</th>
@@ -257,8 +257,8 @@
         <tr>
           <td>' . $productNaam = $this->Product->getProductName($key['Product_idProduct']) . '</td>
           <td>' . $key['aantal'] . '</td>
-          <td>' . str_replace('.', ',', $key['prijs']) . '</td>
-          <td>' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
+          <td>&euro;' . str_replace('.', ',', $key['prijs']) . '</td>
+          <td>&euro;' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
         </tr>
         ';
       }
@@ -267,6 +267,7 @@
         <p>
           Met vriendelijke groet,
           <br/>
+          <br />
           Multiversum
         </p>
       ';
@@ -300,6 +301,7 @@
         </p>
         <p>
           Met vriendelijke groet,
+          <br />
           <br />
           Multiversum
         </p>

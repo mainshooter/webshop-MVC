@@ -154,7 +154,7 @@ textarea {
 .product p {
   font-weight: lighter;
   font-size: 1.2em;
-  /*font-family: 'Quicksand', sans-serif;*/
+  text-align: center;
   margin-top: 0.3em;
 }
 .product_details h2 {
@@ -311,9 +311,31 @@ form label {
 .createCustomer {
   text-align: center;
 }
+.order-display h2, p {
+  text-align: left;
+}
 
-
-/* Admin style */
+table {
+  margin: 1em 0;
+  text-align: left;
+}
+th {
+  font-weight: bold;
+  font-size: 1.2em;
+  background-color: #16a085;
+  color: white;
+}
+tr:nth-child(even) {
+  background-color: #ecf0f1;
+}
+tr:nth-child(odd) {
+  background-color: #bdc3c7;
+}
+th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 0.7em;
+}
 
 
 @media only screen and (min-width: 1101px) {
