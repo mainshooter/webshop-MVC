@@ -353,12 +353,20 @@
       $orderID = ISSET($_REQUEST['orderID'])?$_REQUEST['orderID']: NULL;
 
       $order = $this->order->getOrder($orderID);
-      foreach ($order as $key) {
-        $betaal_status = $Translate->translateEngToNL($key['betaal_status']);
+      if (!empty($order)) {
+        foreach ($order as $key) {
+          $betaal_status = $Translate->translateEngToNL($key['betaal_status']);
+        }
+        $orderItems = $this->order->getOrderItemsForHtmlGenerator($orderID);
+        include 'view/header.php';
+        include 'view/display-a-order.php';
+        include 'view/footer.php';
       }
-      $orderItems = $this->order->getOrderItemsForHtmlGenerator($orderID);
+      else {
+        include 'view/header.php';
+        include 'view/footer.php';
+      }
 
-      include 'view/display-a-order.php';
     }
 
     public function adminDashboard() {
