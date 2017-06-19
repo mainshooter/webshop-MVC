@@ -1,5 +1,5 @@
 <?php
-  include 'header.php';
+
 
   $orderDisplay = '<div class="col-2"></div>';
     $orderDisplay .= '<div class="col-10 order-display">';
@@ -57,5 +57,4 @@
     $orderDisplay .= '<div class="col-2"></div>';
 
     echo $orderDisplay;
-  include 'footer.php';
 ?>
