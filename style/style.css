@@ -169,6 +169,11 @@ textarea {
 .product_img {
     height: 9em;
 }
+.product button a {
+  text-decoration: none;
+  color: white;
+}
+
 .product p {
   font-weight: lighter;
   font-size: 1.2em;
@@ -360,6 +365,31 @@ th, td {
 }
 .new-products h2 {
   margin: 1em 0;
+}
+#messagePrompt {
+  width: 30em;
+  height: 10em;
+  color: white;
+  background-color: #2ecc71;
+  position: fixed;
+  bottom: 3.5em;
+  right: 0;
+  border: 0.3em solid white;
+  border-radius: 1em;
+  overflow: hidden;
+  opacity: 0;
+  display: none;
+}
+#messagePrompt p {
+  padding: 0 1em;
+  font-weight: lighter;
+}
+#messagePrompt h3 {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin: 1em 0;
+  font-size: 1.4em;
 }
 
 

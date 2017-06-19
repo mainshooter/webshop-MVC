@@ -14,6 +14,7 @@
         <p>&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
 
         <button type="button" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();">Bestellen</button>
+        <button type="button"><a href="?op=details&productID=' . $key['idProduct'] . '">Details</button>
       </div>
       ';
       // <i class="fa fa-cart-arrow-down" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();"></i>
