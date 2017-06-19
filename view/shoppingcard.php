@@ -19,7 +19,7 @@ $tellerForTimesPlaced = 0;
         </div>
       ';
       $teller++;
-      if ($tellerForTimesPlaced == 3) {
+      if ($tellerForTimesPlaced == 2) {
           echo "</div>";
           $tellerForTimesPlaced = 0;
         }
