@@ -4,11 +4,11 @@
   define('siteLocation', 'https://dev.samebestserver.nl/leerjaar2/webshop-MVC/');
 
   // Database configration
-  define('databaseLocation', 'localhost');
-  define('databasePort', '3306');
+  define('databaseLocation', 'samebestserver.nl');
+  define('databasePort', '100');
 
   define('databaseUsername', 'root');
-  define('databasePassword', '1234');
+  define('databasePassword', '1234567890');
 
   define('databaseName', 'multiversum');
 
