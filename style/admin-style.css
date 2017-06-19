@@ -32,6 +32,9 @@
   display: block;
   width: 25em;
 }
+table {
+  font-size: 1.3em;
+}
 
 form input[type=text] {
   font-size: 1.3em;
