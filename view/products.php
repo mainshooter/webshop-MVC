@@ -18,7 +18,7 @@
             <h2>' . $key['naam'] . '</h2>
           </a>
           <p>&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
-          <button type="button" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();">Bestellen</button>
+          <button type="button" onclick="shoppingcard.add(' . $key['idProduct'] . ');">Bestellen</button>
         </div>
         ';
         if ($teller == 3) {
