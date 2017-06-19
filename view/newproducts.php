@@ -1,3 +1,4 @@
+<div class="new-products">
 <h2 class="col-12">Onze nieuwste VR-brillen</h2>
 <?php
     echo '<div class="col-2 col-m-1"></div>';
@@ -20,3 +21,4 @@
     echo '<div class="col-2 col-m-1"></div>';
 
 ?>
+</div>

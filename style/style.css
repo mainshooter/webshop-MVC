@@ -358,6 +358,9 @@ th, td {
   border-collapse: collapse;
   padding: 0.7em;
 }
+.new-products h2 {
+  margin: 1em 0;
+}
 
 
 @media only screen and (min-width: 1101px) {
