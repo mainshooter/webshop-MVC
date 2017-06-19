@@ -75,7 +75,7 @@
           include 'view/createCustomer.php';
         }
 
-        else if ($op == 'betalen') {
+        else if ($op == 'Betalen') {
           // We save the shoppingcard to the database
           // And save the product price of every product
           // Than we redirect the client to the payment provider

@@ -36,7 +36,7 @@
       </div>
       <br>
       <br>
-      <input id="order" type="submit" name="op" value="betalen">
+      <input id="order" type="submit" name="op" value="Betalen">
     </form>
 
   </div>
