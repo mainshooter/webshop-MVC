@@ -1,3 +1,4 @@
+<h2 class="col-12">Onze nieuwste VR-brillen</h2>
 <?php
     echo '<div class="col-2 col-m-1"></div>';
   foreach ($newestProducts as $key) {
@@ -10,9 +11,11 @@
           <h2>' . $key['naam'] . '</h2>
         </a>
         <p>&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
-        <i class="fa fa-cart-arrow-down" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();"></i>
+
+        <button type="button" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();">Bestellen</button>
       </div>
       ';
+      // <i class="fa fa-cart-arrow-down" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();"></i>
     }
     echo '<div class="col-2 col-m-1"></div>';
 

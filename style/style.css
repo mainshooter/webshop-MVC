@@ -145,12 +145,23 @@ textarea {
   color: #16a085;
 }
 .product button {
-  position: relative;
+  /*position: relative;*/
+  color: white;
   top: -5.2em;
   right: -4.8em;
   height: 4em;
   width: 6.1em;
   font-size: 0.8em;
+
+  height: 3em;
+  background-color: #16a085;
+  border: 2px solid #ecf0f1;
+  border-radius: 0.6em;
+  box-shadow: 0px 5px 16px #7f8c8d;
+  font-size: 1.1em;
+  margin: 0.6em 0;
+  margin-bottom: 1.3em;
+  cursor:pointer;
 }
 .product_img {
     height: 9em;
