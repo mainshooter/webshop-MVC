@@ -24,6 +24,11 @@
       $this->HtmlGenerator = new HtmlGenerator();
     }
 
+    /**
+     * Creates a order
+     * @param  [type] $orderID [description]
+     * @return [type]          [description]
+     */
     public function createOrder($orderID) {
       // This function creates the order
       // Parameter is a string or number from the orderID
