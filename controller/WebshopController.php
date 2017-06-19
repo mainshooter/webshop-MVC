@@ -215,7 +215,7 @@
     public function displayProducts() {
       // Displays all products
       $pageNumer = ISSET($_REQUEST['pageNumer'])? $_REQUEST['pageNumer']: 0;
-      $pageLimit = 10;
+      $pageLimit = 12;
 
       $products = $this->product->getProducts($pageNumer, $pageLimit);
       // $productview = new Productview();
