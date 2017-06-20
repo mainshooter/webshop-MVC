@@ -65,25 +65,6 @@
       $products .= '<div class="col-2 col-m-1"></div>';
       return($products);
     }
-    public function createRecentProductsView($result) {
-      $products = '<table>';
-      foreach ($result as $key) {
-        $products .= '
-        <tr class="col-3 col-m-4 product">
-          <a href="?op=details&productID=' . $key['idProduct'] . '">
-            <td class="col-12 col-m-12">
-              <img class="product_img" src="' . $key['pad'] . $key['filenaam'] . '" />
-            </td>
-            <td class="col-12 col-m-12"><h2>' . $key['naam'] . '</h2></td>
-          </a>
-          <td class="col-12 col-m-12"><p>&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
-          <i class="fa fa-cart-arrow-down" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();"></i></td>
-        </tr>
-        ';
-      }
-      $products .= '</table>';
-      return($products);
-    }
 
     public function createProductDetails($result) {
       $detail = '';
