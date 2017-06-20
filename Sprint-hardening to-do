@@ -1,6 +1,9 @@
 Duidelijker dat een item in een winkelwagentje gaat
 Header aanpassen
-Next en previous bij pagenering
+Next en previous bij pagenering - Might
 Winkelwagen als een tabel
-Bestelknop en info knoppen bij de product overzicht
-Bij de Home pagina staan: “Nieuwe producten”
+x Documentatie toevoegen
+Afhandeling als er geen producten in de database staan dat we een view laten zien
+
+x Bestelknop en info knoppen bij de product overzicht
+x Bij de Home pagina staan: “Nieuwe producten”

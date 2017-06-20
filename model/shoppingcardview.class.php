@@ -14,7 +14,7 @@
       }
 
       $selectField = '<select onchange="shoppingcard.update(\'' . $productID . '\', this.value);">';
-      for ($i=0; $i < $maxNumbers; $i++) {
+      for ($i=1; $i < $maxNumbers; $i++) {
         if ($amount == $i) {
           $selectField .= '<option value="' . $i .'" selected>' . $i . '</option>';
         }

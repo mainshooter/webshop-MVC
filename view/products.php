@@ -19,7 +19,7 @@
           </a>
           <p>&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
           <button type="button" onclick="shoppingcard.add(' . $key['idProduct'] . ');">Bestellen</button>
-          <a href="?op=details&productID=' . $key['idProduct'] . '"><button type="button">Details</button></a>
+          <button type="button"><a href="?op=details&productID=' . $key['idProduct'] . '">Details</button>
         </div>
         ';
         if ($teller == 3) {

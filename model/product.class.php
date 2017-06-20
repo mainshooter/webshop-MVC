@@ -17,7 +17,7 @@
      * @param [array] $newProductArray [contains the new values for a row in the product table]
      * @return [type] $productID [Returns the productID of the creates row]
      */
-    public function add($newProductArray) {
+    public function createProduct($newProductArray) {
       // Add a product to database
       // Parameter is send as a array
       $FileHandler = new Filehandler();
@@ -54,7 +54,7 @@
      * @param  [INT] $productID [The ID of the product]
      * @return [string]            [The result from the db handler]
      */
-    public function delete($productID) {
+    public function deleteProduct($productID) {
       // Removes product
       $s = new Security();
       $db = new db();
@@ -72,7 +72,7 @@
      * @param  [array] $updateProductArray [The array that contains the new values for a product]
      * @return [string]                     [The result from the db handler]
      */
-    public function update($updateProductArray) {
+    public function updateProduct($updateProductArray) {
       // Update product
       // expexts an array with the values
       $s = new Security();
@@ -138,7 +138,7 @@
      * @param  [INT] $id [productID]
      * @return [array]     [array with the result from the database]
      */
-    public function details($id) {
+    public function productDetails($id) {
       // This function gets the detailed page
       $s = new Security();
       $page = $s->checkInput($id);
@@ -368,6 +368,10 @@
       $db->CreateData($sql, $input);
     }
 
+    /**
+     * Gets all catagories from the db
+     * @return [assoc array] [The result from the db]
+     */
     public function getCatagories() {
       // This function get all the catagories and returns it as a array
       $db = new db();
@@ -375,10 +379,6 @@
       $input = array();
 
       return($db->readData($sql, $input));
-    }
-
-    public function getProductsFromCatagories() {
-      // This function gets all products form a catagorie and returns it as a array
     }
   }
 

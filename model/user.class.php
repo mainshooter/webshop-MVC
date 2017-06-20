@@ -10,6 +10,8 @@ require_once 'security.class.php';
 
    function __construct() {
      $this->loginToken = 'h79vr29hu3pqhf-249pgae';
+     // We use this to check later if someone is logged in
+     // We place that in a session with the user
    }
 
    /**

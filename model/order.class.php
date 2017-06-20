@@ -24,6 +24,11 @@
       $this->HtmlGenerator = new HtmlGenerator();
     }
 
+    /**
+     * Creates a order
+     * @param  [int] $orderID [The ID from the order]
+     * @return [boolean][Returns a 1 or 0 as boolean]
+     */
     public function createOrder($orderID) {
       // This function creates the order
       // Parameter is a string or number from the orderID
@@ -145,6 +150,11 @@
       return($order);
     }
 
+    /**
+     * Updates a status from a order
+     * @param  [INT] $orderID [The ID of the order]
+     * @param  [string] $status  [The status of the order]
+     */
     public function updateOrderStatus($orderID, $status) {
       $Db = new db();
       $S = new Security();
@@ -338,11 +348,5 @@
 
       $Mail->sendMail();
     }
-
-
-
   }
-
-
-
 ?>
