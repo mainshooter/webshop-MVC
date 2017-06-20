@@ -401,6 +401,7 @@ th, td {
   overflow: hidden;
   opacity: 0;
   display: none;
+  transition: 0.5s;
 }
 #messagePrompt p {
   padding: 0 1em;

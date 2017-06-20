@@ -1,5 +1,42 @@
 var shoppingcard;
 var product;
+var messagePrompt;
+
+(function() {
+  messagePrompt = {
+    /**
+     * Sets a title for the message prompt
+     * @param  {[string]} title [The title for the message prompt]
+     */
+    setTitle: function(title) {
+      document.getElementById('messagePrompt').getElementsByTagName('h3')[0].innerHTML = title;
+    },
+    /**
+     * Set the message for the message prompt
+     * @param  {[string]} message [The message for the message prompt]
+     */
+    setMessage: function(message) {
+      document.getElementById('messagePrompt').getElementsByTagName('p')[0].innerHTML = message;
+    },
+    showPrompt: function() {
+      var prompt = document.getElementById('messagePrompt');
+      prompt.style.display = 'block';
+
+      setTimeout(function() {
+        prompt.style.opacity = '1';
+      },500);
+    },
+    hidePrompt: function() {
+      var prompt = document.getElementById('messagePrompt');
+      prompt.style.opacity = '0';
+
+      setTimeout(function() {
+        prompt.style.display = 'none';
+      },500);
+    }
+  }
+})();
+
 (function() {
   shoppingcard = {
     add: function(productID) {
