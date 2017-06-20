@@ -218,12 +218,17 @@
       $pageLimit = 12;
 
       $products = $this->product->getProducts($pageNumer, $pageLimit);
-      // $productview = new Productview();
-      // $productview = $productview->createProductsView($products);
 
       include 'view/header.php';
-      include 'view/products.php';
-      $productPagenering = $this->generatePagenering($pageNumer);
+      if (!empty($products)) {
+        // If we have products
+        include 'view/products.php';
+        $productPagenering = $this->generatePagenering($pageNumer);
+      }
+      else {
+        // We have products
+        include 'view/no-products.html';
+      }
       include 'view/footer.php';
     }
 
@@ -232,7 +237,13 @@
       $newestProducts = $this->product->getNewestProducts();
 
       include 'view/header.php';
-      include 'view/newproducts.php';
+      if (!empty($newestProducts)) {
+        include 'view/newproducts.php';
+      }
+      else {
+        include 'view/no-products.html';
+      }
+
       include 'view/footer.php';
 
     }
@@ -247,9 +258,15 @@
 
     public function showProductDetails() {
       $productDetails = $this->product->productDetails($_REQUEST['productID']);
-      $productview = new Productview();
-      $productDetails = $productview->createProductDetails($productDetails);
-      include 'view/details.php';
+
+      include 'view/header.php';
+      if (!empty($productDetails)) {
+        include 'view/details.php';
+      }
+      else {
+        include 'view/no-products.html';
+      }
+      include 'view/footer.php';
     }
 
     public function displayContact() {
@@ -366,11 +383,6 @@
         include 'view/header.php';
         include 'view/footer.php';
       }
-
     }
-
-    public function adminDashboard() {
-
-  }
 }
 ?>
