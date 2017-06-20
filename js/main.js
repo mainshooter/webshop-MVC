@@ -1,5 +1,4 @@
 var shoppingcard;
-var product;
 var messagePrompt;
 
 (function() {
@@ -27,12 +26,14 @@ var messagePrompt;
       },500);
     },
     hidePrompt: function() {
-      var prompt = document.getElementById('messagePrompt');
-      prompt.style.opacity = '0';
-
       setTimeout(function() {
-        prompt.style.display = 'none';
-      },500);
+        var prompt = document.getElementById('messagePrompt');
+        prompt.style.opacity = '0';
+
+        setTimeout(function() {
+          prompt.style.display = 'none';
+        },500);
+      }, 3000);
     }
   }
 })();
@@ -40,9 +41,11 @@ var messagePrompt;
 (function() {
   shoppingcard = {
     add: function(productID) {
-      console.log("RUN");
       var result = shoppingcard.ajax("?op=shoppingcardAdd&productID=" + productID + "&amount=1");
-      console.log(result);
+      messagePrompt.setTitle("Winkelmandje");
+      messagePrompt.setMessage("We hebben het toegevoegd aan uw winkelmandje");
+      messagePrompt.showPrompt();
+      messagePrompt.hidePrompt();
       shoppingcard.count();
     },
   count: function() {
@@ -81,9 +84,4 @@ var messagePrompt;
     return(xhttp.responseText);
   }
 }
-})();
-(function() {
-  title = {
-
-  }
 })();
