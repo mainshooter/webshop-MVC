@@ -281,7 +281,7 @@
       $teller = 0;
       if (!empty($shoppingcardArray)) {
         foreach ($shoppingcardArray as $key) {
-          $product_details[] = $this->product->details($key['productID']);
+          $product_details[] = $this->product->productDetails($key['productID']);
 
           $product_details_price[]['productTotal'] = number_format($this->shoppingcard->productTotalPriceInShoppingCard($key['productID']), 2);
 
