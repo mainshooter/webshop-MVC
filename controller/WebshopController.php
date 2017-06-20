@@ -218,13 +218,20 @@
       $pageLimit = 12;
 
       $products = $this->product->getProducts($pageNumer, $pageLimit);
-      // $productview = new Productview();
-      // $productview = $productview->createProductsView($products);
 
-      include 'view/header.php';
-      include 'view/products.php';
-      $productPagenering = $this->generatePagenering($pageNumer);
-      include 'view/footer.php';
+      if (!empty($products)) {
+        // If we have products
+        include 'view/header.php';
+        include 'view/products.php';
+        $productPagenering = $this->generatePagenering($pageNumer);
+        include 'view/footer.php';
+      }
+      else {
+        // We have products
+        include 'view/header.php';
+          include 'view/no-products.html';
+        include 'view/footer.php';
+      }
     }
 
     public function displayNewestProducts() {
