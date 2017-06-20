@@ -258,11 +258,9 @@
 
     public function showProductDetails() {
       $productDetails = $this->product->productDetails($_REQUEST['productID']);
-      $productview = new Productview();
 
       include 'view/header.php';
       if (!empty($productDetails)) {
-        $productDetails = $productview->createProductDetails($productDetails);
         include 'view/details.php';
       }
       else {
