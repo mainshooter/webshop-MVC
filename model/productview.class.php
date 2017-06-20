@@ -1,6 +1,11 @@
 <?php
 
   class Productview {
+    /**
+     * Creates the view for the all products page
+     * @param  [assoc arr] $result [The result from the productDB]
+     * @return [string / HTML]         [The view generates]
+     */
     public function createProductsView($result) {
       $counter = 0;
       // Counts how many times we displayed a product
@@ -39,6 +44,7 @@
       }
       return($products);
     }
+    
     public function createNewProductsView($result) {
       $products = '';
       $products .= '<div class="col-2 col-m-1"></div>';

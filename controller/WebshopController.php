@@ -152,7 +152,7 @@
         else if ($op == 'productToevoegen') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-            $this->product->add($_REQUEST);
+            $this->product->createProduct($_REQUEST);
           }
           else {
             include 'view/admin/header.html';
@@ -176,7 +176,7 @@
         else if ($op == 'updateProduct') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-            $this->product->update($_REQUEST);
+            $this->product->updateProduct($_REQUEST);
           }
           else {
             include 'view/admin/header.html';
@@ -187,7 +187,7 @@
         else if ($op == 'adminDeleteProduct') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-            $this->product->delete($_REQUEST['productID']);
+            $this->product->deleteProduct($_REQUEST['productID']);
           }
           else {
             include 'view/admin/header.html';
@@ -246,7 +246,7 @@
     }
 
     public function showProductDetails() {
-      $productDetails = $this->product->details($_REQUEST['productID']);
+      $productDetails = $this->product->productDetails($_REQUEST['productID']);
       $productview = new Productview();
       $productDetails = $productview->createProductDetails($productDetails);
       include 'view/details.php';
