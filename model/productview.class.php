@@ -89,7 +89,7 @@
             <img class="col-3" src="' . $key['pad'] . $key['filenaam'] . '" />
             <div class="col-9">' . $key['beschrijving'] . '</div>
             <p class="col-1">&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
-            <i class="fa fa-cart-plus col-5" aria-hidden="true" onclick="shoppingcard.add(' . $key['idProduct'] . ')"></i>
+            <button type="button" onclick="shoppingcard.add(' . $key['idProduct'] . ')"><i class="fa fa-cart-plus" aria-hidden="true"></i> Bestel</button>
           </div>
           <div class="col-1"></div>
         ';

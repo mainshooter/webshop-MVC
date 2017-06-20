@@ -161,7 +161,7 @@ textarea {
   font-size: 1.1em;
   margin: 0.6em 0;
   margin-bottom: 1.3em;
-  cursor:pointer;
+  cursor: pointer;
 }
 .product button:focus {
   outline: none;
@@ -181,7 +181,7 @@ textarea {
   font-size: 1.7em;
 }
 .product_details div {
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 .product_details p {
   font-family: 'Quicksand', sans-serif;
@@ -190,6 +190,25 @@ textarea {
 }
 .product_details i {
   font-size: 1.4em;
+}
+.product_details button {
+  /*position: relative;*/
+  color: white;
+  top: -5.2em;
+  right: -4.8em;
+  height: 4em;
+  width: 6.1em;
+  font-size: 0.8em;
+
+  height: 3em;
+  background-color: #16a085;
+  border: 2px solid #ecf0f1;
+  border-radius: 0.6em;
+  box-shadow: 0px 5px 16px #7f8c8d;
+  font-size: 1.1em;
+  margin: 0.6em 0;
+  margin-bottom: 1.3em;
+  cursor: pointer;
 }
 .winkelmandje-height-center {
   height: 100%;
@@ -224,9 +243,11 @@ textarea {
 .webshop-img {
   padding: 0px;
   width: 15em;
-  
   display: block;
   margin: 0 auto;
+}
+.shop-img {
+width: 0px;
 }
 .shoppingcard_content div, p, h2 {
   text-align: center;
