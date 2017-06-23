@@ -252,8 +252,13 @@
       // Generates pagenering
       $productsTotal = $this->product->countAllProducts();
 
-      $pages = ceil($productsTotal / 10);
-      include 'view/pagenering.php';
+      if ($productsTotal == 0) {
+        include 'view/no-products.html';
+      }
+      else {
+        $pages = ceil($productsTotal / 10);
+        include 'view/pagenering.php';  
+      }
     }
 
     public function showProductDetails() {
