@@ -32,5 +32,5 @@ $tellerForTimesPlaced = 0;
     echo "<h2 class='col-12'>Exclusief BTW: &euro;" . $priceWithoutBTW . "</h2>";
     echo "<div class='col-12'><h2>BTW: &euro;" . $BTWPrice . "</h2>";
     echo "<h2 class='col-12'>Totaal: &euro;" . $totalPrice . "</h2></div>";
-    echo "<div class='col-12'></div><div class='col-12'><a href='?op=createOrder'><button id='order' type='button'>Bestellen!</button></a></div>";
+    echo "<div class='col-12'></div><div class='col-12'><a href='?op=createOrder'><button id='order' type='button'><i class='fa fa-money' aria-hidden='true'></i> Bestellen!</button></a></div>";
 ?>
