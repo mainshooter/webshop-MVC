@@ -9,7 +9,7 @@
    <link rel="stylesheet" href="style/grid.css" type="text/css">
    <link rel="stylesheet" href="style/style.css" type="text/css">
 
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" href="style/font-awesome.css" type="text/css">
 
     <link rel="apple-touch-icon" sizes="57x57" href="file/icon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="file/icon/apple-icon-60x60.png">
