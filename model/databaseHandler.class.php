@@ -15,15 +15,20 @@
 
 
     private $conn;
-    private $serverIP = databaseLocation;
-    private $port = databasePort;
-    private $databaseName = databaseName;
-    private $username = databaseUsername;
-    private $password = databasePassword;
+    private $serverIP;
+    private $port;
+    private $databaseName;
+    private $username;
+    private $password;
     // Properties for the database
 
     function __construct() {
       // Starts when the class is called
+      $this->serverIP = $GLOBALS['config']['databaseLocation'];
+      $this->port = $GLOBALS['config']['databasePort'];
+      $this->databaseName = $GLOBALS['config']['databaseName'];
+      $this->username = $GLOBALS['config']['databaseUsername'];
+      $this->password = $GLOBALS['config']['databasePassword'];
       try {
         $conn = new PDO("mysql:host=$this->serverIP;port=$this->port;dbname=$this->databaseName", $this->username, $this->password);
         // set the PDO error mode to exception

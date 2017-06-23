@@ -95,14 +95,6 @@
           $this->displayOrder();
         }
 
-        else if ($op == 'productAdminList') {
-          // This op generates the crud list for a product
-          $this->productListForAdmin();
-        }
-
-        else if ($op == 'updateProduct') {
-          $this->product->update($_REQUEST);
-        }
 
         else if ($op == 'loginForm') {
           include 'view/admin/header.html';
@@ -169,7 +161,7 @@
         else if ($op == 'updateProductForm') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-            $productDetails = $this->product->details($_REQUEST['productID']);
+            $productDetails = $this->product->productDetails($_REQUEST['productID']);
             if (!empty($productDetails)) {
               include 'view/admin/header.html';
               include 'view/admin/updateProductForm.php';
