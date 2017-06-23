@@ -22,6 +22,7 @@ require_once 'security.class.php';
     */
    public function userLogin($userInputMail, $userInputPassword, $redirectLocation) {
      session_set_cookie_params(1500);
+     // To delete a session when a user isn't active
      if ($this->checkIfEmailExists($userInputMail)) {
 
        $orginalHashedPassword = $this->getOrginalPassword($userInputMail);
