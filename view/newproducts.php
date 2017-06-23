@@ -13,7 +13,7 @@
         </a>
         <p>&euro;' . str_replace('.', ',', $key['prijs']) . '</p>
 
-        <button type="button" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();">Bestellen</button>
+        <button type="button" onclick="shoppingcard.add(' . $key['idProduct'] . ');shoppingcard.goTo();"><i class="fa fa-cart-plus" aria-hidden="true"></i> Bestel</button>
         <button type="button"><a href="?op=details&productID=' . $key['idProduct'] . '">Details</button>
       </div>
       ';
