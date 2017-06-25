@@ -307,7 +307,7 @@
           We maken uw bestelling zo snel mogelijk gereed en versturen deze naar u.
         </p>
         <p>
-          Voor meer informatie over uw order klik <a href="' . siteLocation . '?op=displayOrder&orderID=' . $orderID . '">hier</a>.
+          Voor meer informatie over uw order klik <a href="' . $GLOBALS['config']['siteLocation'] . '?op=displayOrder&orderID=' . $orderID . '">hier</a>.
         </p>
         <p>
           Met vriendelijke groet,
@@ -332,7 +332,7 @@
       $orderItems = $this->getOrderItemsForHtmlGenerator($orderID);
       $customerInfo = $customer->getCustomerInfoByOrderID($orderID);
 
-      $Mail->adress = admin_mail;
+      $Mail->adress = $GLOBALS['config']['adminMail'];
       $Mail->adressName = "Multiversum Webshop";
       $Mail->subject = "Er is een nieuwe order: " . $orderID;
 
