@@ -24,6 +24,7 @@
 
     function __construct() {
       // Starts when the class is called
+      
       $this->serverIP = $GLOBALS['config']['databaseLocation'];
       $this->port = $GLOBALS['config']['databasePort'];
       $this->databaseName = $GLOBALS['config']['databaseName'];
