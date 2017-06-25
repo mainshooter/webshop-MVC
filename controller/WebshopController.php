@@ -72,7 +72,19 @@
 
         else if ($op == 'createOrder') {
           // Gets the form that the customer needs to fill in
-          include 'view/createCustomer.php';
+          if (!empty($this->shoppingcard->getProductIDs())) {
+            // To check if we have products
+            // We don't want a user here if he don't have any products
+            include 'view/header.php';
+            include 'view/createCustomer.php';
+            include 'view/footer.php';
+          }
+          else {
+            // If someone has got here without any products in the shoppingcard
+            include 'view/header.php';
+            include 'view/no-products.html';
+            include 'view/footer.php';
+          }
         }
 
         else if ($op == 'Betalen') {
@@ -80,11 +92,31 @@
           // And save the product price of every product
           // Than we redirect the client to the payment provider
 
-          $orderID = $this->createOrder();
-          $this->order->generateMailToCustomerAboutOrderConfirmation($orderID);
-          $this->shoppingcard->clearShoppingcard();
+          if (!empty($this->shoppingcard->getProductIDs())) {
+            // To check if we have any products in the shoppingcard to paywith
+            if (!empty($_POST)) {
+              // To check if a user has got here by the post of the form
+              $orderID = $this->createOrder();
+              $this->order->generateMailToCustomerAboutOrderConfirmation($orderID);
+              $this->shoppingcard->clearShoppingcard();
 
-          $this->payment->startPayment($orderID);
+              $this->payment->startPayment($orderID);
+            }
+
+            else {
+              // If someone has got here without the use of the form
+              include 'view/header.php';
+              include 'view/no-products.html';
+              include 'view/footer.php';
+            }
+          }
+          else {
+
+            // If someone has got here without any products in his shoppingcard
+            include 'view/header.php';
+            include 'view/no-products.html';
+            include 'view/footer.php';
+          }
         }
 
         else if ($op == 'paymentResponse') {
@@ -362,7 +394,6 @@
       $this->customer->housenumber = $s->checkInput($_REQUEST['customer_houseNumber']);
       $this->customer->addon = $s->checkInput($_REQUEST['customer_addon']);
       $this->customer->zipcode = $s->checkInput($_REQUEST['customer_zipCode']);
-      $this->customer->country = $s->checkInput($_REQUEST['customer_country']);
 
       $orderID = $this->customer->saveCustomerToDB();
       $orderCreate = $this->order->createOrder($orderID);
