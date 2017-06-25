@@ -95,14 +95,6 @@
           $this->displayOrder();
         }
 
-        else if ($op == 'productAdminList') {
-          // This op generates the crud list for a product
-          $this->productListForAdmin();
-        }
-
-        else if ($op == 'updateProduct') {
-          $this->product->update($_REQUEST);
-        }
 
         else if ($op == 'loginForm') {
           include 'view/admin/header.html';
@@ -129,7 +121,13 @@
           if ($this->user->checkIfUserHasAcces()) {
               $AllProducts = $this->product->getAllProducts();
               include 'view/admin/header.html';
-              include 'view/admin/crud-dashboard.php';
+              if (!empty($AllProducts)) {
+                  include 'view/admin/crud-dashboard.php';
+              }
+              else {
+                include 'view/admin/crud-dashboard.php';
+                include 'view/no-products.html';
+              }
           }
           else {
             include 'view/admin/header.html';
@@ -163,9 +161,11 @@
         else if ($op == 'updateProductForm') {
           $this->user->setPageAcces(['admin']);
           if ($this->user->checkIfUserHasAcces()) {
-            $productDetails = $this->product->details($_REQUEST['productID']);
-            include 'view/admin/header.html';
-            include 'view/admin/updateProductForm.php';
+            $productDetails = $this->product->productDetails($_REQUEST['productID']);
+            if (!empty($productDetails)) {
+              include 'view/admin/header.html';
+              include 'view/admin/updateProductForm.php';
+            }
           }
           else {
             include 'view/admin/header.html';
@@ -257,7 +257,7 @@
       }
       else {
         $pages = ceil($productsTotal / 10);
-        include 'view/pagenering.php';  
+        include 'view/pagenering.php';
       }
     }
 

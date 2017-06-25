@@ -35,8 +35,8 @@
           "amount"       => $this->calculatePrice($orderID),
           "method"       => Mollie_API_Object_Method::IDEAL,
           "description"  => "Multiversum - Order: " . $orderID,
-          "redirectUrl"  => siteLocation . "?op=displayOrder&orderID=" . $orderID . "",
-          "webhookUrl"   => siteLocation . "?op=paymentResponse",
+          "redirectUrl"  => $GLOBALS['config']['siteLocation'] . "?op=displayOrder&orderID=" . $orderID . "",
+          "webhookUrl"   => $GLOBALS['config']['siteLocation'] . "?op=paymentResponse",
           'metadata'    => array(
             'order_id' => $orderID
           )

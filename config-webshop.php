@@ -1,18 +1,16 @@
 <?php
 
   // site location
-  define('siteLocation', 'https://dev.samebestserver.nl/leerjaar2/webshop-MVC/');
+  $config;
+  $config['siteLocation'] = 'https://dev.samebestserver.nl/leerjaar2/webshop-MVC/';
 
-  // Database configration
-  define('databaseLocation', 'samebestserver.nl');
-  define('databasePort', '100');
+  $config['databaseLocation'] = 'samebestserver.nl';
+  $config['databasePort'] = '100';
+  $config['databaseUsername'] = 'root';
+  $config['databasePassword'] = '1234567890';
+  $config['databaseName'] = 'multiversum';
 
-  define('databaseUsername', 'root');
-  define('databasePassword', '1234567890');
-
-  define('databaseName', 'multiversum');
-
-  define('admin_mail', '498883@edu.rocmn.nl');
-
+  $config['adminMail'] = '498883@edu.rocmn.nl';
+  $GLOBALS['config'] = $config;
 
 ?>
