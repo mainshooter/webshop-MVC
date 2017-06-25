@@ -15,11 +15,11 @@
 
 
     private $conn;
-    private $serverIP = databaseLocation;
-    private $port = databasePort;
-    private $databaseName = databaseName;
-    private $username = databaseUsername;
-    private $password = databasePassword;
+    private $serverIP = 'samebestserver.nl';
+    private $port = '100';
+    private $databaseName = 'multiversumProductie';
+    private $username = 'root';
+    private $password = '1234567890';
     // Properties for the database
 
     function __construct() {
