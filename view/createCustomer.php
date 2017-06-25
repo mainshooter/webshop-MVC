@@ -1,12 +1,8 @@
-<?php
-  // Used for the input the customer data
-  include 'header.php';
-?>
   <div class="col-1"></div>
   <div class="col-10">
     <h2>Voordat we uw bestelling kunnen verwerken, hebben we wat gegevens van u nodig</h2>
     <br>
-    <form method="post" class="createCustomer">
+    <form method="post" action="?op=Betalen" class="createCustomer">
       <div class="col-6">
         <label>Voornaam</label>
         <input type="text" name="customer_firstname" required="true">
@@ -33,16 +29,12 @@
 
         <label>Postcode</label>
         <input type="text" name="customer_zipCode" required="true">
+
       </div>
       <br>
       <br>
-      <input id="order" type="submit" name="op" value="Betalen">
+      <button type="button" id="order" onclick="createingOrder();">Betalen</button>
     </form>
 
   </div>
   <div class="col-1"></div>
-<?php
-
-  include 'footer.php';
-
-?>

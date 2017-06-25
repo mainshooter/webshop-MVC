@@ -8,6 +8,7 @@ var messagePrompt;
      * @param  {[string]} title [The title for the message prompt]
      */
     setTitle: function(title) {
+      console.log(title);
       document.getElementById('messagePrompt').getElementsByTagName('h3')[0].innerHTML = title;
     },
     /**
@@ -27,6 +28,7 @@ var messagePrompt;
     },
     hidePrompt: function() {
       setTimeout(function() {
+        // To wait for 3 sec before we run this
         var prompt = document.getElementById('messagePrompt');
         prompt.style.opacity = '0';
 
@@ -37,6 +39,19 @@ var messagePrompt;
     }
   }
 })();
+/**
+ * This function is used to set the messagePrompt and disable the submit when pressed
+ */
+function createingOrder() {
+  document.getElementById('order').disabled = true;
+  messagePrompt.setTitle('Multiversum');
+  messagePrompt.setMessage('We zijn uw order aan het klaar maken');
+  messagePrompt.showPrompt();
+  messagePrompt.hidePrompt();
+  console.log(document.getElementsByClassName('createCustomer')[0]);
+  document.getElementsByClassName('createCustomer')[0].submit();
+
+}
 
 (function() {
   shoppingcard = {
