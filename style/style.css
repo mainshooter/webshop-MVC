@@ -371,6 +371,13 @@ table {
   margin: 1em 0;
   text-align: left;
 }
+#shoppingcard-table tr{
+  border-bottom: 1px solid black;
+  background-color: white;
+}
+#shoppingcard-table td {
+  border: none;
+}
 th {
   font-weight: bold;
   font-size: 1.2em;
