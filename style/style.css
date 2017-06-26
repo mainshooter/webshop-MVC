@@ -378,6 +378,9 @@ table {
 #shoppingcard-table td {
   border: none;
 }
+#no-padding {
+  padding: 0px;
+}
 th {
   font-weight: bold;
   font-size: 1.2em;

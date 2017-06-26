@@ -6,12 +6,12 @@ echo "<table class='col-10' id='shoppingcard-table'>";
     foreach ($product_details as $row) {
       foreach ($row as $key) {
         echo "<tr class='col-12 col-m-12'>
-              <td class='col-1 col-m-1'><img class='col-12' src='" . $key['pad'] . $key['filenaam'] . "'></td>
-              <td class='col-5 col-m-5'><h2><a href='?op=details&productID=" . $key['idProduct'] . "'>" . $key['naam'] . "</a></h2></td>
-              <td class='col-1 col-m-1'><i class='fa fa-trash-o' aria-hidden='true' onclick='shoppingcard.remove(" . $key['idProduct'] . ")'></i></td>
-              <td class='col-1 col-m-1'>&euro;" . str_replace('.', ',', $key['prijs']) . "</td>
-              <td class='col-2 col-m-2'>Aantal: " . $product_details_aantal[$teller]['aantal'] . "</td>
-              <td class='col-2 col-m-2'>Totaal: &euro;" . str_replace('.', ',', $product_details_price[$teller]['productTotal']) . "</td>
+              <td class='col-1 col-m-12' id='no-padding'><img id='no-padding' class='col-12' src='" . $key['pad'] . $key['filenaam'] . "'></td>
+              <td class='col-5 col-m-12'><h2><a href='?op=details&productID=" . $key['idProduct'] . "'>" . $key['naam'] . "</a></h2></td>
+              <td class='col-1 col-m-12'><i class='fa fa-trash-o' aria-hidden='true' onclick='shoppingcard.remove(" . $key['idProduct'] . ")'></i></td>
+              <td class='col-1 col-m-12'>&euro;" . str_replace('.', ',', $key['prijs']) . "</td>
+              <td class='col-2 col-m-12'>Aantal: " . $product_details_aantal[$teller]['aantal'] . "</td>
+              <td class='col-2 col-m-12'>Totaal: &euro;" . str_replace('.', ',', $product_details_price[$teller]['productTotal']) . "</td>
               </tr>
               ";
       }
