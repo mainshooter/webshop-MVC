@@ -43,14 +43,32 @@ var messagePrompt;
  * This function is used to set the messagePrompt and disable the submit when pressed
  */
 function createingOrder() {
-  document.getElementById('order').disabled = true;
-  messagePrompt.setTitle('Multiversum');
-  messagePrompt.setMessage('We zijn uw order aan het klaar maken');
-  messagePrompt.showPrompt();
-  messagePrompt.hidePrompt();
-  console.log(document.getElementsByClassName('createCustomer')[0]);
-  document.getElementsByClassName('createCustomer')[0].submit();
+  if (checkIfAllRequiredFieldAreFilledIn() == 'true') {
+    document.getElementById('order').disabled = 'true';
+    messagePrompt.setTitle('Multiversum');
+    messagePrompt.setMessage('We zijn uw order aan het klaar maken');
+    messagePrompt.showPrompt();
+    messagePrompt.hidePrompt();
+    document.getElementsByClassName('createCustomer')[0].submit();
+  }
+  else {
+    messagePrompt.setTitle('Multiversum');
+    messagePrompt.setMessage('U bent wat vergeten');
+    messagePrompt.showPrompt();
+    messagePrompt.hidePrompt();
+  }
+}
 
+function checkIfAllRequiredFieldAreFilledIn() {
+  var orderInputs = document.getElementsByTagName('input');
+  console.log(orderInputs);
+
+  if (orderInputs[0].value > '' && orderInputs[1].value > '' && orderInputs[3].value > '' && orderInputs[4].value > '' && orderInputs[5].value > '' && orderInputs[7].value > '') {
+    return('true');
+  }
+  else {
+    return('false');
+  }
 }
 
 (function() {
