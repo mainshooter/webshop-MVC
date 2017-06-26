@@ -377,10 +377,7 @@ th {
   background-color: #16a085;
   color: white;
 }
-tr {
-  border-bottom: 1px solid black;
-}
-/*tr:nth-child(even) {
+tr:nth-child(even) {
   background-color: #ecf0f1;
 }
 tr:nth-child(odd) {
@@ -390,7 +387,7 @@ th, td {
   border: 1px solid black;
   border-collapse: collapse;
   padding: 0.7em;
-}*/
+}
 .new-products h2 {
   margin: 0.5em 0;
 }
