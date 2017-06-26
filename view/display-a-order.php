@@ -31,12 +31,25 @@
     ';
 
     foreach ($orderItems as $key) {
+      $prijs = number_format($key['prijs'], 2);
+      $prijs = str_replace('.', 'dot', $prijs);
+      $prijs = str_replace(',', 'comma', $prijs);
+      $prijs = str_replace('dot', ',', $prijs);
+      $prijs = str_replace('comma', '.', $prijs);
+
+      $totaal = floatval($key['aantal']) * floatval($key['prijs']);
+      $totaal = number_format($totaal, 2);
+      $totaal = str_replace('.', 'dot', $totaal);
+      $totaal = str_replace(',', 'comma', $totaal);
+      $totaal = str_replace('dot', ',', $totaal);
+      $totaal = str_replace('comma', '.', $totaal);
+
       $orderDisplay .= '
       <tr>
         <td>' . $key['naam'] . '</td>
         <td>' . $key['aantal'] . '</td>
-        <td>&euro;' . str_replace('.', ',', $key['prijs']) . '</td>
-        <td>&euro;' . str_replace('.', ',', $key['aantal'] * $key['prijs']) . '</td>
+        <td>&euro;' . $prijs . '</td>
+        <td>&euro;' . $totaal . '</td>
       </tr>
       ';
     }
